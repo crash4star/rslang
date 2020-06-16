@@ -1,1 +1,1 @@
-# Develop branch
+# webpack-boilerplate
