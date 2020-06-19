@@ -52,10 +52,13 @@ header, footer {
   display: flex;
   flex-direction: column;
   padding-top: 115px;
-  height: 530px;
-  position: relative;
   background-color: #ececec;
   overflow: hidden;
+  
+  .container {
+    position: relative;
+    height: 415px;
+  }
 
   h2 {
     color: #2F281E;
@@ -237,13 +240,13 @@ header, footer {
     .skype {
       width: 23px;
       height: 23px;
-      background-image: url('./../img/startPage/icon-skype.png') ;
+      background-image: url('./../../img/startPage/icon-skype.png') ;
     }
 
     .gmail {
       width: 22px;
       height: 18px;
-      background-image: url('./../img/startPage/icon-gmail.png') ;
+      background-image: url('./../../img/startPage/icon-gmail.png') ;
     }
     
     a {

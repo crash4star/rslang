@@ -1,5 +1,5 @@
 import addElement from './utils/addElement';
-import { progressiveLearningData, team } from './data/startPage';
+import { progressiveLearningData, aboutUs, team } from './data/startPage';
 import renderHeader from './components/header';
 import renderFooter from './components/footer';
 
@@ -8,7 +8,7 @@ const body = document.querySelector('body');
 function renderHero () {
     const hero = addElement('div', body, 'hero');
     const container = addElement('div', hero, 'container');
-    const heroDescription = addElement('div', container);
+    const heroDescription = addElement('div', container, 'hero-description');
     addElement('h2', heroDescription, null, null, 'Learning just got easier');
     addElement('p', heroDescription, null, null, 'Choose your favourite game and start learning English today');
     addElement('button', heroDescription, 'btn btn-danger', null, 'Get started', ['type', 'button'], ['data-toggle', 'modal'], ['data-target', '#signin']);
@@ -30,12 +30,21 @@ function renderProgressive() {
 }
 
 function renderAbout() {
-    const about = addElement('div', body, 'progressive');   
+    const about = addElement('div', body, 'about');   
     const container = addElement('div', about, 'container');
     addElement('h3', container, null, null, 'About us');
-    addElement('p', container, null, null, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.');
+    addElement('p', container, null, null, aboutUs);
     const row = addElement('div', container, 'row');
-    team.forEach(element => {
+    
+    const shuffledTeam = (function shuffle(array) {
+        let shuffledArray = [];
+        while (array.length > 0) {
+            shuffledArray.push(array.splice(Math.floor(Math.random() * array.length), 1)[0]);
+        }
+        return shuffledArray;
+    })(team);
+
+    shuffledTeam.forEach(element => {
         const col = addElement('div', row, 'col-xl-4 col-md-6 col-12 progressive-item');
         const user = addElement('div', col, 'user card');
         addElement('h4', user, null, null, element.name);
