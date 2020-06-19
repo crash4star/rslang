@@ -5,7 +5,6 @@ class View {
     // this.appHead.append(ui.favicon.getHtml());
     this.app = document.body;
     this.app.append(this.ui.mainPage.getHtml());
-    // this.app.append(ui.forecastPanel.getHtml());
     this.addEvents();
   }
 
