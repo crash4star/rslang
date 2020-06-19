@@ -9,7 +9,7 @@ class UserInterface {
   constructor() {
     // this.renderFavicon();
     this.renderMainPage();
-    // this.renderForecastPanel();
+    this.renderGamePage();
   }
 
   renderFavicon() {
@@ -27,44 +27,34 @@ class UserInterface {
     const startButton = new Container('button-container', 'button-container');
     startButton.add(new Button('start-button', 'Start Game', {}, 'start-button'));
     this.mainPage.add(heading, gameInfo, startButton);
-    // const controlKeys = new Container('buttons', 'controls-keys');
-    // const imageKeys = new Container('buttons-image', 'controls-image');
-    // imageKeys.add(new Image('image-change', {
-    //   src: './assets/change.svg',
-    // }, 'change-image'));
-    // const languageKeys = new Container('buttons-language', 'controls-language');
-    // languageKeys.add(new Button('en-lang', 'EN', {}, 'lang-button'),
-    //   new Button('ru-lang', 'RU', {}, 'lang-button'),
-    //   new Button('be-lang', 'BE', {}, 'lang-button'));
-    // const degreesKeys = new Container('buttons-degrees', 'controls-degrees');
-    // degreesKeys.add(new Button('ru-lang', '°C', {}, 'lang-button'),
-    //   new Button('be-lang', '°F', {}, 'lang-button'));
-    // controlKeys.add(imageKeys, languageKeys, degreesKeys);
-    // const searchPanel = new Container('search', 'controls-search');
-    // const searchInput = new Container('search', 'input-wrapper');
-    // const searchButton = new Container('search', 'search-wrapper');
-    // searchInput.add(new InputField('search-input', 'Search city', {}, 'input'));
-    // searchButton.add(new Image('search', {
-    //   src: './assets/search.svg',
-    // }, 'search-button'));
-    // searchPanel.add(searchInput, searchButton);
-    // this.controlPanel.add(controlKeys, searchPanel);
   }
 
-  renderForecastPanel() {
-    this.forecastPanel = new Container('forecast', 'forecast-wrapper');
-    this.weatherPanel = new Container('weather', 'weather-wrapper');
-    this.locationInfo = new Container('location-info', 'location-info');
-    this.currentForecast = new Container('current-forecast', 'current-forecast');
-    const degrees = new Paragraph('current-degrees', '', 'current-degrees');
-    const location = new Paragraph('location', '', 'location');
-    const country = new Paragraph('country', '', 'country');
-    const clock = new Paragraph('clock', '', 'clock');
-    this.currentForecast.add(degrees);
-    this.locationInfo.add(location, country, clock);
-    this.weatherPanel.add(this.locationInfo, this.currentForecast, clock);
-    this.mapPanel = new Container('map', 'map-wrapper');
-    this.forecastPanel.add(this.weatherPanel, this.mapPanel);
+  renderGamePage() {
+    this.gamePage = new Container('game', 'game');
+    const controlPanel = new Container('control', 'control');
+    const backButton = new Container('button-container', 'button-container');
+    backButton.add(new Button('back-button', 'Back', {}, 'back-button'));
+    const wordInfo = new Paragraph('word', 'word - translation', 'word');
+    const controls = new Container('options', 'options');
+    controls.add(new Button('audio-button', 'on/of audio', {}, 'audio-button'),
+    new Button('translation-button', 'on/of translation', {}, 'translation-button'),
+    new Button('auto-audio-button', 'auto audio', {}, 'auto-audio-button'),
+    new Button('image-button', 'show/hide image', {}, 'image-button'));
+    const phraseControls = new Container('options', 'options');
+    phraseControls.add(new Button('audio-translation', 'audio-translation', {}, 'audio-translation'),
+    new Paragraph('phrase-translation', 'phrase-translation', 'phrase-translation'));
+    controlPanel.add(backButton, wordInfo, controls, phraseControls);
+
+    const gamePanel = new Container('game-panel', 'game-panel');
+    gamePanel.add(new Paragraph('puzzle', 'Hello world', 'puzzle'));
+
+    const controlGame = new Container('control-game', 'control-game');
+    controlGame.add(new Paragraph('puzzle', 'Hello', 'puzzle'),
+    new Paragraph('puzzle', 'world', 'puzzle'))
+    controlGame.add(new Container('phrase-panel', 'phrase-panel'),
+    new Button('dont-know', 'I don\'t know', {}, 'dont-know'),
+    new Button('check', 'Check', {}, 'check'));
+    this.gamePage.add(controlPanel, gamePanel, controlGame);
   }
 }
 
