@@ -1,10 +1,14 @@
 import '../css/style.css';
 import '../css/style.scss';
 
-import Savannah from './savannah/components/app-game';
+import SavannahView from './savannah/view';
 
-const savannah = new Savannah('#root');
+const savannah = new SavannahView('#root');
 savannah.start();
+
+
+
+
 
 
 

@@ -24,6 +24,14 @@ class Element {
             el.remove();
         }
     } 
+
+    getSelector() {
+        if (this.cssStyle === undefined) {
+            return this.id;
+        } 
+
+        return this.this.cssStyle;
+    }
 }
 
 
