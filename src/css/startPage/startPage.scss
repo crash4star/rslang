@@ -1,3 +1,5 @@
+$primaryBackgroundColor: #ececec;
+
 @mixin wrapper {
   padding-left: 120px;
   padding-right: 120px;
@@ -22,6 +24,7 @@
     padding-right: 20px;
   }
 }
+
 
 body {
   background-color: #E5E5E5;
@@ -52,7 +55,7 @@ header, footer {
   display: flex;
   flex-direction: column;
   padding-top: 115px;
-  background-color: #ececec;
+  background-color: $primaryBackgroundColor;
   overflow: hidden;
   
   .container {
@@ -89,12 +92,10 @@ header, footer {
 
   @media screen and (max-width: 768px) {
     padding-top: 65px;
-    //height: 365px;
   }
 
   @media screen and (max-width: 576px) {
     padding-top: 50px;
-    //height: 290px;
   }
   
   @media screen and (max-width: 375px) {
@@ -188,7 +189,7 @@ header, footer {
 .about {
 
   @include wrapper();
-  background-color: #ececec;
+  background-color: $primaryBackgroundColor;
   padding-top: 112px;
   padding-bottom:100px;
 
