@@ -25,34 +25,34 @@ const aboutUs = 'Lorem Ipsum is simply dummy text of the printing and typesettin
 
 const team = [
     {
-        'name': 'First name',
-        'email' : 'email',
-        'skype' : 'user1',
+        'name': 'Nikita Palko',
+        'email' : 'crashmoney@yandex.ru',
+        'skype' : 'nikitok36',
     },
     {
-        'name': 'Second name',
-        'email' : 'email',
-        'skype' : 'user2',
+        'name': 'Vitali Himzheuski',
+        'email' : 'gimvit@gmail.com',
+        'skype' : 'gimzhevsky',
     },
     {
-        'name': 'Third name',
-        'email' : 'email',
-        'skype' : 'user3',
+        'name': 'Kate Protasevich',
+        'email' : 'KrishniovaKate@mail.ru',
+        'skype' : 'elit1.5metra',
     },
     {
-        'name': 'Fourth name',
-        'email' : 'email',
-        'skype' : 'user4',
+        'name': 'Slivashenko Edgar',
+        'email' : 'edhars13@gmail.com',
+        'skype' : 'edhar13',
     },
     {
-        'name': 'Fifth name',
-        'email' : 'email',
-        'skype' : 'user5',
+        'name': 'NO DATA',
+        'email' : '',
+        'skype' : ' ',
     },
     {
-        'name': 'Sixth name',
-        'email' : 'email',
-        'skype' : 'user6',
+        'name': 'NO DATA',
+        'email' : '',
+        'skype' : ' ',
     }
 ];
 

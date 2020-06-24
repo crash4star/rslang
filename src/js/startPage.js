@@ -11,7 +11,7 @@ function renderHero () {
     const heroDescription = addElement('div', container, 'hero-description');
     addElement('h2', heroDescription, null, null, 'Learning just got easier');
     addElement('p', heroDescription, null, null, 'Choose your favourite game and start learning English today');
-    addElement('button', heroDescription, 'btn btn-danger', null, 'Get started', ['type', 'button'], ['data-toggle', 'modal'], ['data-target', '#signin']);
+    addElement('button', heroDescription, 'btn btn-red', null, 'Get started', ['type', 'button'], ['data-toggle', 'modal'], ['data-target', '#signin']);
 
     addElement('img', container, 'hero-image', null, null, ['src', 'img/startPage/hero-image.png'], ['alt', 'hero image']);
 }
@@ -55,7 +55,7 @@ function renderAbout() {
         addElement('div', contact, 'gmail');
         addElement('a', contact, null, null, element.email, ['href', `mailto:${element.email}`]);
         
-        addElement('img', user, null, null, null, ['src', `img/startPage/${element.skype}.png`], ['alt', 'user photo']);
+        addElement('img', user, null, null, null, ['src', `img/startPage/${element.skype}.jpg`], ['alt', 'user photo']);
     });
 }
 
