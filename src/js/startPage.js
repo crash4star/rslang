@@ -1,4 +1,4 @@
-import { addElement } from './utils/utils';
+import addElement from './utils/utils';
 import { progressiveLearningData, aboutUs, team } from './data/startPage';
 import renderHeader from './components/header';
 import renderFooter from './components/footer';
@@ -50,7 +50,7 @@ function renderAbout() {
     const row = addElement('div', container, 'row');
     
     const shuffledTeam = (function shuffle(array) {
-        let shuffledArray = [];
+        const shuffledArray = [];
         while (array.length > 0) {
             shuffledArray.push(array.splice(Math.floor(Math.random() * array.length), 1)[0]);
         }
@@ -63,7 +63,7 @@ function renderAbout() {
         addElement('h4', user, null, null, element.name);
         let photoFileName = 'noPhoto';
         let altForPhoto = 'image without photo'
-        if (element.name != 'NO DATA') {
+        if (element.name !== 'NO DATA') {
             addContactField(user, 'skype', element.skype);
             addContactField(user, 'gmail', element.email);
             photoFileName = element.skype;

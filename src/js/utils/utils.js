@@ -1,4 +1,4 @@
-function addElement(element, parent, className, id, text, ...dataArr) {
+export default function addElement(element, parent, className, id, text, ...dataArr) {
     const el = document.createElement(element);
     if (parent) parent.appendChild(el);
     if (className) el.className = className;
@@ -12,5 +12,4 @@ function addElement(element, parent, className, id, text, ...dataArr) {
     return el;
 }
 
-export { addElement };
   

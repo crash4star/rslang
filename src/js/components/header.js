@@ -1,4 +1,4 @@
-import { addElement } from '../utils/utils';
+import addElement from '../utils/utils';
 
 const body = document.querySelector('body');
 
