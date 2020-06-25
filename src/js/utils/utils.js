@@ -12,5 +12,5 @@ function addElement(element, parent, className, id, text, ...dataArr) {
     return el;
 }
 
-export {addElement};
+export { addElement };
   

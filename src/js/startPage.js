@@ -1,4 +1,4 @@
-import addElement from './utils/addElement';
+import { addElement } from './utils/utils';
 import { progressiveLearningData, aboutUs, team } from './data/startPage';
 import renderHeader from './components/header';
 import renderFooter from './components/footer';
@@ -12,7 +12,6 @@ function renderHero () {
     addElement('h2', heroDescription, null, null, 'Learning just got easier');
     addElement('p', heroDescription, null, null, 'Choose your favourite game and start learning English today');
     addElement('button', heroDescription, 'btn btn-red', null, 'Get started', ['type', 'button'], ['data-toggle', 'modal'], ['data-target', '#signin']);
-
     addElement('img', container, 'hero-image', null, null, ['src', 'img/startPage/hero-image.png'], ['alt', 'hero image']);
 }
 
@@ -27,6 +26,20 @@ function renderProgressive() {
         addElement('h2', col, null, null, element.title);
         addElement('p', col, null, null, element.description);
     });
+}
+
+function addContactField (parent, type, contact) {
+    const field = addElement('div', parent, 'contact');
+    if (contact.length > 1) {
+        addElement('div', field, type);
+        let link;
+        if (type === 'skype') {
+            link = `skype:${contact}?call`;
+        } else {
+            link = `mailto:${contact}`;
+        }
+        addElement('a', field, null, null, contact, ['href', link]);
+    }
 }
 
 function renderAbout() {
@@ -48,19 +61,27 @@ function renderAbout() {
         const col = addElement('div', row, 'col-xl-4 col-md-6 col-12 progressive-item');
         const user = addElement('div', col, 'user card');
         addElement('h4', user, null, null, element.name);
-        let contact = addElement('div', user, 'contact');
-        addElement('div', contact, 'skype');
-        addElement('a', contact, null, null, element.skype, ['href', `skype:${element.skype}?call`]);
-        contact = addElement('div', user, 'contact');
-        addElement('div', contact, 'gmail');
-        addElement('a', contact, null, null, element.email, ['href', `mailto:${element.email}`]);
-        
-        addElement('img', user, null, null, null, ['src', `img/startPage/${element.skype}.jpg`], ['alt', 'user photo']);
+        let photoFileName = 'noPhoto';
+        let altForPhoto = 'image without photo'
+        if (element.name != 'NO DATA') {
+            addContactField(user, 'skype', element.skype);
+            addContactField(user, 'gmail', element.email);
+            photoFileName = element.skype;
+            altForPhoto = `photo of ${element.name}`;
+        }
+        addElement('img', user, null, null, null, ['src', `img/startPage/${photoFileName}.jpg`], ['alt', altForPhoto]);
     });
 }
 
+function addInputFieldWithDescription (form, title, labelId, inputId, inputType, smallId, smallText) {
+    const formGroup = addElement('div', form, 'form-group');
+    addElement('label', formGroup, null, null, title, ['for', inputId]);
+    addElement('input', formGroup, 'form-control', inputId, null, ['type', inputType]);
+    if (smallId) addElement('small', formGroup, 'form-text text-muted', smallId, smallText);
+}
+
 function renderSignUp() {
-    const modalFade = addElement('div', body, 'modal fade', 'signup', null, ['tabindex', '-1'], ['role', 'dialog'], ['aria-labelledby', 'ModalLabel'], ['aria-hidden', 'true']);
+    const modalFade = addElement('div', body, 'modal fade', 'signup', null, ['role', 'dialog']);
     const modalDialog = addElement('div', modalFade, 'modal-dialog');
     const modalContent = addElement('div', modalDialog, 'modal-content');
     const modalHeader = addElement('div', modalContent, 'modal-header');
@@ -70,27 +91,18 @@ function renderSignUp() {
 
     const modalBody = addElement('div', modalContent, 'modal-body');
     const form = addElement('form', modalBody);
-    let formGroup = addElement('div', form, 'form-group');
-    addElement('label', formGroup, null, null, 'Email address', ['for', 'InputEmail1']);
-    addElement('input', formGroup, 'form-control', 'InputEmail1', null, ['type', 'email'], ['aria-describedby', 'emailHelp']);
-    addElement('small', formGroup, 'form-text text-muted', 'emailHelp', 'We\'ll never share your email with anyone else.');
-
-    formGroup = addElement('div', form, 'form-group');
-    addElement('label', formGroup, null, null, 'Password', ['for', 'InputPassword1']);
-    addElement('input', formGroup, 'form-control', 'InputPassword1', null, ['type', 'password']);
-    addElement('small', formGroup, 'form-text text-muted', 'emailHelp2', 'Password must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.');
-
-    formGroup = addElement('div', form, 'form-group');
-    addElement('label', formGroup, null, null, 'Confirm password', ['for', 'ConfirmPassword']);
-    addElement('input', formGroup, 'form-control', 'ConfirmPassword', null, ['type', 'password']);
-
+    
+    addInputFieldWithDescription(form, 'Email', 'signUpEmailLabel', 'signUpEmailInput', 'email', 'signUpEmailSmall', 'We\'ll never share your email with anyone else.')
+    addInputFieldWithDescription(form, 'Password', 'signUpPasswordLabel', 'signUpPasswordInput', 'password', 'signUpPasswordSmall', 'Password must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.');
+    addInputFieldWithDescription(form, 'Confirm password', 'signUpConfirmPasswordLabel', 'signUpConfirmPasswordInput', 'password');
+    
     const modalFooter = addElement('div', modalContent, 'modal-footer');
     addElement('button', modalFooter, 'btn btn-success', null, 'Register', ['type', 'button']);
     addElement('button', modalFooter, 'btn btn-danger', null, 'Close', ['type', 'button'], ['data-dismiss', 'modal']);
 }
 
 function renderSignIn() {
-    const modalFade = addElement('div', body, 'modal fade', 'signin', null, ['tabindex', '-1'], ['role', 'dialog'], ['aria-labelledby', 'ModalLabel'], ['aria-hidden', 'true']);
+    const modalFade = addElement('div', body, 'modal fade', 'signin', null, ['role', 'dialog']);
     const modalDialog = addElement('div', modalFade, 'modal-dialog');
     const modalContent = addElement('div', modalDialog, 'modal-content');
     const modalHeader = addElement('div', modalContent, 'modal-header');
@@ -100,13 +112,9 @@ function renderSignIn() {
 
     const modalBody = addElement('div', modalContent, 'modal-body');
     const form = addElement('form', modalBody);
-    let formGroup = addElement('div', form, 'form-group');
-    addElement('label', formGroup, null, null, 'Email address', ['for', 'InputEmail2']);
-    addElement('input', formGroup, 'form-control', 'InputEmail2', null, ['type', 'email'], ['aria-describedby', 'emailHelp']);
     
-    formGroup = addElement('div', form, 'form-group');
-    addElement('label', formGroup, null, null, 'Password', ['for', 'InputPassword2']);
-    addElement('input', formGroup, 'form-control', 'InputPassword2', null, ['type', 'password']);
+    addInputFieldWithDescription(form, 'E-mail', 'signInEmailLabel', 'signInEmailInput', 'password');
+    addInputFieldWithDescription(form, 'Confirm password', 'signInPasswordLabel', 'signInPasswordInput', 'password');
     
     const modalFooter = addElement('div', modalContent, 'modal-footer');
     addElement('button', modalFooter, 'btn btn-success', null, 'Sign in', ['type', 'button']);
