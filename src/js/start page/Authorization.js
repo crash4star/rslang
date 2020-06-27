@@ -9,10 +9,10 @@ const createUser = async user => {
     });
     if (rawResponse.status === 200) {
         const content = await rawResponse.json();
-        localStorage.setItem('userId', content.userId);
+        localStorage.setItem('userId', content.id);
         document.querySelector('#closeSignUp').click();
     } else {
-        document.querySelector('#passwordHelp2').innerHTML = 'Something went wrong. Perhaps the user with this email is already registered.!'
+        document.querySelector('#signUpConfirmPasswordSmall').innerHTML = 'Something went wrong. Perhaps the user with this email is already registered!'
     }
 };
 
@@ -36,43 +36,43 @@ const loginUser = async user => {
     }
 };
 
-const isValidEmail = (email) => {
+const isValidEmail = (email, selector) => {
     const regexp = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-    const emailHelp = document.querySelector('#emailHelp');
+    const signUpEmailSmall = document.querySelector(selector);
     
     if (email.match(regexp)) {
-        emailHelp.innerHTML = '';
+        signUpEmailSmall.innerHTML = '';
         return true;
     };
-    emailHelp.innerHTML = 'Please, check your e-mail';
+    signUpEmailSmall.innerHTML = 'Please, check your e-mail';
     return false;
 }
 
-const isValidPassword = (password) => {
+const isValidPassword = (password, selector) => {
     const regexp = /(?=.*[0-9])(?=.*[+\-_@$!%*?&#.,;:[\]{}])(?=.*[a-z])(?=.*[A-Z])[0-9+\-_@$!%*?&#.,;:{}[\]a-zA-Z]{8,}/g;
-    const passwordHelp = document.querySelector('#passwordHelp');
+    const signUpPasswordInput = document.querySelector(selector);
     if (password.match(regexp)) {
-        passwordHelp.innerHTML = '';
+        signUpPasswordInput.innerHTML = '';
         return true;
     }
-    passwordHelp.innerHTML = 'Please, check your password - it must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.';
+    signUpPasswordInput.innerHTML = 'Please, check your password - it must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.';
     return false;
 }
 
 const checkConfirmPassword = (password, confirmPassword) => {
     if (password === confirmPassword) {
-        document.querySelector('#passwordHelp2').innerHTML = '';
+        document.querySelector('#signUpConfirmPasswordInput').innerHTML = '';
         return true;
     }
-    document.querySelector('#passwordHelp2').innerHTML = 'Password mismatch';
+    document.querySelector('#signUpConfirmPasswordSmall').innerHTML = 'Password mismatch';
     return false;
 }
 
 const registration = () => {
-    const email = document.querySelector('#InputEmail1').value;
-    const password = document.querySelector('#InputPassword1').value;
-    const confirmPassword = document.querySelector('#ConfirmPassword').value;
-    if (isValidEmail(email) && isValidPassword(password) && checkConfirmPassword(password, confirmPassword)) {
+    const email = document.querySelector('#signUpEmailInput').value;
+    const password = document.querySelector('#signUpPasswordInput').value;
+    const confirmPassword = document.querySelector('#signUpConfirmPasswordInput').value;
+    if (isValidEmail(email, '#signUpEmailSmall') && isValidPassword(password, '#signUpPasswordSmall') && checkConfirmPassword(password, confirmPassword)) {
         const user = {
             'email': email,
             'password': password,
@@ -82,13 +82,15 @@ const registration = () => {
 }
 
 const signIn = () => {
-    const email = document.querySelector('#InputEmail2').value;
-    const password = document.querySelector('#InputPassword2').value;
-    const user = {
-        'email': email,
-        'password': password,
-    }        
-    loginUser(user);
+    const email = document.querySelector('#signInEmailInput').value;
+    const password = document.querySelector('#signInPasswordInput').value;
+    if (isValidEmail(email, '#signInEmailSmall' ) && isValidPassword(password, '#signInPasswordSmall')) {
+        const user = {
+            'email': email,
+            'password': password,
+        }        
+        loginUser(user);
+    }
 }
 
 export { registration, signIn };

@@ -1,7 +1,8 @@
-import addElement from './utils/utils';
-import { progressiveLearningData, aboutUs, team } from './data/startPage';
-import renderHeader from './components/header';
-import renderFooter from './components/footer';
+import addElement from '../utils/utils';
+import { progressiveLearningData, aboutUs, team } from '../data/startPage';
+import renderHeader from '../components/header';
+import renderFooter from '../components/footer';
+import { registration, signIn } from './Authorization';
 
 const body = document.querySelector('body');
 
@@ -162,20 +163,23 @@ function renderSignUp() {
         'Confirm password', 
         'signUpConfirmPasswordLabel', 
         'signUpConfirmPasswordInput', 
-        'password'
+        'password',
+        'signUpConfirmPasswordSmall'
         );
     
     const modalFooter = addElement('div', modalContent, 'modal-footer');
-    addElement('button', modalFooter, 'btn btn-success', null, 'Register', ['type', 'button']);
+    const registerButton = addElement('button', modalFooter, 'btn btn-success register', 'register', 'Register', ['type', 'button']);
     addElement(
         'button', 
         modalFooter, 
         'btn btn-danger', 
-        null, 
+        'closeSignUp', 
         'Close', 
         ['type', 'button'], 
         ['data-dismiss', 'modal']
     );
+
+    registerButton.addEventListener('click', registration);
 }
 
 function renderSignIn() {
@@ -203,26 +207,30 @@ function renderSignIn() {
         'E-mail', 
         'signInEmailLabel', 
         'signInEmailInput', 
-        'password'
+        'email',
+        'signInEmailSmall'
         );
     addInputFieldWithDescription(form, 
         'Confirm password', 
         'signInPasswordLabel', 
         'signInPasswordInput', 
-        'password'
+        'password',
+        'signInPasswordSmall'
         );
     
     const modalFooter = addElement('div', modalContent, 'modal-footer');
-    addElement('button', modalFooter, 'btn btn-success', null, 'Sign in', ['type', 'button']);
+    const signInButton = addElement('button', modalFooter, 'btn btn-success', 'signin', 'Sign in', ['type', 'button']);
     addElement(
         'button', 
         modalFooter, 
         'btn btn-danger', 
-        null, 
+        'closeSignIn', 
         'Close', 
         ['type', 'button'], 
         ['data-dismiss', 'modal']
     );
+
+    signInButton.addEventListener('click', signIn);
 }
 
 export default function renderStartPage () {

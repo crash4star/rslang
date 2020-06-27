@@ -1,10 +1,9 @@
 import '../css/style.css';
 import '../css/style.scss';
 import '../css/startPage/startPage.scss';
-import renderStartPage from './startPage';
+import renderStartPage from './start page/startPage';
 
-const loadStartPage = true;
 
-if (loadStartPage) {
+if (!localStorage.getItem('token')) {
     renderStartPage();
 }
