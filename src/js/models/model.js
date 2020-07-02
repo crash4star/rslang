@@ -193,23 +193,11 @@ class Model {
                 games: {
                     sprint: {
                         settings: [],
-                        logs: [
-                            {
-                                date: '',
-                                total: '',
-                                success: 10
-                            }
-                        ]
+                        logs: []
                     },
                     englishPuzzle: {
                         settings: [],
-                        logs: [
-                            {
-                                date: '',
-                                total: '',
-                                success: 7
-                            }
-                        ]
+                        logs: []
                     },
                     audioCall: {
                         settings: [],
