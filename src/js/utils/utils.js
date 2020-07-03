@@ -12,4 +12,15 @@ export default function addElement(element, parent, className, id, text, ...data
     return el;
 }
 
-  
+function clearMarkup() {
+  const body = document.querySelector('body');
+  const {children} = body;
+  for (let i = 0; i < children.length; i += 1) {
+    if (children[i].tagName.toLowerCase() !== 'script'){
+        body.removeChild(children[i]);
+        i -=1;
+    }
+  }
+}
+
+export { clearMarkup };

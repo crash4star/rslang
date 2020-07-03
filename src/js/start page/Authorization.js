@@ -1,21 +1,6 @@
-const createUser = async user => {
-    const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/users', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    });
-    if (rawResponse.status === 200) {
-        const content = await rawResponse.json();
-        localStorage.setItem('userId', content.id);
-        document.querySelector('#closeSignUp').click();
-    } else {
-        document.querySelector('#signUpConfirmPasswordSmall').innerHTML = 'Something went wrong. Perhaps the user with this email is already registered!'
-    }
-};
-
+import renderPage from '../index';
+import { clearMarkup } from '../utils/utils';
+import renderMainPage from '../main page/mainPage';
 
 const loginUser = async user => {
     const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
@@ -31,8 +16,32 @@ const loginUser = async user => {
         document.querySelector('#closeSignIn').click();
         localStorage.setItem('token', content.token);
         localStorage.setItem('userId', content.userId);
+        localStorage.setItem('login', user.email.substr(0, user.email.indexOf('@')));
+        clearMarkup();
+        renderMainPage();
     } else {
         document.querySelector('#warning').innerHTML = 'Wrong email or password!'
+    }
+};
+
+
+const createUser = async user => {
+    const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/users', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    });
+    if (rawResponse.status === 200) {
+        const content = await rawResponse.json();
+        localStorage.setItem('userId', content.id);
+        document.querySelector('#closeSignUp').click();
+        await loginUser(user);
+        renderPage();
+    } else {
+        document.querySelector('#signUpConfirmPasswordSmall').innerHTML = 'Something went wrong. Perhaps the user with this email is already registered!'
     }
 };
 
@@ -69,7 +78,7 @@ const checkConfirmPassword = (password, confirmPassword) => {
 }
 
 const registration = () => {
-    const email = document.querySelector('#signUpEmailInput').value;
+    const email = document.querySelector('#signUpEmailInput').value.toLowerCase();
     const password = document.querySelector('#signUpPasswordInput').value;
     const confirmPassword = document.querySelector('#signUpConfirmPasswordInput').value;
     if (isValidEmail(email, '#signUpEmailSmall') && isValidPassword(password, '#signUpPasswordSmall') && checkConfirmPassword(password, confirmPassword)) {
@@ -82,7 +91,7 @@ const registration = () => {
 }
 
 const signIn = () => {
-    const email = document.querySelector('#signInEmailInput').value;
+    const email = document.querySelector('#signInEmailInput').value.toLowerCase();
     const password = document.querySelector('#signInPasswordInput').value;
     if (isValidEmail(email, '#signInEmailSmall' ) && isValidPassword(password, '#signInPasswordSmall')) {
         const user = {
@@ -93,4 +102,10 @@ const signIn = () => {
     }
 }
 
-export { registration, signIn };
+const signOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    renderPage();
+}
+
+export { registration, signIn, signOut };
