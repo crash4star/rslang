@@ -1,6 +1,27 @@
 import renderPage from '../index';
-import { clearMarkup } from '../utils/utils';
+import { clearMarkup } from './utils';
 import renderMainPage from '../main page/mainPage';
+
+const refreshToken = async () => {
+    const id = localStorage.getItem('userId');
+    const token = localStorage.getItem('refreshToken');
+    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${id}/tokens`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        }
+    });
+    if (rawResponse.status === 200) {
+        const content = await rawResponse.json();
+        localStorage.setItem('token', content.token);
+        localStorage.setItem('refreshToken', content.refreshToken);
+        return true;
+    } else {
+        signOut();
+        return false;
+    }
+}
 
 const loginUser = async user => {
     const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
@@ -15,12 +36,13 @@ const loginUser = async user => {
         const content = await rawResponse.json();
         document.querySelector('#closeSignIn').click();
         localStorage.setItem('token', content.token);
+        localStorage.setItem('refreshToken', content.refreshToken);
         localStorage.setItem('userId', content.userId);
         localStorage.setItem('login', user.email.substr(0, user.email.indexOf('@')));
         clearMarkup();
         renderMainPage();
     } else {
-        document.querySelector('#warning').innerHTML = 'Wrong email or password!'
+        document.querySelector('#signInPasswordSmall').innerHTML = 'Wrong email or password!'
     }
 };
 
@@ -103,9 +125,12 @@ const signIn = () => {
 }
 
 const signOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('login');
     localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    clearMarkup();
     renderPage();
 }
 
-export { registration, signIn, signOut };
+export { registration, signIn, signOut, refreshToken };

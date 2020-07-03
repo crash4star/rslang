@@ -2,7 +2,7 @@ import addElement from '../utils/utils';
 import { progressiveLearningData, aboutUs, team } from '../data/startPage';
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
-import { registration, signIn } from './Authorization';
+import { registration, signIn } from '../utils/authorization';
 
 const body = document.querySelector('body');
 

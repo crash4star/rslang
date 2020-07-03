@@ -5,7 +5,7 @@ import renderStartPage from './start page/startPage';
 import renderMainPage from './main page/mainPage';
 
 export default function renderPage() {
-    if (!localStorage.getItem('token')) {
+    if (!localStorage.getItem('userId')) {
         renderStartPage();
     } else {
         renderMainPage();

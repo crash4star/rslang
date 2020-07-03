@@ -1,1 +1,72 @@
 @import './style-guide.scss';
+$border-blue: #BCD0E5;
+
+header, footer {
+    background-color: $base-white;
+}
+  
+.btn {
+    font-weight: 600;
+}
+  
+.btn-red {
+    color: $base-white;
+    background-color: $base-red;
+
+    &:hover {
+        color: $base-white;
+        background-color: $hover-red;
+    }
+}
+  
+.btn-gray {
+    border-color: $border-blue;
+    margin-left: 15px;
+
+    &:hover {
+        background-color: $hover-white;
+    }
+}
+
+header {
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 180px;
+        height: 40px;
+    }
+
+    .settings {
+        img {
+            width: 31px;
+            height: 31px;
+        }
+    }
+
+    .login {
+        text-align: center;
+    }
+
+    .logOut { 
+        img {
+            width: 23px;
+            height: 23px;
+        }
+    }
+}
+
+.header-clickable {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+
+    &:hover {
+        cursor: pointer;
+            border: $border-blue 1px solid;
+            background-color: $hover-gray;
+    }
+}

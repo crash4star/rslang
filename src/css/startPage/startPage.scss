@@ -1,7 +1,5 @@
 @import './../style-guide.scss';
 
-$border-blue: #BCD0E5;
-
 @mixin wrapper {
   padding-left: 120px;
   padding-right: 120px;
@@ -36,33 +34,6 @@ body {
 .container {
   padding-left: 0;
   padding-right: 0;
-}
-
-header, footer {
-  background-color: $base-white;
-}
-
-.btn {
-  font-weight: 600;
-}
-
-.btn-red {
-  color: $base-white;
-  background-color: $base-red;
-
-  &:hover {
-    color: $base-white;
-    background-color: $hover-red;
-  }
-}
-
-.btn-gray {
-  border-color: $border-blue;
-  margin-left: 15px;
-
-  &:hover {
-    background-color: $hover-white;
-  }
 }
 
 .navbar {
