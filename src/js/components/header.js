@@ -19,7 +19,6 @@ export default function renderHeader () {
         addElement('div', div, 'login', null, login);
         const logOut = addElement('div', div, 'logOut header-clickable');
         addElement('img', logOut, null, null, null, ['src', './img/common/logOut.png']);
-        //addElement('div', logOut, 'logOut', 'logOut');
         logOut.addEventListener('click', signOut);
     }
 }
