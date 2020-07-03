@@ -3,7 +3,7 @@
 .savannah {
     &__wrapper {
         @media (min-width: 0px) {
-            display: flex;
+            display: none;
             flex-direction: column-reverse;
             justify-content: flex-end;
             width: 100%;
