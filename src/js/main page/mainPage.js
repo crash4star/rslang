@@ -1,19 +1,16 @@
-import addElement from '../utils/utils'
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
 import { refreshToken, signOut } from '../utils/authorization';
-import renderStartPage from '../start page/startPage';
-
-const body = document.querySelector('body');
+import renderMenu from './menu';
+import renderSettings from './settings';
 
 export default function renderMainPage() {
     if (refreshToken()) {
         renderHeader();
-        //renderMenu();
+        renderMenu();
         renderFooter();
-
+        renderSettings();
     } else {
-        debugger;
         signOut();
     }
 }

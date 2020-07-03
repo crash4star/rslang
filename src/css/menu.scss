@@ -1,0 +1,19 @@
+@import './style-guide.scss';
+
+nav {
+    li {
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 10px;
+
+        
+        &.active {
+            background-color: $base-red;
+                a {
+                    color: $base-white !important; 
+                }
+        }
+    }
+
+
+}
