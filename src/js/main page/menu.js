@@ -1,6 +1,7 @@
-import addElement from '../utils/utils';
 import '../../css/menu.scss';
+import addElement from '../utils/utils';
 import { menu } from '../data/menu';
+import { removeContent } from '../main page/mainPage';
 
 let ul;
 
@@ -15,14 +16,9 @@ function setActiveMenuElement(event) {
     });
 }
 
-function clearPage() {
-    if (document.querySelector('main')) document.querySelector('main').remove;
-    if (document.querySelector('.root')) document.querySelector('.root').innerHTML = '';
-}
-
 function loadContent (event, callback) {
     setActiveMenuElement(event);
-    clearPage();
+    removeContent();
     callback();
 }
 
@@ -37,11 +33,12 @@ function addMenuElement (text, callback, isNotActive = true) {
   
 export default function renderMenu () {
     const body = document.querySelector('body');
-    const nav = addElement('nav', body, 'navbar navbar-expand-lg navbar-light bg-light');
-    const button = addElement('button', nav, 'navbar-toggler', null, null, ['type', 'button'], ['data-toggle', 'collapse'], ['data-target', '#navbarNav'], ['aria-controls', 'navbarNav'], ['aria-expanded', 'false'], ['aria-label', 'Toggle navigation']);
+    const nav = addElement('nav', body, 'navbar navbar-expand-lg navbar-light');
+    const containter = addElement('div', nav, 'container');
+    const button = addElement('button', containter, 'navbar-toggler', null, null, ['type', 'button'], ['data-toggle', 'collapse'], ['data-target', '#navbarNav'], ['aria-controls', 'navbarNav'], ['aria-expanded', 'false'], ['aria-label', 'Toggle navigation']);
     addElement('span', button, 'navbar-toggler-icon');
 
-    const div = addElement('div', nav, 'collapse navbar-collapse', 'navbarNav');
+    const div = addElement('div', containter, 'collapse navbar-collapse', 'navbarNav');
     ul = addElement('ul', div, 'navbar-nav');
     menu.map((el, index) => {
         addMenuElement(el.name, el.callback, index);

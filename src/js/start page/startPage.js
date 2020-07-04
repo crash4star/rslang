@@ -1,3 +1,4 @@
+import '../../css/start_page.scss';
 import addElement from '../utils/utils';
 import { progressiveLearningData, aboutUs, team } from '../data/startPage';
 import renderHeader from '../components/header';
@@ -5,6 +6,7 @@ import renderFooter from '../components/footer';
 import { registration, signIn } from '../utils/authorization';
 
 const body = document.querySelector('body');
+const command = team;
 
 function renderHero () {
     const hero = addElement('div', body, 'hero');
@@ -87,7 +89,7 @@ function renderAbout() {
             shuffledArray.push(array.splice(Math.floor(Math.random() * array.length), 1)[0]);
         }
         return shuffledArray;
-    })(team);
+    })(command);
 
     shuffledTeam.forEach(element => {
         const col = addElement('div', row, 'col-xl-4 col-md-6 col-12 progressive-item');

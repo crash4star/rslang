@@ -1,13 +1,16 @@
 import addElement from '../utils/utils';
-import { settings } from '../data/defaultSettings';
+import { defaultSettings } from '../data/defaultSettings';
+
+const totalLevels = 6;
+const minLevel = 1;
+const step = 1;
 
 const body = document.querySelector('body');
 
 function changeToggler(event, id) {
     if (event.target.closest('.toggle')) {
         const parent = document.querySelector(`#${id}`).querySelector('.toggle');
-        const theme = parent.classList.contains('off') ? 'light' : 'dark';
-        console.log(theme);
+        parent.classList.contains('off') ? 'light' : 'dark';
     }
 }
 
@@ -31,13 +34,9 @@ export default function renderSettings() {
     const modalBody = addElement('div', modalContent, 'modal-body');
     const form = addElement('form', modalBody);
     const switcher = addElement('div', form, 'form-group theme', 'theme');
-    // const theme = addElement('input', formGroup, null, null, null, ['type', 'checkbox'], ['data-toggle', 'toggle'], ['data-on', 'Light'], ['data-onstyle', 'light'], ['data-off', 'Dark'], ['data-offstyle', 'dark'], ['checked'], ['data-width', '100']);
-    // theme.addEventListener('click', () => {
-    //     console.log('theme');
-    // })
 
-
-    addElement('label', switcher, 'description', null, 'theme');
+    addElement('label', switcher, 'description', null, 'Theme');
+    const isChecked = (defaultSettings.theme === 'light') ? ['checked', 'checked'] : '';
     addElement(
         'input', 
         switcher, 
@@ -47,19 +46,19 @@ export default function renderSettings() {
         ['type', 'checkbox'], 
         ['data-toggle', 'toggle'], 
         ['data-width', '100'], 
-        ['checked', 'checked'],
         ['data-onstyle', 'light'],
         ['data-offstyle', 'dark'],
         ['data-on', 'Light'],
         ['data-off', 'Dark'],
+        isChecked,
     );
 
     switcher.addEventListener('click', (event) => changeToggler(event, 'theme'));
 
     const formGroup = addElement('div', form, 'form-group');
     addElement('label', formGroup, null, null, "Difficult:", ['for', 'difficultLevel']);
-    const slider = addElement('input', formGroup, 'form-control-range bg-gradient-danger', 'difficultLevel', null, ['type', 'range'], ['min', settings.difficult.minLevel], ['step', settings.difficult.step], ['max', settings.difficult.totalLevels], ['value', settings.difficult.defaultLevel]);
-    const level = addElement('small', formGroup, 'form-text text-muted', null, `level: ${settings.difficult.defaultLevel}`);
+    const slider = addElement('input', formGroup, 'form-control-range bg-gradient-danger', 'difficultLevel', null, ['type', 'range'], ['min', minLevel], ['step', step], ['max', totalLevels], ['value', defaultSettings.difficult]);
+    const level = addElement('small', formGroup, 'form-text text-muted', null, `level: ${defaultSettings.difficult}`);
     slider.addEventListener('mousemove', () => {
         level.innerText = `level: ${slider.value}`;
     });

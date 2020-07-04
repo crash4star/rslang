@@ -1,24 +1,31 @@
+import renderMiniGames from '../main page/miniGames';
 
 const menu = [
     {
         'name': 'Main game',
-        'description': 'Study new words',
         'callback': () => console.log(`add callback for main game`),
     },
     {
         'name': 'Mini games',
-        'description': 'Study new words',
-        'callback': () => console.log(`add callback for mini games`),
+        'callback': () => {
+            renderMiniGames();
+        },
     },
     {
         'name': 'Statistics',
-        'description': 'Study new words',
         'callback': () => console.log(`add callback for statistics`),
     },
     {
         'name': 'Dictionary',
-        'description': 'Study new words',
         'callback': () => console.log(`add callback for dictionary`),
+    },
+    {
+        'name': 'Promo',
+        'callback': () => console.log(`add callback for promo`),
+    },
+    {
+        'name': 'About us',
+        'callback': () => console.log(`add callback for about us`),
     },
 ];
 

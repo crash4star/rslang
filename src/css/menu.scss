@@ -1,11 +1,13 @@
 @import './style-guide.scss';
 
 nav {
+    background-color: $base-gray !important;
+    margin-bottom: 30px;
+    
     li {
-        margin-left: 10px;
         margin-right: 10px;
         border-radius: 10px;
-
+        padding: 5px;
         
         &.active {
             background-color: $base-red;
@@ -14,6 +16,7 @@ nav {
                 }
         }
     }
-
-
+    .navbar-toggler {
+        margin-bottom: 20px;
+    }
 }

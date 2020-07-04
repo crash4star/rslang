@@ -1,10 +1,6 @@
-const settings = {
-    'difficult': {
-        'totalLevels': '6',
-        'minLevel': '1',
-        'defaultLevel': '2',
-        'step': '1',
-    },
+const defaultSettings = {
+    'theme': 'light',
+    'difficult': '2',
 };
 
-export { settings }
+export { defaultSettings }
