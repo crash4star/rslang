@@ -41,4 +41,4 @@ const menu = [
     },
 ];
 
-export { menu }
+export default menu;

@@ -221,7 +221,14 @@ function renderSignIn() {
         );
     
     const modalFooter = addElement('div', modalContent, 'modal-footer');
-    const signInButton = addElement('button', modalFooter, 'btn btn-success', 'signin', 'Sign in', ['type', 'button']);
+    const signInButton = addElement(
+        'button', 
+        modalFooter, 
+        'btn btn-success', 
+        'signin', 
+        'Sign in', 
+        ['type', 'button']
+    );
     addElement(
         'button', 
         modalFooter, 

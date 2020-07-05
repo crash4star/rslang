@@ -2,27 +2,6 @@ import renderPage from '../index';
 import { clearMarkup } from './utils';
 import renderMainPage from '../main page/mainPage';
 
-const refreshToken = async () => {
-    const id = localStorage.getItem('userId');
-    const token = localStorage.getItem('refreshToken');
-    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${id}/tokens`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        }
-    });
-    if (rawResponse.status === 200) {
-        const content = await rawResponse.json();
-        localStorage.setItem('token', content.token);
-        localStorage.setItem('refreshToken', content.refreshToken);
-        return true;
-    } else {
-        signOut();
-        return false;
-    }
-}
-
 const loginUser = async user => {
     const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
         method: 'POST',
@@ -131,6 +110,26 @@ const signOut = () => {
     localStorage.removeItem('refreshToken');
     clearMarkup();
     renderPage();
+}
+
+const refreshToken = async () => {
+    const id = localStorage.getItem('userId');
+    const token = localStorage.getItem('refreshToken');
+    const rawResponse = await fetch(`https://afternoon-falls-25894.herokuapp.com/users/${id}/tokens`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        }
+    });
+    if (rawResponse.status === 200) {
+        const content = await rawResponse.json();
+        localStorage.setItem('token', content.token);
+        localStorage.setItem('refreshToken', content.refreshToken);
+        return true;
+    } 
+        signOut();
+        return false;
 }
 
 export { registration, signIn, signOut, refreshToken };

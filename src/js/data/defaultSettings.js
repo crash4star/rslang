@@ -3,4 +3,4 @@ const defaultSettings = {
     'difficult': '2',
 };
 
-export { defaultSettings }
+export default defaultSettings;

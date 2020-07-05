@@ -1,5 +1,5 @@
 import '../../css/message.scss';
-import addElement from '../utils/utils';
+import addElement from "./utils";
 
 let alertBlock;
 let container;

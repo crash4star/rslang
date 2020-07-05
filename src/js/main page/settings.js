@@ -1,5 +1,5 @@
 import addElement from '../utils/utils';
-import { defaultSettings } from '../data/defaultSettings';
+import defaultSettings from '../data/defaultSettings';
 import { showErrorMessage, showSuccessMessage } from '../utils/message';
 
 const totalLevels = 6;
@@ -60,8 +60,24 @@ export default function renderSettings() {
 
     const formGroup = addElement('div', form, 'form-group');
     addElement('label', formGroup, null, null, "Difficult:", ['for', 'difficultLevel']);
-    const slider = addElement('input', formGroup, 'form-control-range bg-gradient-danger', 'difficultLevel', null, ['type', 'range'], ['min', minLevel], ['step', step], ['max', totalLevels], ['value', defaultSettings.difficult]);
-    const level = addElement('small', formGroup, 'form-text text-muted', null, `level: ${defaultSettings.difficult}`);
+    const slider = addElement(
+        'input', 
+        formGroup, 
+        'form-control-range bg-gradient-danger', 
+        'difficultLevel', 
+        null, 
+        ['type', 'range'], 
+        ['min', minLevel], 
+        ['step', step], 
+        ['max', totalLevels], 
+        ['value', defaultSettings.difficult],
+    );
+    const level = addElement('small', 
+        formGroup, 
+        'form-text text-muted', 
+        null, 
+        `level: ${defaultSettings.difficult}`,
+    );
     slider.addEventListener('mousemove', () => {
         level.innerText = `level: ${slider.value}`;
     });

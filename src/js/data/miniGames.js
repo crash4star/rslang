@@ -1,4 +1,4 @@
-import { showErrorMessage, showSuccessMessage } from '../utils/message';
+import { showErrorMessage} from '../utils/message';
 
 const miniGames = [
     {
@@ -39,4 +39,4 @@ const miniGames = [
     },
 ];
 
-export { miniGames }
+export default miniGames
