@@ -7,11 +7,17 @@ import addElement from '../utils/utils';
 import '../../css/main_page.scss';
 import '../../css/menu.scss';
 
+const body = document.querySelector('body');
+
+function renderNotificationBlock() {
+    const alert = addElement('div', body, 'alert');
+    const container = addElement('div', alert, 'container', 'message');
+    addElement('div', container, 'alert-message'); // Notification block
+}
+
 function renderMainPart () {
-    const body = document.querySelector('body');
     addElement('div', body, 'main'); // Section description block
     addElement('div', body, 'root'); // Mini-game block
-    addElement('div', body, 'message'); // Notification block
 }
 
 function removeContent() {
@@ -26,6 +32,7 @@ export default function renderMainPage() {
         renderMainPart();
         renderFooter();
         renderSettings();
+        renderNotificationBlock();
     } else {
         signOut();
     }

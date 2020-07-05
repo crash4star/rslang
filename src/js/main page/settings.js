@@ -1,5 +1,6 @@
 import addElement from '../utils/utils';
 import { defaultSettings } from '../data/defaultSettings';
+import { showErrorMessage, showSuccessMessage } from '../utils/message';
 
 const totalLevels = 6;
 const minLevel = 1;
@@ -10,7 +11,9 @@ const body = document.querySelector('body');
 function changeToggler(event, id) {
     if (event.target.closest('.toggle')) {
         const parent = document.querySelector(`#${id}`).querySelector('.toggle');
-        parent.classList.contains('off') ? 'light' : 'dark';
+        const theme = parent.classList.contains('off') ? 'light' : 'dark';
+        showSuccessMessage(`Active theme is ${theme}`);
+        showErrorMessage('It\'s necessary to update value at server and check if it changed');
     }
 }
 
@@ -61,6 +64,11 @@ export default function renderSettings() {
     const level = addElement('small', formGroup, 'form-text text-muted', null, `level: ${defaultSettings.difficult}`);
     slider.addEventListener('mousemove', () => {
         level.innerText = `level: ${slider.value}`;
+    });
+
+    slider.addEventListener('mouseup', () => {
+        showSuccessMessage(`Select level ${slider.value}`);
+        showErrorMessage('It\'s necessary to update value at server and check if it changed');
     });
 }
 

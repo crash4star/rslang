@@ -14,11 +14,11 @@ export default function renderHeader () {
         addElement('button', div, 'btn btn-gray', null, 'Sign in', ['data-toggle', 'modal'], ['data-target', '#signin']);
     } else {
         const login = localStorage.getItem('login');
-        const settings = addElement('div', div, 'settings header-clickable', null, null, ['data-toggle', 'modal'], ['data-target', '#settings']);
+        const settings = addElement('div', div, 'settings header-clickable', null, null, ['data-toggle', 'modal'], ['data-target', '#settings'], ['title', 'Settings']);
         addElement('img', settings, null, null, null, ['src', './img/mainPage/settings.png']);
         addElement('div', div, 'login', null, login);
         const logOut = addElement('div', div, 'logOut header-clickable');
-        addElement('img', logOut, null, null, null, ['src', './img/mainPage/logOut.png']);
+        addElement('img', logOut, null, null, null, ['src', './img/mainPage/logOut.png'], ['title', 'Log Out']);
         logOut.addEventListener('click', signOut);
     }
 }

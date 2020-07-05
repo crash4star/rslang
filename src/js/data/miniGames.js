@@ -1,39 +1,41 @@
+import { showErrorMessage, showSuccessMessage } from '../utils/message';
+
 const miniGames = [
     {
         'title': 'Speak It',
         'description': 'Train your speach',
         'img' : 'speakit.jpg',
-        'callback': () => console.log('add callback in /data/minigames.js to start game \'Speak It\''),
+        'callback': () => showErrorMessage('To start game \'Speak It add callback in /data/minigames.js'),
     },
     {
         'title': 'English Puzzle',
         'description': 'Description',
         'img' : 'minigame.png',
-        'callback': () => console.log('add callback in /data/minigames.js to start game \'English Puzzle\''),
+        'callback': () => showErrorMessage('To start game \'English Puzzle add callback in /data/minigames.js'),
     },
     {
         'title': 'Savannah',
         'description': 'Description',
         'img' : 'minigame.png',
-        'callback': () => console.log('add callback in /data/minigames.js to start game \'Savannah\''),
+        'callback': () => showErrorMessage('To start game \'Savannah add callback in /data/minigames.js'),
     },
     {
         'title': 'Audio Call',
         'description': 'Description',
         'img' : 'minigame.png',
-        'callback': () => console.log('add callback in /data/minigames.js to start game \'Audio Call\''),
+        'callback': () => showErrorMessage('To start game \'Audio Call add callback in /data/minigames.js'),
     },
     {
         'title': 'Sprint',
         'description': 'Description',
         'img' : 'minigame.png',
-        'callback': () => console.log('add callback in /data/minigames.js to start game \'Sprint\''),
+        'callback': () => showErrorMessage('To start game \'Sprint add callback in /data/minigames.js'),
     },
     {
         'title': 'Own Game',
         'description': 'Description',
         'img' : 'minigame.png',
-        'callback': () => console.log('add callback in /data/minigames.js to start game \'Own Game\''),
+        'callback': () => showErrorMessage('to start game \'Own Game\' add callback in /data/minigames.js'),
     },
 ];
 
