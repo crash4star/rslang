@@ -65,7 +65,7 @@ class Settings {
             delete currentSettings.id;
             return currentSettings;
         }).then(update => {
-            this.request.get(URL, update);
+            this.request.put(URL, update);
         });
     }
 }
