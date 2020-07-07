@@ -1,9 +1,12 @@
-import addElement from './utils/utils';
-import { progressiveLearningData, aboutUs, team } from './data/startPage';
-import renderHeader from './components/header';
-import renderFooter from './components/footer';
+import '../../css/start_page.scss';
+import addElement from '../utils/utils';
+import { progressiveLearningData, aboutUs, team } from '../data/startPage';
+import renderHeader from '../components/header';
+import renderFooter from '../components/footer';
+import { registration, signIn } from '../utils/authorization';
 
 const body = document.querySelector('body');
+const command = team;
 
 function renderHero () {
     const hero = addElement('div', body, 'hero');
@@ -86,7 +89,7 @@ function renderAbout() {
             shuffledArray.push(array.splice(Math.floor(Math.random() * array.length), 1)[0]);
         }
         return shuffledArray;
-    })(team);
+    })(command);
 
     shuffledTeam.forEach(element => {
         const col = addElement('div', row, 'col-xl-4 col-md-6 col-12 progressive-item');
@@ -162,20 +165,23 @@ function renderSignUp() {
         'Confirm password', 
         'signUpConfirmPasswordLabel', 
         'signUpConfirmPasswordInput', 
-        'password'
+        'password',
+        'signUpConfirmPasswordSmall'
         );
     
     const modalFooter = addElement('div', modalContent, 'modal-footer');
-    addElement('button', modalFooter, 'btn btn-success', null, 'Register', ['type', 'button']);
+    const registerButton = addElement('button', modalFooter, 'btn btn-success register', 'register', 'Register', ['type', 'button']);
     addElement(
         'button', 
         modalFooter, 
         'btn btn-danger', 
-        null, 
+        'closeSignUp', 
         'Close', 
         ['type', 'button'], 
         ['data-dismiss', 'modal']
     );
+
+    registerButton.addEventListener('click', registration);
 }
 
 function renderSignIn() {
@@ -203,26 +209,37 @@ function renderSignIn() {
         'E-mail', 
         'signInEmailLabel', 
         'signInEmailInput', 
-        'password'
+        'email',
+        'signInEmailSmall'
         );
     addInputFieldWithDescription(form, 
         'Confirm password', 
         'signInPasswordLabel', 
         'signInPasswordInput', 
-        'password'
+        'password',
+        'signInPasswordSmall'
         );
     
     const modalFooter = addElement('div', modalContent, 'modal-footer');
-    addElement('button', modalFooter, 'btn btn-success', null, 'Sign in', ['type', 'button']);
+    const signInButton = addElement(
+        'button', 
+        modalFooter, 
+        'btn btn-success', 
+        'signin', 
+        'Sign in', 
+        ['type', 'button']
+    );
     addElement(
         'button', 
         modalFooter, 
         'btn btn-danger', 
-        null, 
+        'closeSignIn', 
         'Close', 
         ['type', 'button'], 
         ['data-dismiss', 'modal']
     );
+
+    signInButton.addEventListener('click', signIn);
 }
 
 export default function renderStartPage () {

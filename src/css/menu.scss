@@ -1,0 +1,23 @@
+@import './style-guide.scss';
+
+nav {
+    background-color: $base-gray !important;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    
+    li {
+        margin-right: 10px;
+        border-radius: 10px;
+        padding: 5px;
+        
+        &.active {
+            background-color: $base-red;
+                a {
+                    color: $base-white !important; 
+                }
+        }
+    }
+    .navbar-toggler {
+        margin-bottom: 20px;
+    }
+}
