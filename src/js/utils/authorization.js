@@ -40,49 +40,51 @@ const createUser = async user => {
         localStorage.setItem('userId', content.id);
         document.querySelector('#closeSignUp').click();
         await loginUser(user);
-        renderPage();
     } else {
         document.querySelector('#signUpConfirmPasswordSmall').innerHTML = 'Something went wrong. Perhaps the user with this email is already registered!'
     }
 };
 
-const isValidEmail = (email, selector) => {
+const isValidEmail = (email, messageNode) => {
     const regexp = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-    const signUpEmailSmall = document.querySelector(selector);
-    
     if (email.match(regexp)) {
-        signUpEmailSmall.innerHTML = '';
+        messageNode.innerHTML = '';
         return true;
     };
-    signUpEmailSmall.innerHTML = 'Please, check your e-mail';
+    messageNode.innerHTML = 'Please, check your e-mail';
     return false;
 }
 
-const isValidPassword = (password, selector) => {
+const isValidPassword = (password, messageNode) => {
     const regexp = /(?=.*[0-9])(?=.*[+\-_@$!%*?&#.,;:[\]{}])(?=.*[a-z])(?=.*[A-Z])[0-9+\-_@$!%*?&#.,;:{}[\]a-zA-Z]{8,}/g;
-    const signUpPasswordInput = document.querySelector(selector);
     if (password.match(regexp)) {
-        signUpPasswordInput.innerHTML = '';
+        messageNode.innerHTML = '';
         return true;
     }
-    signUpPasswordInput.innerHTML = 'Please, check your password - it must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.';
+    messageNode.innerHTML = 'Please, check your password - it must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.';
     return false;
 }
 
-const checkConfirmPassword = (password, confirmPassword) => {
+const checkConfirmPassword = (password, confirmPassword, messageNode) => {
     if (password === confirmPassword) {
-        document.querySelector('#signUpConfirmPasswordInput').innerHTML = '';
+        messageNode.innerHTML = '';
         return true;
     }
-    document.querySelector('#signUpConfirmPasswordSmall').innerHTML = 'Password mismatch';
+    messageNode.innerHTML = 'Password mismatch';
     return false;
 }
 
 const registration = () => {
     const email = document.querySelector('#signUpEmailInput').value.toLowerCase();
+    const messageForEmail = document.querySelector('#signUpEmailSmall');
+
     const password = document.querySelector('#signUpPasswordInput').value;
+    const messageForPassword = document.querySelector('#signUpPasswordSmall');
+
     const confirmPassword = document.querySelector('#signUpConfirmPasswordInput').value;
-    if (isValidEmail(email, '#signUpEmailSmall') && isValidPassword(password, '#signUpPasswordSmall') && checkConfirmPassword(password, confirmPassword)) {
+    const messageForConfirmPasssword = document.querySelector('#signUpConfirmPasswordSmall');
+
+    if (isValidEmail(email, messageForEmail) && isValidPassword(password, messageForPassword) && checkConfirmPassword(password, confirmPassword, messageForConfirmPasssword)) {
         const user = {
             'email': email,
             'password': password,
@@ -93,8 +95,12 @@ const registration = () => {
 
 const signIn = () => {
     const email = document.querySelector('#signInEmailInput').value.toLowerCase();
+    const messageForEmail = document.querySelector('#signInEmailSmall');
+    
     const password = document.querySelector('#signInPasswordInput').value;
-    if (isValidEmail(email, '#signInEmailSmall' ) && isValidPassword(password, '#signInPasswordSmall')) {
+    const messageForPassword = document.querySelector('#signInPasswordSmall');
+
+    if (isValidEmail(email, messageForEmail) && isValidPassword(password, messageForPassword)) {
         const user = {
             'email': email,
             'password': password,

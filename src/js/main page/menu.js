@@ -3,13 +3,11 @@ import addElement from '../utils/utils';
 import menu from '../data/menu';
 import { removeContent } from "./mainPage";
 
-let ul;
-
 function setActiveMenuElement(event) {
     const menuNodes = document.getElementsByClassName('nav-item');
     const clickedElement = event.target.closest('.nav-item');
     menuNodes.forEach(element => {
-        element.classList.remove('active');
+        if (element.classList.contains('active')) element.classList.remove('active');
         if (element === clickedElement) {
             element.classList.add('active');
         }
@@ -22,9 +20,9 @@ function loadContent (event, callback) {
     callback();
 }
 
-function addMenuElement (text, callback, isNotActive = true) {
+function addMenuElement (parent, text, callback, isNotActive = true) {
     const className = isNotActive ? 'nav-item' : 'nav-item active';
-    const element = addElement('li', ul, className);
+    const element = addElement('li', parent, className);
     addElement('a', element, 'nav-link', null, text, ['href', '#']);
     element.addEventListener ('click', (event) => {
         loadContent(event, callback);
@@ -51,9 +49,9 @@ export default function renderMenu () {
     addElement('span', button, 'navbar-toggler-icon');
 
     const div = addElement('div', containter, 'collapse navbar-collapse', 'navbarNav');
-    ul = addElement('ul', div, 'navbar-nav');
+    const ul = addElement('ul', div, 'navbar-nav');
     menu.map((el, index) => {
-        addMenuElement(el.name, el.callback, index);
+        addMenuElement(ul, el.name, el.callback, index);
         return;
     });
 }

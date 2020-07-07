@@ -4,7 +4,7 @@ import addElement from '../utils/utils';
 
 export default function renderMiniGames() {
     const main = document.querySelector('.main');
-    const container = addElement('div', main, 'container');
+    const container = main.querySelector('.container');
     
     const row = addElement('div', container, 'row minigame');
 

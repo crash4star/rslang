@@ -1,44 +1,32 @@
 import renderMiniGames from '../main page/miniGames';
 import { showErrorMessage, showSuccessMessage } from '../utils/message';
 
+const getMenuTemplate = (name, callback) => {
+    return {
+        name: `${name}`,
+        callback: callback,
+    }
+}
+
+const getErrorMessageTemplate = (section) => {
+    showErrorMessage(`To show ${section} add callback in '/data/menu.js'`);
+}
+
+const getSuccessMessageTemplate = (section) => {
+    showSuccessMessage(`Section ${section} is loaded`);
+}
+
 const menu = [
-    {
-        'name': 'Main game',
-        'callback': () => {
-            showErrorMessage('To show \'Main game\' add callback in file \'data/menu.js\'');
-        }
-    },
-    {
-        'name': 'Mini games',
-        'callback': () => {
-            renderMiniGames();
-            showSuccessMessage('Block \'Mini games\' is loaded');
-        },
-    },
-    {
-        'name': 'Statistics',
-        'callback': () => {
-            showErrorMessage('To show \'Statistics\' add callback in file \'data/menu.js\'');
-        }
-    },
-    {
-        'name': 'Dictionary',
-        'callback': () => {
-            showErrorMessage('To show \'Dictionary\' add callback in file \'data/menu.js\'');
-        }
-    },
-    {
-        'name': 'Promo',
-        'callback': () => {
-            showErrorMessage('To show \'Promo\' add callback in file \'data/menu.js\'');
-        }
-    },
-    {
-        'name': 'About us',
-        'callback': () => {
-            showErrorMessage('To show \'About us\' add callback in file \'data/menu.js\'');   
-        }
-    },
-];
+    getMenuTemplate ('Main game', () => getErrorMessageTemplate('Main game')),
+    getMenuTemplate('Mini games', () => {
+        renderMiniGames();
+        getSuccessMessageTemplate('Mini games');
+    }),
+    getMenuTemplate ('Statistic', () => getErrorMessageTemplate('Statistic')),
+    getMenuTemplate ('Dictionary', () => getErrorMessageTemplate('Dictionary')),
+    getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),
+    getMenuTemplate ('About us', () => getErrorMessageTemplate('About us')),
+]
+
 
 export default menu;

@@ -1,42 +1,26 @@
-import { showErrorMessage} from '../utils/message';
+import { showErrorMessage } from '../utils/message';
+
+const getMiniGamesTemplate = (title, description, img, callback) => { //callback must run game
+    return {
+        title: `${title}`,
+        description: `${description}`,
+        img: `${img}`,
+        callback: callback,
+    }
+}
+
+const getErrorMessageTemplate = (gameName) => {
+    showErrorMessage(`To start game ${gameName} change call of 'getErrorMessageTemplate' on your function '/data/minigames.js'`);
+}
 
 const miniGames = [
-    {
-        'title': 'Speak It',
-        'description': 'Train your speach',
-        'img' : 'speakit.jpg',
-        'callback': () => showErrorMessage('To start game \'Speak It add callback in /data/minigames.js'),
-    },
-    {
-        'title': 'English Puzzle',
-        'description': 'Description',
-        'img' : 'minigame.png',
-        'callback': () => showErrorMessage('To start game \'English Puzzle add callback in /data/minigames.js'),
-    },
-    {
-        'title': 'Savannah',
-        'description': 'Description',
-        'img' : 'minigame.png',
-        'callback': () => showErrorMessage('To start game \'Savannah add callback in /data/minigames.js'),
-    },
-    {
-        'title': 'Audio Call',
-        'description': 'Description',
-        'img' : 'minigame.png',
-        'callback': () => showErrorMessage('To start game \'Audio Call add callback in /data/minigames.js'),
-    },
-    {
-        'title': 'Sprint',
-        'description': 'Description',
-        'img' : 'minigame.png',
-        'callback': () => showErrorMessage('To start game \'Sprint add callback in /data/minigames.js'),
-    },
-    {
-        'title': 'Own Game',
-        'description': 'Description',
-        'img' : 'minigame.png',
-        'callback': () => showErrorMessage('to start game \'Own Game\' add callback in /data/minigames.js'),
-    },
+    getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => getErrorMessageTemplate('SpeakIt')),
+    getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => getErrorMessageTemplate('English Puzzle')),
+    getMiniGamesTemplate('Savannah', 'Description', 'minigame.png', () => getErrorMessageTemplate('Savannah')),
+    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => getErrorMessageTemplate('Audio Call')),
+    getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
+    getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
 
-export default miniGames
+export default miniGames;
+export { getErrorMessageTemplate }

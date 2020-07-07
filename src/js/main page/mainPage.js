@@ -16,12 +16,14 @@ function renderNotificationBlock() {
 }
 
 function renderMainPart () {
-    addElement('div', body, 'main'); // Section description block
+    const main = addElement('div', body, 'main'); // Section description block
+    addElement('div', main, 'container');
     addElement('div', body, 'root'); // Mini-game block
 }
 
 function removeContent() {
-    document.querySelector('.main').innerHTML = '';
+    const main = document.querySelector('.main');
+    main.querySelector('.container').innerHTML = '';
     document.querySelector('.root').innerHTML = '';
 }
 

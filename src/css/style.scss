@@ -80,3 +80,7 @@ header {
     display: flex;
     flex-direction: column;
 }
+
+.main {
+    @include wrapper;
+}
