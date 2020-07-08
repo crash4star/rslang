@@ -1,5 +1,4 @@
 import getRandomInt from '../utils/getRandomInt';
-import shuffleArr from '../utils/shuffleArr';
 
 class ControllerApp {
     constructor(model, view) {
@@ -8,72 +7,87 @@ class ControllerApp {
     }
 
     start() {
-        this.view.render([1, 2, 3], 12);
-        this.view.updateWords(this.loadWords(4), this.loadWords(4)[0]);
-        this.checkUserAnswers();
+        this.view.render();
+        this.loadWords();
+        localStorage.setItem('hp', JSON.stringify(5));
+        localStorage.setItem('xp', JSON.stringify(0));
     }
 
-    checkUserAnswers() {
-        this.view.getElement('#answer-btns-wrapper').addEventListener('click', (e) => {
-            const curTarget = e.target;
-            const question = this.view.getElement('#game-question-word');
-            let xp = 0;
-            let hp = 5;
+    checkUserAnswers(words) {
+        const xp = JSON.parse(localStorage.getItem('xp'));
+        const hp = JSON.parse(localStorage.getItem('hp'));
+        const changeWords = words;
 
-            if (curTarget.getAttribute('word') === question.textContent) {
-                xp += 10;
-                this.view.getElement('#xp-bar-crystal-thumb').style.width = `${xp}%`;
-                this.view.updateCrystal(true);
+        setTimeout(() => {
+            localStorage.setItem('hp', +hp - 1);
+            const newHp = JSON.parse(localStorage.getItem('hp'));
+            this.view.createAnswersBtns(4, changeWords);
+            this.view.updateCrystal(true);
+            this.view.createHpBar(newHp);
+            this.checkUserAnswers(changeWords);
+        }, 5000);
 
-                this.view.updateWords(this.loadWords(4), this.loadWords(4)[0]);
-            } else {
-                hp -= 1;
-                this.view.getElement('#game-hp-bar').innerHTML = '';
-                for (let i = 0; i < hp; i += 1) {
-                    const gameHpItem = this.view.createlement({node: 'div', styleName: 'savannah__hp-bar-item'});
-                    this.view.getElement('#game-hp-bar').append(gameHpItem);
+
+
+        if (xp == 100 || hp == 0) {
+            alert('end game / statistic') // Temporary solution
+        } else {
+            this.view.getElement('#answer-btns-wrapper').addEventListener('click', (e) => {
+                const curTarget = e.target.closest('button');
+                const question = this.view.getElement('#game-question-word');
+
+                if (curTarget.textContent === question.textContent) {
+                    localStorage.setItem('xp', +xp + 10);
+                    const newXp = JSON.parse(localStorage.getItem('xp'));
+
+                    this.view.getElement('#xp-bar-crystal-thumb').style.width = `${newXp}%`;
+                    this.view.updateCrystal(true);
+                    changeWords.forEach(item => {
+                        if (item.word === curTarget.textContent) {
+                            changeWords.delete(item);
+                        }
+                    });
+                    this.view.createAnswersBtns(4, changeWords);
+                    this.checkUserAnswers(changeWords);
+
+
+                } else {
+                    localStorage.setItem('hp', +hp - 1);
+                    const newHp = JSON.parse(localStorage.getItem('hp'));
+                    this.view.createAnswersBtns(4, changeWords);
+                    this.view.updateCrystal(true);
+                    this.view.createHpBar(newHp);
+                    this.checkUserAnswers(changeWords);
                 }
-
-                this.view.updateCrystal(false);
-            }
-        });
+            });
+        }
     }
 
-    loadWords(amount) {
-        const DB = JSON.parse(localStorage.getItem('DB'));
+
+    loadWords() {
         const difficult = JSON.parse(localStorage.getItem('difficult'));
-        const words = DB;
-        const wordsForGame = new Set();
+        let page = getRandomInt(30);
+        this.view.getElement('#savannah').classList.add('savannah__wrapper--load');
+        this.model.getWords(difficult, page)
+            .then(data => {
+                const words = new Set();
 
-        shuffleArr(words).forEach(item => {
-            if (item.difficult == difficult) {
-                wordsForGame.add(item.word);
-            }
-        });
-
-        if (wordsForGame.size < amount) {
-            const page = getRandomInt(30);
-
-            this.model.getWords(difficult, page)
-                .then(data => {
-                    const shuffle = shuffleArr(data);
-                    shuffle.length = amount - wordsForGame.size;
-                    shuffle.forEach(item => wordsForGame.add(item.word));
-                    const resultArr = [];
-                    wordsForGame.forEach(item => resultArr.push(item));
-                    return resultArr;
+                data.forEach(item => {
+                    words.add({ word: item.word, id: item.id });
+                    if (words.size < 40) {
+                        page = getRandomInt(30);
+                        words.add({ word: item.word, id: item.id });
+                    }
                 });
 
-
-        } else {
-            const resultArr = [];
-            wordsForGame.forEach(item => resultArr.push(item));
-            resultArr.length = amount;
-            console.log(resultArr);
-            return resultArr; 
-        }
-
-        return [];
+                return words;
+            })
+            .then(words => {
+                const checkWords = words;
+                this.view.createAnswersBtns(4, checkWords);
+                this.checkUserAnswers(checkWords);
+                this.view.getElement('#savannah').classList.remove('savannah__wrapper--load');
+            });
     }
 }
 

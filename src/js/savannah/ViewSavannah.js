@@ -1,21 +1,23 @@
+import getRandomInt from '../utils/getRandomInt';
+import shuffleArr from '../utils/shuffleArr';
 class View {
     constructor() {
         this.app = this.getElement('#root');
     }
 
-    render(words, question = '') {
-        const wrapper = this.createlement({node: 'div', styleName: 'savannah__wrapper', id: 'savannah'});
-        const gameInfo = this.createlement({node: 'div', styleName: 'savannah__game-info', id: 'savannah-game-info'});
-        const gameViewport = this.createlement({node: 'div', styleName: 'savannah__game-viewport', id: 'savannah-game-viewport'});
+    render() {
+        const wrapper = this.createlement({ node: 'div', styleName: 'savannah__wrapper', id: 'savannah' });
+        const gameInfo = this.createlement({ node: 'div', styleName: 'savannah__game-info', id: 'savannah-game-info' });
+        const gameViewport = this.createlement({ node: 'div', styleName: 'savannah__game-viewport', id: 'savannah-game-viewport' });
 
         this.app.append(wrapper);
         this.getElement(`#${wrapper.id}`).append(gameInfo);
         this.getElement(`#${wrapper.id}`).append(gameViewport);
 
-        const gameBar = this.createlement({node: 'div', styleName: 'savannah__game-bar', id: 'game-bar'});
-        const gamebackToProfileBtn = this.createlement({node: 'button', styleName: 'savannah__back-to-profile-btn', id: 'back-to-profile-btn'});
-        const gameHpWrapper = this.createlement({node: 'div', styleName: 'savannah__hp-bar', id: 'game-hp-bar'});
-        const gameXpWrapper = this.createlement({node: 'div', styleName: 'savannah__xp-bar', id: 'game-xp-bar'});
+        const gameBar = this.createlement({ node: 'div', styleName: 'savannah__game-bar', id: 'game-bar' });
+        const gamebackToProfileBtn = this.createlement({ node: 'button', styleName: 'savannah__back-to-profile-btn', id: 'back-to-profile-btn' });
+        const gameHpWrapper = this.createlement({ node: 'div', styleName: 'savannah__hp-bar', id: 'game-hp-bar' });
+        const gameXpWrapper = this.createlement({ node: 'div', styleName: 'savannah__xp-bar', id: 'game-xp-bar' });
 
         this.getElement(`#${gameInfo.id}`).append(gameBar);
         this.getElement(`#${gameBar.id}`).append(gamebackToProfileBtn);
@@ -23,59 +25,83 @@ class View {
         this.getElement(`#${gameBar.id}`).append(gameXpWrapper);
 
         for (let i = 0; i < 5; i += 1) {
-            const gameHpItem = this.createlement({node: 'div', styleName: 'savannah__hp-bar-item'});
+            const gameHpItem = this.createlement({ node: 'div', styleName: 'savannah__hp-bar-item' });
             this.getElement(`#${gameHpWrapper.id}`).append(gameHpItem);
         }
 
-        const gameXpCrystalIcon = this.createlement({node: 'div', styleName: 'savannah__xp-bar-crystal-icon'});
-        const gameXpCrystaWrapper = this.createlement({node: 'div', styleName: 'savannah__xp-bar-crystal-wrapper', id: 'xp-bar-crystal-wrapper'});
-        const gameXpCrystaRange = this.createlement({node: 'div', styleName: 'savannah__xp-bar-crystal-range', id: 'xp-bar-crystal-range'});
-        const gameXpCrystaThumb = this.createlement({node: 'div', styleName: 'savannah__xp-bar-crystal-thumb', id: 'xp-bar-crystal-thumb'});
+        const gameXpCrystalIcon = this.createlement({ node: 'div', styleName: 'savannah__xp-bar-crystal-icon' });
+        const gameXpCrystaWrapper = this.createlement({ node: 'div', styleName: 'savannah__xp-bar-crystal-wrapper', id: 'xp-bar-crystal-wrapper' });
+        const gameXpCrystaRange = this.createlement({ node: 'div', styleName: 'savannah__xp-bar-crystal-range', id: 'xp-bar-crystal-range' });
+        const gameXpCrystaThumb = this.createlement({ node: 'div', styleName: 'savannah__xp-bar-crystal-thumb', id: 'xp-bar-crystal-thumb' });
 
         this.getElement(`#${gameXpWrapper.id}`).append(gameXpCrystalIcon);
         this.getElement(`#${gameXpWrapper.id}`).append(gameXpCrystaWrapper);
         this.getElement(`#${gameXpCrystaWrapper.id}`).append(gameXpCrystaRange);
         this.getElement(`#${gameXpCrystaWrapper.id}`).append(gameXpCrystaThumb);
 
-        const gameShotItem = this.createlement({node: 'div', styleName: 'savannah__game-shot-item', id: 'game-shot-item'});
+        const gameShotItem = this.createlement({ node: 'div', styleName: 'savannah__game-shot-item', id: 'game-shot-item' });
 
         this.getElement(`#${gameViewport.id}`).append(gameShotItem);
+
+        const gameAnswerBar = this.createlement({ node: 'div', styleName: 'savannah__answer-bar', id: 'game-answer-bar' });
+        this.getElement(`#${gameInfo.id}`).append(gameAnswerBar);
     }
 
-    updateWords(words = [], question = '') {
-        
-        if (this.getElement('#game-answer-bar').id !== 'root') {
-            this.getElement('#game-answer-bar').remove();
+    createAnswersBtns(amount, words = []) {
+        if (this.getElement('#game-answer-bar') !== '#root') {
+            this.getElement('#game-answer-bar').innerHTML = '';
         }
-        
-        const gameAnswerBar = this.createlement({node: 'div', styleName: 'savannah__answer-bar', id: 'game-answer-bar'});
-        const gameQuestionWord = this.createlement({node: 'h2', styleName: 'savannah__question-word', id: 'game-question-word'});
-        gameQuestionWord.textContent = question;
-        const gameAnswerBtnsWrapper = this.createlement({node: 'div', styleName: 'savannah__answer-btns-wrapper', id: 'answer-btns-wrapper'});
 
-        this.getElement('#savannah-game-info').append(gameAnswerBar);
-        this.getElement(`#${gameAnswerBar.id}`).append(gameQuestionWord);
-        this.getElement(`#${gameAnswerBar.id}`).append(gameAnswerBtnsWrapper);
+        const gameQuestionWord = this.createlement({ node: 'h2', styleName: 'savannah__question-word', id: 'game-question-word' });
+        const gameAnswerBtnsWrapper = this.createlement({ node: 'div', styleName: 'savannah__answer-btns-wrapper', id: 'answer-btns-wrapper' });
 
-        words.forEach(item => {
-            const gameAnswerBtn = this.createlement({node: 'button', styleName: 'savannah__answer-btn'});
-            gameAnswerBtn.setAttribute('word', item);
-            gameAnswerBtn.textContent = item;
+        this.getElement('#game-answer-bar').append(gameQuestionWord);
+        this.getElement('#game-answer-bar').append(gameAnswerBtnsWrapper);
+
+        for (let i = 0; i < amount; i += 1) {
+            const gameAnswerBtn = this.createlement({ node: 'button', styleName: 'savannah__answer-btn' });
             this.getElement(`#${gameAnswerBtnsWrapper.id}`).append(gameAnswerBtn);
+        }
+
+        let result;
+        this.getAllElements('.savannah__answer-btn').forEach(btn => {
+            const questionWords = new Set();
+            words.forEach(item => {
+                if (questionWords.size < 4) {
+                    questionWords.add(item.word);
+                }
+            });
+            result = Array.from(questionWords);
         });
+
+        
+        shuffleArr(result).forEach((item, i) => {
+            this.getAllElements('.savannah__answer-btn')[i].textContent = item;
+        });
+
+        gameQuestionWord.textContent = result[getRandomInt(result.length)];
     }
 
-    updateCrystal(status) {    
+    createHpBar(amount) {
+        this.getElement('#game-hp-bar').innerHTML = '';
+
+        for (let i = 0; i < amount; i += 1) {
+            const gameHpItem = this.createlement({ node: 'div', styleName: 'savannah__hp-bar-item' });
+            this.getElement('#game-hp-bar').append(gameHpItem);
+        }
+    }
+
+    updateCrystal(status) {
         if (status) {
             this.getElement('#game-shot-item').classList.add('savannah__game-shot-item--success');
             setTimeout(() => {
                 this.getElement('#game-shot-item').classList.remove('savannah__game-shot-item--success');
-            }, 1000);
+            }, 500);
         } else {
             this.getElement('#game-shot-item').classList.add('savannah__game-shot-item--miss');
             setTimeout(() => {
                 this.getElement('#game-shot-item').classList.remove('savannah__game-shot-item--miss');
-            }, 1000);
+            }, 500);
         }
     }
 
@@ -88,6 +114,11 @@ class View {
 
     getElement(selector) {
         const el = document.querySelector(selector);
+        return el || this.app;
+    }
+
+    getAllElements(selector) {
+        const el = document.querySelectorAll(selector);
         return el || this.app;
     }
 }

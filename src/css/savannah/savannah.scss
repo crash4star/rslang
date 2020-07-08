@@ -8,8 +8,11 @@
             justify-content: flex-end;
             width: 100%;
             height: 100vh;
-
+            transition: all 0.4s ease;
             background-color: $base-white;
+            animation: basicFader;
+            animation-duration: 0.3s;
+            animation-fill-mode: forwards;
         }
 
         @media (min-width: 768px) {
@@ -28,6 +31,41 @@
             flex-direction: row;
             justify-content: space-between;
             width: 60rem;
+        }
+    }
+
+    &__wrapper--load {
+        position: relative;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            background-color: $base-white;
+            transition: all 0.4s ease;
+            z-index: 60;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%) scale(0.5);
+            width: 5rem;
+            height: 5rem;
+            border: 16px solid $base-gray;
+            border-radius: 50%;
+            border-top: 16px solid $base-blue;
+            animation: spinner;
+            animation-duration: 0.8s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: infinite;
+            z-index: 60;
         }
     }
 
@@ -241,7 +279,7 @@
             background-position: center;
             transition: all 0.4s ease;
             animation: crystalFade;
-            animation-duration: 8s;
+            animation-duration: 6s;
             animation-fill-mode: forwards;
 
             &--success {
@@ -282,7 +320,6 @@
     }
 }
 
-
 @keyframes crystalSuccess {
     0% {
         transform: scale(1.1) translate(-50%, -50%) rotate(15deg);
@@ -308,5 +345,25 @@
     100% {
         opacity: 0;
         transform: rotate(360deg) translate(-50%, -50%) scale(0);
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(0.5);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) scale(0.5);
+    }
+}
+
+@keyframes basicFader {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
