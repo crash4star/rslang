@@ -23,4 +23,12 @@ function clearMarkup() {
   }
 }
 
-export { clearMarkup };
+function addZeroBeforeValue(value) {
+  return value = (value < 10) ? `0${value}` : value;
+}
+
+function getDateInString(date) {
+  return `${addZeroBeforeValue(date.getDate())}.${addZeroBeforeValue(date.getMonth())}.${date.getFullYear()}`;
+}
+
+export { clearMarkup, getDateInString };

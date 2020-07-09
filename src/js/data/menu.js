@@ -1,5 +1,6 @@
 import renderMiniGames from '../main page/miniGames';
 import { showErrorMessage, showSuccessMessage } from '../utils/message';
+import Statistic from '../main page/statistic';
 
 const getMenuTemplate = (name, callback) => {
     return {
@@ -22,7 +23,7 @@ const menu = [
         renderMiniGames();
         getSuccessMessageTemplate('Mini games');
     }),
-    getMenuTemplate ('Statistic', () => getErrorMessageTemplate('Statistic')),
+    getMenuTemplate ('Statistic', () => {new Statistic()}),
     getMenuTemplate ('Dictionary', () => getErrorMessageTemplate('Dictionary')),
     getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),
     getMenuTemplate ('About us', () => getErrorMessageTemplate('About us')),
