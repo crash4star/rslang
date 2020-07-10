@@ -87,3 +87,50 @@ header {
 .main {
     @include wrapper;
 }
+
+.dark-theme {
+    & .navbar {
+        background-color: #33384d !important;
+
+        .btn-gray {
+            color: #bcd0e5;
+
+            &:hover {
+                color: #33384d;
+            }
+        }
+    }
+
+    & .hero {
+        background-color: #8b91af;
+
+        & .hero-description {
+            h2, p {
+                color: $base-white;
+            }
+        }
+    }
+
+    & .progressive {
+        background-color: #33384d;
+        color: $base-white;
+        box-shadow: 0 5px 30px 5px rgba(0,0,0,0.2);
+
+        & .container {
+            h3 {
+                color: $base-white;
+            }
+        }
+
+        img {
+            background-color: transparent;
+        }
+    }
+
+    & .about {
+        background-color: #8b91af;
+        h3, p {
+            color: $base-white;
+        }
+    }
+}

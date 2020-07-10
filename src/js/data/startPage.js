@@ -7,7 +7,7 @@ const progressiveLearningData = [
     {
         'img': 'icon-statistic',
         'title': 'Passing statistics',
-        'description': 'Sports betting, lottery and bingo playing for the fun',
+        'description': 'Track your progress and mistakes',
     },
     {
         'img': 'icon-design',
@@ -26,34 +26,34 @@ const aboutUs = 'Lorem Ipsum is simply dummy text of the printing and typesettin
 const team = [
     {
         'name': 'Nikita Palko',
-        'email' : 'crashmoney@yandex.ru',
-        'skype' : 'nikitok36',
+        'email': 'crashmoney@yandex.ru',
+        'skype': 'nikitok36',
     },
     {
         'name': 'Vitali Himzheuski',
-        'email' : 'gimvit@gmail.com',
-        'skype' : 'gimzhevsky',
+        'email': 'gimvit@gmail.com',
+        'skype': 'gimzhevsky',
     },
     {
         'name': 'Kate Protasevich',
-        'email' : 'KrishniovaKate@mail.ru',
-        'skype' : 'elit1.5metra',
+        'email': 'KrishniovaKate@mail.ru',
+        'skype': 'elit1.5metra',
     },
     {
         'name': 'Slivashenko Edgar',
-        'email' : 'edhars13@gmail.com',
-        'skype' : 'edhar13',
+        'email': 'edhars13@gmail.com',
+        'skype': 'edhar13',
     },
     {
         'name': 'NO DATA',
-        'email' : '',
-        'skype' : ' ',
+        'email': '',
+        'skype': ' ',
     },
     {
         'name': 'NO DATA',
-        'email' : '',
-        'skype' : ' ',
+        'email': '',
+        'skype': ' ',
     }
 ];
 
-export {progressiveLearningData, aboutUs, team};
+export { progressiveLearningData, aboutUs, team };
