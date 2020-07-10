@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 class Api {
     constructor(url, errCatch) {
+=======
+import { showErrorMessage } from '../utils/message';
+
+class Api {
+    constructor(url) {
+>>>>>>> savannah
         this.url = url;
     }
 
@@ -9,10 +16,17 @@ class Api {
             const data = response.json();
             return data;
         } catch (e) {
+<<<<<<< HEAD
             console.log(e);
         }
 
         return 'connection problem';
+=======
+            console.error(e);
+        }
+
+        return showErrorMessage('connection problem');
+>>>>>>> savannah
     }
 }
 
