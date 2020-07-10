@@ -11,7 +11,7 @@ const body = document.querySelector('body');
 
 function renderNotificationBlock() {
     const alert = addElement('div', body, 'alert hidden');
-    const container = addElement('div', alert, 'container', 'message');
+    addElement('div', alert, 'container', 'message');
 }
 
 function renderMainPart () {
