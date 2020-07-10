@@ -17,7 +17,7 @@ function renderNotificationBlock() {
 function renderMainPart () {
     const main = addElement('div', body, 'main'); // Section description block
     addElement('div', main, 'container');
-    addElement('div', body, 'root'); // Mini-game block
+    addElement('div', body, 'root', 'root'); // Mini-game block
 }
 
 function removeContent() {
