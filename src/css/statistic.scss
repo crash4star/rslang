@@ -10,6 +10,7 @@
     width: 500px;
     height: 500px;
     border: 1px solid $base-black;
+    background-color: $base-white;
 
     @media screen and (max-width: 400px) {
         width: 250px;

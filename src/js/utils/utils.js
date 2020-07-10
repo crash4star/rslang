@@ -28,7 +28,7 @@ function addZeroBeforeValue(value) {
 }
 
 function getDateInString(date) {
-  return `${addZeroBeforeValue(date.getDate())}.${addZeroBeforeValue(date.getMonth())}.${date.getFullYear()}`;
+  return `${addZeroBeforeValue(date.getDate())}.${addZeroBeforeValue(date.getMonth() + 1)}.${date.getFullYear()}`;
 }
 
 export { clearMarkup, getDateInString };
