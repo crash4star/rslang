@@ -1,4 +1,17 @@
 import renderMainPage from '../main page/mainPage';
+const mailOptions = {
+    regExp: /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/,
+    errorMessage: 'Please, check your e-mail',
+}
+
+const passwordOptions = {
+    regExp: /(?=.*[0-9])(?=.*[+\-_@$!%*?&#.,;:[\]{}])(?=.*[a-z])(?=.*[A-Z])[0-9+\-_@$!%*?&#.,;:{}[\]a-zA-Z]{8,}/g,
+    errorMessage: 'Please, check your password - it must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.',
+}
+
+const confirmPasswordErrorMessage = 'Password mismatch';
+const authorizationErrorMessage = 'Wrong email or password!';
+const loginIsNotFreeMessage = 'Something went wrong. Perhaps the user with this email is already registered!';
 
 const loginUser = async user => {
     const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
@@ -18,10 +31,9 @@ const loginUser = async user => {
         localStorage.setItem('login', user.email.substr(0, user.email.indexOf('@')));
         renderMainPage();
     } else {
-        document.querySelector('#signInPasswordSmall').innerHTML = 'Wrong email or password!'
+        document.querySelector('#signInPasswordSmall').innerHTML = authorizationErrorMessage;
     }
 };
-
 
 const createUser = async user => {
     const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/users', {
@@ -38,37 +50,30 @@ const createUser = async user => {
         document.querySelector('#closeSignUp').click();
         await loginUser(user);
     } else {
-        document.querySelector('#signUpConfirmPasswordSmall').innerHTML = 'Something went wrong. Perhaps the user with this email is already registered!'
+        document.querySelector('#signUpConfirmPasswordSmall').innerHTML = loginIsNotFreeMessage;
     }
 };
 
+const checkRegExpAndShowMessage = (email, messageNode, options) => {
+    const statement = checkStatementByUsingRegex(email, options.regExp);
+    messageNode.innerText = (statement) ? '' : options.errorMessage;
+    return Boolean(statement);
+}
+const checkStatementByUsingRegex = (value, expression) => {
+    return value.match(expression);
+}
+
 const isValidEmail = (email, messageNode) => {
-    const regexp = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
-    if (email.match(regexp)) {
-        messageNode.innerHTML = '';
-        return true;
-    };
-    messageNode.innerHTML = 'Please, check your e-mail';
-    return false;
+    return checkRegExpAndShowMessage (email, messageNode, mailOptions);
 }
 
 const isValidPassword = (password, messageNode) => {
-    const regexp = /(?=.*[0-9])(?=.*[+\-_@$!%*?&#.,;:[\]{}])(?=.*[a-z])(?=.*[A-Z])[0-9+\-_@$!%*?&#.,;:{}[\]a-zA-Z]{8,}/g;
-    if (password.match(regexp)) {
-        messageNode.innerHTML = '';
-        return true;
-    }
-    messageNode.innerHTML = 'Please, check your password - it must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.';
-    return false;
+    return checkRegExpAndShowMessage (password, messageNode, passwordOptions);
 }
 
 const checkConfirmPassword = (password, confirmPassword, messageNode) => {
-    if (password === confirmPassword) {
-        messageNode.innerHTML = '';
-        return true;
-    }
-    messageNode.innerHTML = 'Password mismatch';
-    return false;
+    messageNode.innerText = (password === confirmPassword) ? '' : confirmPasswordErrorMessage;
+    return !Boolean(messageNode.innerText);
 }
 
 const registration = () => {
