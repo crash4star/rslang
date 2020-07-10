@@ -29,12 +29,12 @@ function removeContent() {
 
 export default function renderMainPage() {
     if (refreshToken()) {
+        renderNotificationBlock();
         renderHeader();
         renderMenu();
         renderMainPart();
         renderFooter();
         renderSettings();
-        renderNotificationBlock();
     } else {
         signOut();
     }
