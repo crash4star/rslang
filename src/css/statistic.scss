@@ -17,3 +17,17 @@
         height: 250px;
     }
 }
+
+.statisticAlert {
+    position: fixed;
+    display: block;
+    top: 100px;
+    background-color: $base-gray;
+    padding: 10px;
+    border: 1px solid $base-black;
+    border-radius: 10px;
+}
+
+.statisticAlert-hidden {
+    display: none;
+}

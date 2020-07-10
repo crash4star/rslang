@@ -4,7 +4,7 @@ const minDate = new Date (2020, 6, 1);
 const maxDate = new Date ();
 const minWords = 0;
 const maxWords = 3600;
-const amountOfData = 3;
+const amountOfData = 8;
 
 const getMidnight = (dateInMilliseconds) => {
     const date = new Date(dateInMilliseconds);
@@ -35,7 +35,7 @@ const getArray = (isDate, arrayLength, min, max) => {
 
 const getDatesWithValues = (dateInMilliseconds, valuesArray) => {
     return {
-        data: `${dateInMilliseconds}`,
+        date: `${dateInMilliseconds}`,
         value: `${valuesArray}`,
     }
 }
@@ -56,7 +56,7 @@ const getData = () => {
         'arrayOfDatesAndValues': data,
         'options': {
             'axisX': {
-                'min': new Date(Number(data[0].data)),
+                'min': new Date(Number(data[0].date)),
                 'max': maxDate,
             },
             'axisY' : {
