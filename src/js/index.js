@@ -7,7 +7,7 @@ import { refreshToken} from './utils/authorization'
 const updateTokenPeriod = 3 * 3600 * 1000;
 
 export default async function renderPage() {
-    if (!await refreshToken()) {
+    if (!localStorage.getItem('userId')) {
         renderStartPage();
     } else {
         renderMainPage();
