@@ -1,9 +1,9 @@
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
-import { refreshToken, signOut } from '../utils/authorization';
 import renderMenu from './menu';
 import renderSettings from './settings';
 import addElement from '../utils/utils';
+import { clearMarkup } from '../utils/utils';
 import '../../css/main_page.scss';
 import '../../css/menu.scss';
 
@@ -27,16 +27,13 @@ function removeContent() {
 }
 
 export default function renderMainPage() {
-    if (refreshToken()) {
-        renderNotificationBlock();
-        renderHeader();
-        renderMenu();
-        renderMainPart();
-        renderFooter();
-        renderSettings();
-    } else {
-        signOut();
-    }
+    clearMarkup();
+    renderNotificationBlock();
+    renderHeader();
+    renderMenu();
+    renderMainPart();
+    renderFooter();
+    renderSettings();
 }
 
 export { removeContent }

@@ -1,5 +1,3 @@
-import renderPage from '../index';
-import { clearMarkup } from './utils';
 import renderMainPage from '../main page/mainPage';
 
 const loginUser = async user => {
@@ -18,7 +16,6 @@ const loginUser = async user => {
         localStorage.setItem('refreshToken', content.refreshToken);
         localStorage.setItem('userId', content.userId);
         localStorage.setItem('login', user.email.substr(0, user.email.indexOf('@')));
-        clearMarkup();
         renderMainPage();
     } else {
         document.querySelector('#signInPasswordSmall').innerHTML = 'Wrong email or password!'
@@ -114,8 +111,6 @@ const signOut = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
-    clearMarkup();
-    renderPage();
 }
 
 const refreshToken = async () => {
@@ -133,7 +128,7 @@ const refreshToken = async () => {
         localStorage.setItem('token', content.token);
         localStorage.setItem('refreshToken', content.refreshToken);
         return true;
-    } 
+    }
         signOut();
         return false;
 }
