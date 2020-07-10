@@ -10,9 +10,8 @@ import '../../css/menu.scss';
 const body = document.querySelector('body');
 
 function renderNotificationBlock() {
-    const alert = addElement('div', body, 'alert');
+    const alert = addElement('div', body, 'alert hidden');
     const container = addElement('div', alert, 'container', 'message');
-    addElement('div', container, 'alert-message'); // Notification block
 }
 
 function renderMainPart () {
