@@ -9,8 +9,13 @@ class ControllerApp {
     start() {
         this.view.render();
         this.loadWords();
+        this.defaultUserHpXpBar();
+    }
+
+    defaultUserHpXpBar() {
         localStorage.setItem('hp', JSON.stringify(5));
         localStorage.setItem('xp', JSON.stringify(0));
+        return this.view;
     }
 
     checkUserAnswers(words) {
@@ -18,7 +23,7 @@ class ControllerApp {
         const hp = JSON.parse(localStorage.getItem('hp'));
         const changeWords = words;
 
-        setTimeout(() => {
+        const timeForAnswer = setTimeout(() => {
             localStorage.setItem('hp', +hp - 1);
             const newHp = JSON.parse(localStorage.getItem('hp'));
             this.view.createAnswersBtns(4, changeWords);
@@ -27,16 +32,15 @@ class ControllerApp {
             this.checkUserAnswers(changeWords);
         }, 5000);
 
-
-
         if (xp == 100 || hp == 0) {
             alert('end game / statistic') // Temporary solution
         } else {
             this.view.getElement('#answer-btns-wrapper').addEventListener('click', (e) => {
+                clearTimeout(timeForAnswer);
                 const curTarget = e.target.closest('button');
                 const question = this.view.getElement('#game-question-word');
 
-                if (curTarget.textContent === question.textContent) {
+                if (curTarget.textContent === question.getAttribute('translate')) {
                     localStorage.setItem('xp', +xp + 10);
                     const newXp = JSON.parse(localStorage.getItem('xp'));
 

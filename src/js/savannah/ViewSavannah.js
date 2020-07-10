@@ -79,7 +79,13 @@ class View {
             this.getAllElements('.savannah__answer-btn')[i].textContent = item;
         });
 
-        gameQuestionWord.textContent = result[getRandomInt(result.length)];
+        const questionWord = result[getRandomInt(result.length)];
+        const TRANASLATE_URL = `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=${questionWord}&lang=ru`;
+        gameQuestionWord.setAttribute('translate', questionWord);
+
+        fetch(TRANASLATE_URL)
+                .then(res => res.json())
+                .then(data => gameQuestionWord.textContent = data.text[0]);
     }
 
     createHpBar(amount) {

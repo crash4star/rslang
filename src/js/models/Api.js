@@ -1,5 +1,7 @@
+import { showErrorMessage } from '../utils/message';
+
 class Api {
-    constructor(url, errCatch) {
+    constructor(url) {
         this.url = url;
     }
 
@@ -9,10 +11,10 @@ class Api {
             const data = response.json();
             return data;
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
 
-        return 'connection problem';
+        return showErrorMessage('connection problem');
     }
 }
 

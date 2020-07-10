@@ -1,9 +1,7 @@
-import AuthRequest from './AuthRequest';
-
 class ProfileOptions {
-    constructor(api) {
+    constructor(api, request) {
         this.api = api;
-        this.request = new AuthRequest(this.api);
+        this.request = request;
     }
 
     get optionsData() {

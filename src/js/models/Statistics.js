@@ -1,9 +1,9 @@
-import AuthRequest from './AuthRequest';
+import { showErrorMessage } from '../utils/message';
 
 class Statistics {
-    constructor(api) {
+    constructor(api,request) {
         this.api = api;
-        this.request = new AuthRequest(this.api);
+        this.request = request;
     }
 
     get optionsData() {
@@ -18,10 +18,10 @@ class Statistics {
         try {
             return this.request.get(`/users/${this.optionsData.userId}/statistics`);
         } catch (e) {
-            console.log(e);
+            showErrorMessage(e);
         }
 
-        return 'connection problem';
+        return showErrorMessage('connection problem');
     }
 
     resetStatistics() {
@@ -60,7 +60,7 @@ class Statistics {
         try {
             return this.request.put(`/users/${this.optionsData.userId}/statistics`, startObject);
         } catch (e) {
-            console.log(e);
+            showErrorMessage(e);
         }
 
         return [];

@@ -1,10 +1,10 @@
-import AuthRequest from './AuthRequest';
 import Statistics from './Statistics';
-
+import { showErrorMessage } from '../utils/message';
 class Settings {
-    constructor(api) {
+    constructor(api,request) {
         this.api = api;
-        this.request = new AuthRequest(this.api);
+        this.request = request;
+        this.currentStatistic = new Statistics(this.api);
     }
 
     get optionsData() {
@@ -19,10 +19,10 @@ class Settings {
         try {
             return this.request.get(`/users/${this.optionsData.userId}/settings`);
         } catch (e) {
-            console.log(e);
+            showErrorMessage(e);
         }
 
-        return 'connection problem';
+        return showErrorMessage('connection problem');
     }
 
     resetSettings() {
@@ -40,16 +40,14 @@ class Settings {
             return this.request.put(`/users/${this.optionsData.userId}/settings`,startObject);
 
         } catch (e) {
-            console.log(e);
+            showErrorMessage(e);
         }
 
         return [];
     }
 
     createUserStartObject() {
-        const currentStatistic = new Statistics(this.api);
-        
-        currentStatistic.getUserStatistics().then(data => {
+        this.currentStatistic.getUserStatistics().then(data => {
             if (data.games === undefined) {
                 currentStatistic.resetStatistics();
                 this.resetSettings();
