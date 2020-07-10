@@ -45,15 +45,10 @@ const team = [
         'skype' : 'edhar13',
     },
     {
-        'name': 'NO DATA',
-        'email' : '',
-        'skype' : ' ',
+        'name': 'Tatarskiy Pavel',
+        'email' : 'ptatarsk@gmail.com',
+        'skype' : 'pasha.tatarsky',
     },
-    {
-        'name': 'NO DATA',
-        'email' : '',
-        'skype' : ' ',
-    }
 ];
 
 export {progressiveLearningData, aboutUs, team};
