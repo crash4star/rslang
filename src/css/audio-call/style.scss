@@ -1,0 +1,63 @@
+html,
+body {
+  height: 100%;
+  background-color: #f977ce;
+  background-image: linear-gradient(180deg, #804eb9 0%, #c073a6 90%);
+}
+
+
+
+
+.stat-container {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  height: 50%;
+  width: 50%;
+  justify-content: space-around;
+  border-radius: 5px;
+}
+
+.right-answers,
+.wrong-answers {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrong-answer,
+.right-answer {
+  color: black;
+}
+.wrong-answers h1,
+.right-answers h1 {
+  color: black;
+}
+
+.answerWord {
+  text-align: center;
+}
+
+#circle-container {
+  width: 250px;
+  height: 250px;
+  margin: 50px auto;
+}
+
+.statWordsContainer {
+  display: flex;
+  width: 80%;
+}
+
+.statBtnsContainer {
+  display: flex;
+  width: 80%;
+}
+.continueBtn,
+.onMainPageBtn {
+  background-color: green;
+  border-radius: 3px;
+}
+
+.progress-text {
+  font-size: 24px;
+}
