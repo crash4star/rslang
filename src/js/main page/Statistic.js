@@ -152,11 +152,7 @@ export default class Statistic  {
             
             this.ctx.beginPath();
             this.ctx.moveTo(moveFromX, lastPointY);
-            this.ctx.lineTo(moveFromX, moveToY);
-            this.ctx.lineTo(moveToX, moveToY);
             lastPointY = moveToY;
-            this.ctx.lineTo(moveToX, this.axisStartY);
-            this.ctx.stroke();
             this.drawRectangle(moveFromX, this.axisStartY + 1, moveToX, moveToY);
         }
     }
@@ -179,6 +175,22 @@ export default class Statistic  {
         }
         return data[index].value;
     }
+
+    showAlert(e, stepX, minDate, data) {
+        const x = e.pageX - e.target.offsetLeft;
+        const dayOrdinal = Math.ceil((x - graphMargin) / stepX);
+        const activeDay = minDate.getTime() + (dayOrdinal - 1) * millisecondsPerDay;
+        const cursorOverTheDate = new Date(Number(activeDay));
+        if (activeDay >= data[0].date && activeDay <= new Date().getTime()) {
+            if (statisticAlert.classList.contains('statisticAlert-hidden')) statisticAlert.classList.remove('statisticAlert-hidden');
+            const dateToShow = getDateInString(cursorOverTheDate);
+            const valueToShow = this.getValueToShow(activeDay, data);
+            this.setAlertPosition(e.pageX, e.pageY);
+            this.setAlertValue(statisticAlert, dateToShow, valueToShow);
+        } else {
+            statisticAlert.classList.add('statisticAlert-hidden');
+        }
+    }
     
     addGraphListeners() {
         const statisticAlert = document.querySelector('#statisticAlert');
@@ -193,20 +205,15 @@ export default class Statistic  {
         });
 
         document.querySelector('.canvas').addEventListener('mousemove', (e) => {
-            const x = e.pageX - e.target.offsetLeft;
-            const y = e.pageY - e.target.offsetTop;
-            const dayOrdinal = Math.ceil((x - graphMargin) / stepX);
-            const activeDay = minDate.getTime() + (dayOrdinal - 1) * millisecondsPerDay;
-            const cursorOverTheDate = new Date(Number(activeDay));
-            if (activeDay >= data[0].date && activeDay <= new Date().getTime()) {
-                if (statisticAlert.classList.contains('statisticAlert-hidden')) statisticAlert.classList.remove('statisticAlert-hidden');
-                const dateToShow = getDateInString(cursorOverTheDate);
-                const valueToShow = this.getValueToShow(activeDay, data);
-                this.setAlertPosition(e.pageX, e.pageY);
-                this.setAlertValue(statisticAlert, dateToShow, valueToShow);
-            } else {
-                statisticAlert.classList.add('statisticAlert-hidden');
-            }
+            this.showAlert(e, stepX, minDate, data);
+        });
+
+        document.querySelector('.canvas').addEventListener('click', (e) => { //for phones
+            this.showAlert(e, stepX, minDate, data);
+        });
+
+        document.querySelector('.canvas').addEventListener('mouseleave', () => {
+            statisticAlert.classList.add('statisticAlert-hidden');
         });
     }
 
