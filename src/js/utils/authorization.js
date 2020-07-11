@@ -54,26 +54,26 @@ const createUser = async user => {
     }
 };
 
-const checkRegExpAndShowMessage = (email, messageNode, options) => {
+const isMatchedRegEpxAndShowMessage = (email, messageNode, options) => {
     const statement = checkStatementByUsingRegex(email, options.regExp);
     messageNode.innerText = (statement) ? '' : options.errorMessage;
-    return Boolean(statement);
+    return !!statement;
 }
 const checkStatementByUsingRegex = (value, expression) => {
     return value.match(expression);
 }
 
 const isValidEmail = (email, messageNode) => {
-    return checkRegExpAndShowMessage (email, messageNode, mailOptions);
+    return isMatchedRegEpxAndShowMessage (email, messageNode, mailOptions);
 }
 
 const isValidPassword = (password, messageNode) => {
-    return checkRegExpAndShowMessage (password, messageNode, passwordOptions);
+    return isMatchedRegEpxAndShowMessage (password, messageNode, passwordOptions);
 }
 
 const checkConfirmPassword = (password, confirmPassword, messageNode) => {
     messageNode.innerText = (password === confirmPassword) ? '' : confirmPasswordErrorMessage;
-    return !Boolean(messageNode.innerText);
+    return !messageNode.innerText;
 }
 
 const registration = () => {

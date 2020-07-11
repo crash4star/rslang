@@ -22,13 +22,17 @@ function removeMessage(textBlock) {
             counter -= 1;
             textBlock.classList.remove('messageHide');
             textBlock.remove();
-            if (!counter) hideAlertBlock();
+            if (!counter) {
+                hideAlertBlock();
+            }
         }, hideMessageTimeout);
     }, showMessageTimeout);
 }
 
 function showMessage(message, className) {
-    if (!counter) showAlertBlock();
+    if (!counter) {
+        showAlertBlock();
+    }
     counter += 1;
     alertBlock = document.querySelector('.alert');
     container = alertBlock.querySelector('.container');
