@@ -2,7 +2,6 @@ import getData from '../data/statistic';
 import { getMidnight } from '../data/statistic';
 import addElement from '../utils/utils';
 import { getDateInString } from '../utils/utils';
-import fillCanvas from '../utils/fillCanvas';
 import '../../css/statistic.scss';
 
 const dashLength = 10;
@@ -121,6 +120,16 @@ export default class Statistic  {
         return milliseconds / 1000 / 3600 / 24;
     }
 
+    drawRectangle (x0, y0, x1, y1) {
+        while (y0 >= y1) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(x0, y0);
+            this.ctx.lineTo(x1, y0);
+            this.ctx.stroke();
+            y0 -= 1;
+        }
+    }
+
     drawData() {
         const minDate = this.date.options.axisX.min;
         const minValue = this.date.options.axisY.min;
@@ -132,7 +141,6 @@ export default class Statistic  {
             this.ctx.strokeStyle = graphColors[colorIndex];
             const elementFrom = this.date.arrayOfDatesAndValues[i];
             const moveFromX = Math.round(graphMargin + this.getDaysFromMilliseconds(Number(elementFrom.date) - minDate) * this.stepX);
-            const moveFromY = Math.round(this.axisStartY - (elementFrom.value - minValue) * this.stepY);
             let moveToX;
             if (i === this.date.arrayOfDatesAndValues.length - 1) {
                 moveToX = Math.round(graphMargin + this.getDaysFromMilliseconds(Number(getMidnight(Date())) - minDate) * this.stepX + this.stepX);
@@ -140,14 +148,16 @@ export default class Statistic  {
                 const elementTo = this.date.arrayOfDatesAndValues[i + 1];
                 moveToX = Math.round(graphMargin + this.getDaysFromMilliseconds(Number(elementTo.date) - minDate) * this.stepX);
             }
+            const moveToY = Math.round(this.axisStartY - (elementFrom.value - minValue) * this.stepY);
+            
             this.ctx.beginPath();
             this.ctx.moveTo(moveFromX, lastPointY);
-            this.ctx.lineTo(moveFromX, moveFromY);
-            this.ctx.lineTo(moveToX, moveFromY);
-            lastPointY = moveFromY;
+            this.ctx.lineTo(moveFromX, moveToY);
+            this.ctx.lineTo(moveToX, moveToY);
+            lastPointY = moveToY;
             this.ctx.lineTo(moveToX, this.axisStartY);
             this.ctx.stroke();
-            fillCanvas(this.ctx, Math.ceil((moveToX + moveFromX) / 2), Math.ceil((moveFromY + this.axisStartY) / 2), graphColors[colorIndex]);
+            this.drawRectangle(moveFromX, this.axisStartY + 1, moveToX, moveToY);
         }
     }
 
