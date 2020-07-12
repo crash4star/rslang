@@ -1,3 +1,4 @@
+
 class Api {
     constructor(url, errCatch) {
         this.url = url;

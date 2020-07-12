@@ -79,7 +79,7 @@ class Statistic {
     statWordsContaier.append(wrongAnswersContainer);
     statBtnsContainer.append(continueBtn);
     statBtnsContainer.append(onMainPageBtn);
-    this.view.getElement('#root').append(statContainer);
+    this.view.getElement('.root').append(statContainer);
     const right = rightAnswers.length;
     createProgressBar(containerForProgressBar, right, 0.1);
   }
