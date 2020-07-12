@@ -1,5 +1,5 @@
 import '../../css/start_page.scss';
-import addElement from '../utils/utils';
+import addElement, { clearMarkup } from '../utils/utils';
 import { progressiveLearningData, aboutUs, team } from '../data/startPage';
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
@@ -243,6 +243,7 @@ function renderSignIn() {
 }
 
 export default function renderStartPage () {
+    clearMarkup();
     renderHeader();
     renderHero();
     renderProgressive();

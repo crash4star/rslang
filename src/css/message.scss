@@ -18,16 +18,22 @@
     }
 }
 
+.alert.hidden {
+    display: none;
+}
+
 .messageHide{
     animation: hide 1s linear 1 forwards;
 }
 
 @keyframes hide {
     from {
-        opacity:1;
+        opacity: 1;
+        bottom: 0;
     }
 
     to {
-        opacity:0;
+        opacity: 0;
+        bottom: -30px;
     };
 }

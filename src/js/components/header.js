@@ -1,5 +1,6 @@
 import addElement from '../utils/utils';
 import { signOut } from '../utils/authorization';
+import renderStartPage from '../start page/startPage';
 
 const body = document.querySelector('body');
 
@@ -66,6 +67,9 @@ export default function renderHeader () {
             ['src', './img/mainPage/logOut.png'], 
             ['title', 'Log Out']
         );
-        logOut.addEventListener('click', signOut);
+        logOut.addEventListener('click', () => {
+            signOut();
+            renderStartPage();
+        });
     }
 }
