@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import AuthRequest from './AuthRequest';
 
 class ProfileOptions {
     constructor(api) {
         this.api = api;
         this.request = new AuthRequest(this.api);
+=======
+class ProfileOptions {
+    constructor(api, request) {
+        this.api = api;
+        this.request = request;
+>>>>>>> savannah
     }
 
     get optionsData() {
