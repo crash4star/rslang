@@ -1,18 +1,10 @@
-<<<<<<< HEAD
-import AuthRequest from './AuthRequest';
-
-class Statistics {
-    constructor(api) {
-        this.api = api;
-        this.request = new AuthRequest(this.api);
-=======
 import { showErrorMessage } from '../utils/message';
 
 class Statistics {
     constructor(api,request) {
         this.api = api;
         this.request = request;
->>>>>>> savannah
+
     }
 
     get optionsData() {
@@ -27,17 +19,11 @@ class Statistics {
         try {
             return this.request.get(`/users/${this.optionsData.userId}/statistics`);
         } catch (e) {
-<<<<<<< HEAD
-            console.log(e);
-        }
 
-        return 'connection problem';
-=======
             showErrorMessage(e);
         }
 
         return showErrorMessage('connection problem');
->>>>>>> savannah
     }
 
     resetStatistics() {
@@ -76,11 +62,9 @@ class Statistics {
         try {
             return this.request.put(`/users/${this.optionsData.userId}/statistics`, startObject);
         } catch (e) {
-<<<<<<< HEAD
-            console.log(e);
-=======
+
             showErrorMessage(e);
->>>>>>> savannah
+
         }
 
         return [];
