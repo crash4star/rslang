@@ -9,16 +9,18 @@ const passwordOptions = {
     errorMessage: 'Please, check your password - it must contain at least 8 characters, at least one uppercase letter, one uppercase letter, one number and one special character.',
 }
 
+const URL = 'https://afternoon-falls-25894.herokuapp.com';
+
 const confirmPasswordErrorMessage = 'Password mismatch';
 const authorizationErrorMessage = 'Wrong email or password!';
 const loginIsNotFreeMessage = 'Something went wrong. Perhaps the user with this email is already registered!';
 
 const loginUser = async user => {
-    const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/signin', {
+    const rawResponse = await fetch(`${URL}/signin`, {
         method: 'POST',
         headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(user)
     });
@@ -36,7 +38,7 @@ const loginUser = async user => {
 };
 
 const createUser = async user => {
-    const rawResponse = await fetch('https://afternoon-falls-25894.herokuapp.com/users', {
+    const rawResponse = await fetch(`${URL}/users`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
