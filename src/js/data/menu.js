@@ -1,5 +1,6 @@
 import renderMiniGames from '../main page/miniGames';
 import { showErrorMessage, showSuccessMessage } from '../utils/message';
+import mainGame from '../main-game/startLinguist';
 
 const getMenuTemplate = (name, callback) => {
     return {
@@ -17,7 +18,7 @@ const getSuccessMessageTemplate = (section) => {
 }
 
 const menu = [
-    getMenuTemplate ('Main game', () => getErrorMessageTemplate('Main game')),
+    getMenuTemplate ('Main game', () => mainGame()),
     getMenuTemplate('Mini games', () => {
         renderMiniGames();
         getSuccessMessageTemplate('Mini games');

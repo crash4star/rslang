@@ -15,7 +15,7 @@ import {
   LEARNED_MAX,
   CARDS_MAX,
   WORDS_MAX
-} from '../../../utils/CONST';
+} from '../assets/CONST';
 
 const mainSettingsForm = new FormElement('mainSettingsForm');
 mainSettingsForm.addStyles('modal', 'fade');

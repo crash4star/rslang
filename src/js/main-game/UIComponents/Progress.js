@@ -5,13 +5,13 @@ class Progress extends GeneralContainerElement {
   constructor(id, min, max) {
     super('div', id);
     this.progress = new GeneralElement('progress', '');
-    this.maxValue = 2;
-    this.minValue = 10;
+    // this.maxValue = 2;
+    // this.minValue = 10;
     this.min = new GeneralContainerElement('span', '');
 
     this.max = new GeneralContainerElement('span', '');
-    this.setMin(this.minValue);
-    this.setMax(this.maxValue);
+    // this.setMin(this.minValue);
+    // this.setMax(this.maxValue);
     this.addChildren(this.min, this.progress, this.max);
   }
   setMin(value) {

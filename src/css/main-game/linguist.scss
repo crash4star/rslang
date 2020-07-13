@@ -1,1 +1,102 @@
 @import './style-guide.scss';
+@import './swiper-custom.scss';
+
+#start-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#start-game {
+  background-color: $base-gray;
+  width: 400px;
+  padding: 20px;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.none {
+  display: none;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.height20 {
+  height: 20px;
+}
+
+.word-wrapper {
+  position: relative;
+  
+  padding: 0 8px;
+}
+.word-container {
+  
+  position: absolute;
+  z-index: 0;
+  
+  top: 0;
+  left: 0;
+  display: inline-block;
+  width: 100%;
+  background-color: white;
+}
+.word-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: hidden;
+  
+}
+
+.green {
+  color: green;
+}
+.orange {
+  color: orange;
+}
+.red {
+  color: red;
+}
+.z-index10 {
+  z-index: 10;
+}
+
+.z-index0 {
+  z-index: 0;
+}
+
+
+
+.opacity {
+  opacity: 0.4;
+
+}
+
+
+.no-pointer {
+  opacity: 0.5;
+  pointer-events: none;
+}

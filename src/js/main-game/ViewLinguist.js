@@ -1,12 +1,14 @@
-import GeneralContainerElement from '../UIComponents/GeneralContainerElement';
-import ButtonElement from '../UIComponents/ButtonElement';
-import LearningCard from './LearningCard';
-import UserWord from './UserWord';
-import Progress from '../UIComponents/Progress';
+import GeneralContainerElement from './UIComponents/GeneralContainerElement';
+import ButtonElement from './UIComponents/ButtonElement';
+import LearningCard from './LinguistComponents/LearningCard';
+import UserWord from './LinguistComponents/UserWord';
+import Progress from './UIComponents/Progress';
 
 class ViewLinguist {
    constructor(appSettingsForm, appSettingsBtn, cardSettings, cardSettingsBtn, endModal, endBtn) {
-      this.mainContainer = document.querySelector('#container');
+     
+      const main = document.querySelector('.main');
+      this.mainContainer = main.querySelector('.container');
       this.startPage = new GeneralContainerElement('div', 'start-game');
       this.slider = null;
       this.appSettings = appSettingsForm;
@@ -17,7 +19,7 @@ class ViewLinguist {
       this.endBtn = endBtn;
       this.prev = 0;
       this.next = 0;
-      this.progress = new Progress('learn-progress', 10, 20);
+      this.progress = new Progress('learn-progress');
     
    }
 
@@ -316,13 +318,13 @@ bindStudyNow(arrayOfWord, settings, wordHandler, progressHandler) {
       card.getDescendantById('checkWordBtn').getHTML().addEventListener('click', () => {
         card.wordObject.increaseTries();
        
-        card.getDescendantById('checkWordBtn').addStyles('no-pointer');
+        
 
         const error = card.wordElement.checkWord();
         const res = card.wordElement.showCheckedWord(error);
 
         if (res) {
-     
+          card.getDescendantById('checkWordBtn').addStyles('no-pointer');
           this.slider.navigation.nextEl.classList.remove('swiper-button-disabled');
       card.showWordInSentence();
       card.showAfterCheck();
@@ -355,7 +357,7 @@ bindStudyNow(arrayOfWord, settings, wordHandler, progressHandler) {
 }
 
 async nextHandler(settings, getWord, counterHandler, saveHandler, handlerRender, progressHandler, addWordsHandler) {
-  this.slider.childrenList[this.slider.childrenList.length - 1].audio.stop();
+  this.slider.childrenList[this.slider.childrenList.length - 1].getDescendantById('learnAudio').stop();
   
   this.next++;
   
@@ -371,7 +373,7 @@ async nextHandler(settings, getWord, counterHandler, saveHandler, handlerRender,
 
         const notEnd = this.createCard(settings, getWord);
 
-        this.slider.childrenList[this.slider.childrenList.length - 1].audio.stop();
+        this.slider.childrenList[this.slider.childrenList.length - 1].getDescendantById('learnAudio').stop();
 
           const checkedWord = currentSlide.wordObject.getUserWord();
           checkedWord.wordId = currentSlide.wordObject.id;
@@ -415,12 +417,12 @@ renderFinish(cards, newWords, longSetToday, percentage, isFinish) {
 
 renderProgress(min, max) {
   
-  if (min) {
+  //if (min) {
     this.progress.setMin(min);
-  }
-  if (max) {
+ // }
+ // if (max) {
     this.progress.setMax(max);
-  }
+  //}
   
 }
 

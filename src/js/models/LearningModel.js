@@ -1,9 +1,7 @@
-import AuthRequest from './AuthRequest';
-
 class LearningModel {
-    constructor(api) {
+    constructor(api, request) {
         this.api = api;
-        this.request = new AuthRequest(this.api);
+        this.request = request;
     }
 
     get optionsData() {
@@ -127,6 +125,7 @@ class LearningModel {
     }
 
     async startLearningStatistics(defaultStatistics) {
+      
       const URL = `/users/${this.optionsData.userId}/statistics`;
       const res = await this.request.getRawResponse(URL); 
       let statistics;
@@ -175,7 +174,9 @@ class LearningModel {
       localStorage.setItem('lastDate', statistics.optional.linguist.date);
       this.saveStatisticsToLocal(statistics);
       await this.setLearningDate(); 
+      console.log('st', statistics);
       return statistics.optional.linguist.date;
+      
     }
 
     setLearningDate() {
@@ -219,6 +220,7 @@ class LearningModel {
         settings = defaultSettings;
         this.setUserSettings(settings);
       }  
+      console.log('set', settings);
       this.saveSettingsToLocal(settings);
     }
 

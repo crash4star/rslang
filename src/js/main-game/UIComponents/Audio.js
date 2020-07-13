@@ -24,7 +24,9 @@ class Audio extends GeneralContainerElement {
   playAll() {
     if (this.sourceList.length > 0) {
       let i = 0;
-      this.element.src = `./img/sounds/${this.sourceList[i]}`;
+      console.log(this.sourceList);
+      //this.element.src = `./img/sounds/${this.sourceList[i]}`;
+      this.element.src = `https://raw.githubusercontent.com/KateProtasevich/rslang-data/master/${this.sourceList[i]}`;
       this.element.play();
       this.element.addEventListener('ended', () => {
         i += 1;

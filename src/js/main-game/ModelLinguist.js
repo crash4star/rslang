@@ -1,7 +1,7 @@
 class ModelLinguist {
-  constructor(learning, settings, statistics, words) {  
+  constructor(learning, words, settings) {  
     this.learning = learning;
-    this.statistics = statistics;
+    //this.statistics = statistics;
     this.settings = settings;
     this.words = words;
     this.shuffleArray = [];

@@ -185,7 +185,8 @@ class LearningCard extends GeneralContainerElement {
       array.forEach((element) => {
       const key = element.getAttributeValue('data-container');
       if (key === 'image') {
-        element.addAttribute('src', `./img/${wordObj.image}`);
+        element.addAttribute('src', `./img/01_0001.jpg`);
+        //element.addAttribute('src', `https://raw.githubusercontent.com/KateProtasevich/rslang-data/master/${wordObj.image}`);
       } else if (key === 'textMeaning' || key === 'textExample') {
         element.updateHTML(wordObj[key]);
         const sent = this.buildSentence(wordObj[key], this.word);
