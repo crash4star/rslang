@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import AuthRequest from './AuthRequest';
-import Statistics from './Statistics';
-
-class Settings {
-    constructor(api) {
-        this.api = api;
-        this.request = new AuthRequest(this.api);
-=======
 import Statistics from './Statistics';
 import { showErrorMessage } from '../utils/message';
 class Settings {
@@ -14,7 +5,6 @@ class Settings {
         this.api = api;
         this.request = request;
         this.currentStatistic = new Statistics(this.api);
->>>>>>> savannah
     }
 
     get optionsData() {
@@ -29,17 +19,10 @@ class Settings {
         try {
             return this.request.get(`/users/${this.optionsData.userId}/settings`);
         } catch (e) {
-<<<<<<< HEAD
-            console.log(e);
-        }
-
-        return 'connection problem';
-=======
             showErrorMessage(e);
         }
 
         return showErrorMessage('connection problem');
->>>>>>> savannah
     }
 
     resetSettings() {
@@ -57,26 +40,16 @@ class Settings {
             return this.request.put(`/users/${this.optionsData.userId}/settings`,startObject);
 
         } catch (e) {
-<<<<<<< HEAD
-            console.log(e);
-=======
             showErrorMessage(e);
->>>>>>> savannah
         }
 
         return [];
     }
 
     createUserStartObject() {
-<<<<<<< HEAD
-        const currentStatistic = new Statistics(this.api);
-        
-        currentStatistic.getUserStatistics().then(data => {
-=======
         this.currentStatistic.getUserStatistics().then(data => {
->>>>>>> savannah
             if (data.games === undefined) {
-                currentStatistic.resetStatistics();
+                this.currentStatistic.resetStatistics();
                 this.resetSettings();
             }
         });
@@ -90,17 +63,10 @@ class Settings {
             delete currentSettings.id;
             return currentSettings;
         }).then(update => {
-<<<<<<< HEAD
-            this.request.put(URL, update);
-=======
             this.request.get(URL, update);
->>>>>>> savannah
         });
     }
 }
 
-<<<<<<< HEAD
 export default Settings;
-=======
-export default Settings;
->>>>>>> savannah
+
