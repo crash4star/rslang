@@ -1,15 +1,9 @@
 import AuthRequest from './AuthRequest';
 
 class Words {
-<<<<<<< HEAD
-    constructor(api) {
-        this.api = api;
-        this.request = new AuthRequest(this.api);
-=======
     constructor(api, request) {
         this.api = api;
         this.request = request;
->>>>>>> savannah
     }
 
     get optionsData() {

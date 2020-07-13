@@ -7,6 +7,5 @@ const translateKey = 'trnsl.1.1.20200424T185832Z.d9139d176f575004.56a1ccffd47b50
 const translateAPI = 'https://translate.yandex.net/api/v1.5/tr.json/translate?';
 const translateUrl = `${translateAPI}key=${translateKey}`;
 
-
 export default chaptersNumber;
 export {wordsUrl, soundImageUrl, defaultCardImage, gitUrl, translateUrl} ;

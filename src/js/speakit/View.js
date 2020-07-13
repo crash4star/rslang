@@ -1,7 +1,7 @@
-import addElement from '../../utils/utils';
-import { defaultCardImage } from '../data/data';
-import Chapters from '../elements/Chapters';
-import CardsPage from '../elements/CardsPage';
+import addElement from '../utils/utils';
+import { defaultCardImage } from './data/data';
+import Chapters from './elements/Chapters';
+import CardsPage from './elements/CardsPage';
 
 export default class View {
   constructor() {
@@ -72,14 +72,6 @@ export default class View {
     this.renderContent();
   }
 
-  playSound(e) {
-    if (e.target.closest('.speakit-statistic')) {
-        let id = e.target.closest('.speakit-statistic').id;
-        id = parseInt(id, 10);
-        this.cardsPage.playSound(id);
-    }
-  }
-
   returnToGame() {
     this.gamePage.classList.remove('hidden');
     this.statPage.classList.add('hidden');
@@ -95,7 +87,9 @@ export default class View {
     
     this.statPage.addEventListener('click', (e) => {
       if (e.target.closest('.speakit-statistic')){
-        this.playSound(e);
+        let id = e.target.closest('.speakit-statistic').id;
+        id = parseInt(id, 10);
+        this.cardsPage.playSound(id);
       }
     });
 

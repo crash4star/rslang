@@ -34,12 +34,6 @@ export default class CardsPage {
         this.gameButton.addEventListener('click', this.startGame);
     }
 
-    startGame () {
-        this.gameButton.removeEventListener('click', this.startGame);
-        this.gameButton.innerHTML = 'Speak please';
-        this.cardsPage.startGame();
-    }
-
     render () {
         this.cards = addElement('div', this.parent, 'row cards', 'speakit-cards');
         const buttons = addElement('div', this.parent, 'buttons');
@@ -132,6 +126,8 @@ export default class CardsPage {
     }
 
     startGame() {
+        this.gameButton.removeEventListener('click', this.startGame);
+        this.gameButton.innerHTML = 'Speak please';
         this.removeActiveCards();
         this.translation.innerHTML = '';
         console.log ('start game');
@@ -167,7 +163,6 @@ export default class CardsPage {
                     this.showStatistic();
                 };
         });
-        
         recognition.start();
     }
 
