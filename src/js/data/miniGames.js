@@ -1,20 +1,21 @@
 import { showErrorMessage } from '../utils/message';
+import Api from '../models/Api';
 import Words from '../models/Words';
-import Api from '../models/Api'
-import View from '../audio-call/view';
-import Statistic from '../audio-call/components/createStatistic'
+import ControllerApp from '../savannah/ControllerApp';
+import ViewSavannah from '../savannah/ViewSavannah';
+
+const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
+
 
 const getMiniGamesTemplate = (title, description, img, callback) => { //callback must run game
     return {
         title: `${title}`,
         description: `${description}`,
         img: `${img}`,
-        callback: callback,
+        callback: callback
     }
 }
-const rightAnswers = ['fsf', 'fsf','fsf','fsf','fsf','fsf',]
-const wrongAnswers = ['wadas', 'wadas','wadas','wadas',]
-// const stat = new Statistic(new View()).renderStat(rightAnswers, wrongAnswers)
+
 const getErrorMessageTemplate = (gameName) => {
     showErrorMessage(`To start game ${gameName} change call of 'getErrorMessageTemplate' on your function '/data/minigames.js'`);
 }
@@ -22,11 +23,16 @@ const getErrorMessageTemplate = (gameName) => {
 const miniGames = [
     getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => getErrorMessageTemplate('SpeakIt')),
     getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => getErrorMessageTemplate('English Puzzle')),
-    getMiniGamesTemplate('Savannah', 'Description', 'minigame.png', () => getErrorMessageTemplate('Savannah')),
-    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => new Statistic(new View()).renderStat(rightAnswers, wrongAnswers)),
+    getMiniGamesTemplate('Savannah', 'Description', 'minigame.png', () => {
+        const rootBlock = document.querySelector('.root');
+        rootBlock.classList.add('root-active');
+        const app = new ControllerApp(new Words(new Api(BASE_HEROKU)), new ViewSavannah());
+        app.start();
+    }),
+    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => getErrorMessageTemplate('Audio Call')),
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
-// getErrorMessageTemplate('Audio Call'))
+
 export default miniGames;
-export { getErrorMessageTemplate }
+export { getErrorMessageTemplate };
