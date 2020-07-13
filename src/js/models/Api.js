@@ -11,10 +11,8 @@ class Api {
             const data = response.json();
             return data;
         } catch (e) {
-            console.error(e);
+            return showErrorMessage('connection problem');
         }
-
-        return showErrorMessage('connection problem');
     }
 }
 
