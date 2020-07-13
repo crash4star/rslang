@@ -4,7 +4,9 @@ import Chapters from './elements/Chapters';
 import CardsPage from './elements/CardsPage';
 
 export default class View {
-  constructor() {
+  constructor(model) {
+    debugger;
+    this.model = model;
     this.init();
   }
 
@@ -104,9 +106,10 @@ export default class View {
   }
 
   init() {
-    this.root = document.querySelector('#root');
-    this.speakit = addElement('div', root, 'speakit', 'speakit');
-    this.container = addElement('div', speakit, 'container');
+    this.root = document.querySelector('.root');
+    this.root.classList.add('root-active');
+    this.speakit = addElement('div', this.root, 'speakit', 'speakit');
+    this.container = addElement('div', this.speakit, 'container');
     this.renderStartPage();
     this.renderGamePage();
     this.renderStatisticPage();
