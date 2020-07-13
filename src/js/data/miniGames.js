@@ -1,4 +1,5 @@
 import { showErrorMessage } from '../utils/message';
+import Speakit from '../speakit/speakit';
 
 const getMiniGamesTemplate = (title, description, img, callback) => { //callback must run game
     return {
@@ -14,7 +15,7 @@ const getErrorMessageTemplate = (gameName) => {
 }
 
 const miniGames = [
-    getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => getErrorMessageTemplate('SpeakIt')),
+    getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => new Speakit()),
     getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => getErrorMessageTemplate('English Puzzle')),
     getMiniGamesTemplate('Savannah', 'Description', 'minigame.png', () => getErrorMessageTemplate('Savannah')),
     getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => getErrorMessageTemplate('Audio Call')),
