@@ -42,6 +42,7 @@
 #circle-container {
   width: 30%;
   height: 30%;
+  margin-bottom: 20px;
 }
 
 .statProgressBar-WordsContainer {
@@ -115,12 +116,9 @@
   .wrongAnswersHeading {
     font-size: 1.5rem;
   }
-  #circle-container {
-    width: 40%;
-    height: 40%;
-  }
   .progress-text {
     top: 50% !important;
+    font-size: 1.5rem;
   }
 }
 @media (max-width: 780px) {
@@ -141,8 +139,12 @@
     font-size: 1.2rem;
   }
 }
-
-@media (max-width: 430px) {
+@media (max-width: 575px) {
+  .progress-text {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 475px) {
   .stat-container {
     align-items: center;
   }

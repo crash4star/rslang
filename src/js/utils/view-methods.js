@@ -1,6 +1,4 @@
-
-
-class ViewAudioCall {
+class ViewMethods {
   constructor() {
     this.app = this.getElement('#root');
   }
@@ -23,4 +21,4 @@ class ViewAudioCall {
   }
 }
 
-export default ViewAudioCall;
+export default ViewMethods;
