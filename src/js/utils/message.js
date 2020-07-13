@@ -5,23 +5,38 @@ let alertBlock;
 let container;
 const showMessageTimeout = 5000;
 const hideMessageTimeout = 1000;
+let counter = 0;
+
+function showAlertBlock() {
+    document.querySelector('.alert').classList.remove('hidden');
+}
+
+function hideAlertBlock() {
+    document.querySelector('.alert').classList.add('hidden');
+}
 
 function removeMessage(textBlock) {
     setTimeout(() => {
         textBlock.classList.add('messageHide');
         setTimeout(() => {
+            counter -= 1;
             textBlock.classList.remove('messageHide');
-            textBlock.style.display = 'none';
             textBlock.remove();
+            if (!counter) {
+                hideAlertBlock();
+            }
         }, hideMessageTimeout);
     }, showMessageTimeout);
 }
 
 function showMessage(message, className) {
+    if (!counter) {
+        showAlertBlock();
+    }
+    counter += 1;
     alertBlock = document.querySelector('.alert');
     container = alertBlock.querySelector('.container');
     const textBlock = addElement('div', container, `alert-message ${className}`, null, message);
-    alertBlock.style.display = 'block';
     removeMessage(textBlock);
     return textBlock;
 }
