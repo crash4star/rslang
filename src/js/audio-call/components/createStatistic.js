@@ -6,9 +6,13 @@ class Statistic {
   }
 
   renderStat(rightAnswers, wrongAnswers) {
+    const statisticWrapper = this.view.createElement({
+      node: 'div',
+      styleName: 'statistic-wrapper',
+    })
     const statWordsContaier = this.view.createElement({
       node: 'div',
-      styleName: 'statWordsContainer',
+      styleName: 'statProgressBar-WordsContainer',
     });
     const statBtnsContainer = this.view.createElement({
       node: 'div',
@@ -18,13 +22,13 @@ class Statistic {
       node: 'button',
       styleName: 'continueBtn',
     });
-    continueBtn.textContent = 'Continue training';
+    continueBtn.textContent = 'Continue';
 
     const onMainPageBtn = this.view.createElement({
       node: 'button',
       styleName: 'onMainPageBtn ',
     });
-    onMainPageBtn.textContent = 'Go to the main page';
+    onMainPageBtn.textContent = 'Main page';
     const statContainer = this.view.createElement({
       node: 'div',
       styleName: 'stat-container',
@@ -37,11 +41,11 @@ class Statistic {
       node: 'div',
       styleName: 'wrong-answers',
     });
-    const rightAnswersContainerHeading = this.view.createElement({ node: 'h1' });
-    rightAnswersContainerHeading.textContent = 'Right Answers';
+    const rightAnswersContainerHeading = this.view.createElement({ node: 'div', styleName: 'rigthAnswersHeading' });
+    rightAnswersContainerHeading.textContent = 'Right Answers:';
 
-    const wrongAnswersContainerHeading = this.view.createElement({ node: 'h1' });
-    wrongAnswersContainerHeading.textContent = 'Wrong Answers';
+    const wrongAnswersContainerHeading = this.view.createElement({ node: 'div', styleName: 'wrongAnswersHeading' });
+    wrongAnswersContainerHeading.textContent = 'Wrong Answers:';
 
     statWordsContaier.append(rightAnswersContainer);
     statWordsContaier.append(wrongAnswersContainer);
@@ -79,10 +83,10 @@ class Statistic {
     statWordsContaier.append(wrongAnswersContainer);
     statBtnsContainer.append(continueBtn);
     statBtnsContainer.append(onMainPageBtn);
-    this.view.getElement('.root').append(statContainer);
+    statisticWrapper.append(statContainer);
+    this.view.getElement('.root').append(statisticWrapper)
     const right = rightAnswers.length;
     createProgressBar(containerForProgressBar, right, 0.1);
   }
 }
-
 export default Statistic

@@ -12,16 +12,16 @@ function createProgressBar(container, rightAnswers, count) {
     from: { color: '#FF9900', width: 1 },
     to: { color: '#fd823b', width: 12 },
     text: {
-      value: '0',
+
       className: 'progress-text',
       style: {
         color: 'black',
         position: 'absolute',
-        top: '42%',
-        left: '39%',
+        top: '160%',
+        left: '50%',
         padding: 0,
         margin: 0,
-        transform: null,
+        transform: 'translate(-50%,-50%)',
       },
     },
     step: (state, shape) => {

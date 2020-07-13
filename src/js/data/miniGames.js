@@ -4,6 +4,7 @@ import Words from '../models/Words';
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
 
+
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
 
@@ -30,9 +31,10 @@ const miniGames = [
         app.start();
     }),
     getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => getErrorMessageTemplate('Audio Call')),
+
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
-
+// 
 export default miniGames;
 export { getErrorMessageTemplate };

@@ -1,6 +1,6 @@
 
 
-class View {
+class ViewAudioCall {
   constructor() {
     this.app = this.getElement('#root');
   }
@@ -23,4 +23,4 @@ class View {
   }
 }
 
-export default View;
+export default ViewAudioCall;
