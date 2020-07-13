@@ -36,3 +36,4 @@ const miniGames = [
 
 export default miniGames;
 export { getErrorMessageTemplate };
+
