@@ -23,7 +23,6 @@ const cardModalHeader = new GeneralContainerElement('div', 'cardModalHeader');
 cardModalHeader.addHTML('<h5 class="modal-title" id="mainModalLabel">Options</h5>');
 cardModalHeader.addStyles('modal-header');
 
-
 const cardModalBody = new GeneralContainerElement('div', 'cardModalBody');
 cardModalBody.addStyles('modal-body');
 
@@ -54,7 +53,7 @@ showTranscription.addAttribute('data-settings', 'showTranscription');
 const labelTranscription = new LabelElement('labelTranscription', 'Show transcription of word', showTranscription);
 
 fieldOfTips.addChildren(labelTranslateWord, labelExampleSentence, labelExplanationSentence, labelImage, labelTranscription);
-/////////////////////
+
 const fieldAudio = new GeneralContainerElement('fieldset', 'fieldAudio');
 const legendAudio = new GeneralContainerElement('legend', '');
 legendAudio.addHTML('Audio');
@@ -73,7 +72,7 @@ addAudioExplanation.addAttribute('data-settings', 'addAudioExplanation');
 const labelAudioExplanation = new LabelElement('labelAudioExplanation', `Play an explanation of using word pronunciation`, addAudioExplanation);
 
 fieldAudio.addChildren(labelAudioWord, labelAudioExample, labelAudioExplanation);
-/////////////////////
+
 const fieldTranslation = new GeneralContainerElement('fieldset', 'fieldTranslation');
 const legendTranslation = new GeneralContainerElement('legend', '');
 legendTranslation.addHTML('Translation after check');
@@ -92,7 +91,7 @@ showExplanationTranslationAfter.addAttribute('data-settings', 'showExplanationTr
 const labelExplanationTranslationAfter = new LabelElement('labelExplanationTranslationAfter', 'Show an explanation of using word', showExplanationTranslationAfter);
 
 fieldTranslation.addChildren(labelWordTranslationAfter, labelExampleTranslationAfter, labelExplanationTranslationAfter);
-////////////////////
+
 const fieldButtons = new GeneralContainerElement('fieldset', 'fieldButtons');
 const legendButtons = new GeneralContainerElement('legend', '');
 legendButtons.addHTML('Control buttons');
@@ -114,23 +113,8 @@ const addSpecialBtn = new InputFormElement('addSpecialBtn', 'checkbox');
 addSpecialBtn.addAttribute('data-settings', 'addSpecialBtn');
 const labelSpecialBtn = new LabelElement('labelSpecialBtn', `Add "Tick as 'special'" button`, addSpecialBtn);
 
-// const addNoKnowBtn = new InputFormElement('addNoKnowBtn', 'checkbox');
-// addNoKnowBtn.addAttribute('data-settings', 'addNoKnowBtn');
-// const labelNoKnowBtn = new LabelElement('labelNoKnowBtn',` Add "Remove from study" button`, addNoKnowBtn);
-
 fieldButtons.addChildren(labelAnswerBtns, labelIntervalBtns, labelDeleteBtn, labelSpecialBtn);
-//////////////
 
-// const fieldOfOtherOpt = new GeneralContainerElement('fieldset', 'fieldOfOtherOpt');
-// const legendOtherOpt = new GeneralContainerElement('legend', '');
-// legendOtherOpt.addHTML('Other');
-// const easyInterval = new InputFormElement('easyInterval', 'number');
-// easyInterval.addAttribute('data-settings', 'easyInterval');
-// easyInterval.addAttribute('min', '1');
-// const labelEasyInterval = new LabelElement('labelEasyInterval', 'Easy interval', easyInterval, true);
-// labelEasyInterval.addHTML('days');
-
-//fieldOfOtherOpt.addChildren(legendOtherOpt, labelEasyInterval);
 const cardMessage = new GeneralContainerElement('p', 'error-message');
 fieldOfTips.addStyles('flex-column');
 fieldAudio.addStyles('flex-column');
@@ -139,8 +123,6 @@ fieldButtons.addStyles('flex-column');
 cardMessage.addStyles('flex-column');
 
 cardModalBody.addChildren(fieldOfTips, fieldAudio, fieldTranslation, fieldButtons, cardMessage);
-
-
 
 const cardModalFooter = new GeneralContainerElement('div', 'cardModalFooter');
 cardModalFooter.addStyles('modal-footer');

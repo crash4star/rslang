@@ -1,9 +1,6 @@
 import FormElement from '../UIComponents/FormElement';
-import LabelElement from '../UIComponents/LabelElement';
 import GeneralContainerElement from '../UIComponents/GeneralContainerElement';
 import ButtonElement from '../UIComponents/ButtonElement';
-import SelectElement from '../UIComponents/SelectElement';
-import InputFormElement from '../UIComponents/InputFormElement';
 
 const endModal = new FormElement('endModal');
 endModal.addStyles('modal', 'fade');

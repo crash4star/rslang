@@ -36,7 +36,6 @@ const mainModalHeader = new GeneralContainerElement('div', 'mainModalHeader');
 mainModalHeader.addHTML('<h5 class="modal-title" id="mainModalLabel">Options</h5>');
 mainModalHeader.addStyles('modal-header');
 
-
 const mainModalBody = new GeneralContainerElement('div', 'mainModalBody');
 mainModalBody.addStyles('modal-body');
 

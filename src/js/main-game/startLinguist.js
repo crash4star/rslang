@@ -22,10 +22,10 @@ const request = new AuthRequest(api);
 
 const learning = new LearningModel(api, request);
 const words = new Words(api, request);
-const set = new Settings(api, request);
+const settings = new Settings(api, request);
 
-function mainGame() {
-  return new ControllerLinguist(new ViewLinguist(mainSettingsForm, mainSettingsBtn, cardSettingsForm, cardSettingsBtn, endModal, endBtn), new ModelLinguist(learning, words, set));
+function mainGame(wordForTrain) {
+    return new ControllerLinguist(new ViewLinguist(mainSettingsForm, mainSettingsBtn, cardSettingsForm, cardSettingsBtn, endModal, endBtn), new ModelLinguist(learning, words, settings, wordForTrain));
 }
 
 
