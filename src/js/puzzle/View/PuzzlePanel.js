@@ -1,12 +1,12 @@
-// import UIComposite from './UIComposite';
-// import Link from './Link';
-import Container from './Container';
-// import Button from './Button';
-// import Image from './Image';
-// import Svg from './Svg';
-// import InputField from './InputField';
-import Paragraph from './Paragraph';
-// import Select from './Select';
+// import UIComposite from './components/UIComposite';
+// import Link from './components/Link';
+import Container from './components/Container';
+// import Button from './components/Button';
+// import Image from './components/Image';
+// import Svg from './components/Svg';
+// import InputField from './components/InputField';
+import Paragraph from './components/Paragraph';
+// import Select from './components/Select';
 
 class PuzzlePanel extends Container {
   constructor(id = 'puzzle-panel', styles = 'puzzle-panel') {

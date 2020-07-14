@@ -1,5 +1,5 @@
 // import Utils from './Utils';
-import Image from './Image';
+import Image from './components/Image';
 // import Paragraph from './Paragraph';
 
 class View {
