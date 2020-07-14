@@ -1,7 +1,7 @@
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
 import renderMenu from './menu';
-import renderSettings from './settings';
+import GlobalSettings from './GlobalSettings';
 import addElement from '../utils/utils';
 import { clearMarkup } from '../utils/utils';
 import '../../css/main_page.scss';
@@ -24,6 +24,10 @@ function removeContent() {
     const main = document.querySelector('.main');
     main.querySelector('.container').innerHTML = '';
     document.querySelector('.root').innerHTML = '';
+}
+
+function renderSettings() {
+    return new GlobalSettings();
 }
 
 export default function renderMainPage() {
