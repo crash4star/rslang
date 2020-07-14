@@ -12,8 +12,6 @@ class LearningCard extends GeneralContainerElement {
         this.setObject = setObj;
         this.word = this.wordProp.word;
         this.wordElement = new LearningWord(this.word);
-        this.wordExampleElement = null;
-        this.wordMeaningElement = null;
         
         this.buildCard(this.setObject);
         this.fillInCard(this.wordProp); 
@@ -46,9 +44,9 @@ class LearningCard extends GeneralContainerElement {
         const BtnContainer = new GeneralContainerElement('div', '');
         const checkBtn = new ButtonElement('checkWordBtn', 'Check');
         checkBtn.addStyles('btn', 'btn-primary');
-        const repeatAudio = new ButtonElement('repeatAudio', 'Repeat');
+        const repeatAudio = new ButtonElement('repeatAudio', ' ');
         const audio = new Audio('learnAudio');
-        repeatAudio.addStyles('none', 'no-pointer', 'btn', 'btn-secondary');
+        repeatAudio.addStyles('none', 'no-pointer', 'btn', 'btn-secondary', 'speaker-btn');
         faceSide.addChildren(imageContainer, wordContainer, BtnContainer);
         BtnContainer.addStyles('check-container');
         BtnContainer.addChildren(repeatAudio, audio);
@@ -206,13 +204,10 @@ class LearningCard extends GeneralContainerElement {
                 exampleBefore.updateHTML(sent.before);
                 const exampleAfter = new GeneralContainerElement('span', '');
                 exampleAfter.updateHTML(sent.after);
-                let word;
                 if (key === 'textMeaning')  {
                     this.wordMeaningElement = sent;
-                    word = this.wordMeaningElement;
                 } else {
                     this.wordExampleElement = sent;
-                    word = this.wordExampleElement;
                 } 
             } else {
                 element.updateHTML(wordObj[key]);
@@ -220,7 +215,7 @@ class LearningCard extends GeneralContainerElement {
         });   
     }
 
-    showWordInSentence(element) { 
+    showWordInSentence() { 
         const array = this.getDescendantsByAttribute('data-container');
         if (array.length > 0) {
             array.forEach((element) => {

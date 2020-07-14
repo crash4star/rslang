@@ -46,7 +46,7 @@ class LearningWord extends GeneralContainerElement {
         if (result.length > 0) {
             this.wordContainer.getHTML().innerText = '';
             this.wordContainer.childrenList = [];
-            this.word.split('').forEach((item, index) => {
+            this.word.split('').forEach((item) => {
                 const char = new GeneralContainerElement('span', '');
                 char.getHTML().style.color = 'green';
                 char.getHTML().innerText = item;
@@ -67,9 +67,8 @@ class LearningWord extends GeneralContainerElement {
             }, 500);
 
            return false;
-        } else {
-            return true;
-        }  
+        }
+        return true;  
     }
 
     showWord() {

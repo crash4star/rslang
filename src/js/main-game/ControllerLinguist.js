@@ -1,6 +1,7 @@
 import UserWord from './LinguistComponents/UserWord';
 import defaultLearningSettings from './assets/defaultLearningSettings';
 import defaultLearningStatistics from './assets/defaultLearningStatistics';
+import mainGame from './startLinguist';
 import {
     MINUTES_INTERVAL,
     HOURS_INTERVAL,
@@ -16,7 +17,7 @@ class ControllerLinguist {
     }
 
     async start() { 
-        const date = await this.model.learning.startLearningStatistics(defaultLearningStatistics);
+        await this.model.learning.startLearningStatistics(defaultLearningStatistics);
         await this.model.learning.startLearningSettings(defaultLearningSettings);
         this.view.start();
         this.view.bindWindow(this.countWords(), this.countCards(), this.getLastDate());
@@ -32,13 +33,12 @@ class ControllerLinguist {
         this.view.bindSaveCardOpt(this.checkCardOptionsForm, this.analyzeCardOptionsForm.bind(this));
 
         this.view.bindNextSlide(this.model.learning.getSettingsFromLocal, this.getNextWordFromLocal.bind(this), this.countSaveStudyResult.bind(this), this.model.words.upsertUserWord.bind(this.model.words), this.renderFinishCallback.bind(this), this.renderProgressCallback.bind(this), this.addWords.bind(this));
+
+        this.view.bindRestart(mainGame);
     }
 
     addWords() {
         if(this.model.repeatWords.length > 0) {
-            const currentTime = Date.now();
-            const againInterval = MINUTES_INTERVAL;
-            const date = this.model.repeatWords[0].optional.date;
             const word = this.model.repeatWords.shift();
             this.model.shuffleArray.unshift(new UserWord(word, true));
         }
@@ -89,8 +89,8 @@ class ControllerLinguist {
         return this.model.learning.getStringDate(date);
     }
 
-    checkMainOptionsForm(newWordsNumber, maxCardsNumber, mode) {
-        if (parseInt(newWordsNumber) > parseInt(maxCardsNumber)) { 
+    checkMainOptionsForm(newWordsNumber, maxCardsNumber) {
+        if (parseInt(newWordsNumber, 10) > parseInt(maxCardsNumber, 10)) { 
           return 'Number of cards should be more then number of new words';
         }
         return '';
@@ -127,7 +127,7 @@ class ControllerLinguist {
 
     async getWordArray(newWords, cards, mode) {
         let numberOfNewWords = newWords;
-        let numberOfCards = cards;
+        const numberOfCards = cards;
         let numberOfLearnedWords = 0;
         let learnedArray = [];
         let newArray = [];
@@ -137,7 +137,7 @@ class ControllerLinguist {
         if (this.groupForTrain) {
             mix = learnedArrayFull.filter((item) => item.optional.special === this.groupForTrain);
             if (mix.length === 0) {
-                this.view.renderStartPage(null, null, null, `You don't have any words in "${newArrayOfGroup.length}" group`, 'error-message');
+                this.view.renderStartPage(null, null, null, `You don't have any words in "${this.groupForTrain}" group`, 'error-message');
                 return false;
             }
         } else {
@@ -187,7 +187,7 @@ class ControllerLinguist {
             mix = [...newArray, ...learnedArray];
         }
         
-        let shuffleArray = []; 
+        const shuffleArray = []; 
         this.shuffle(mix.length).forEach((item) => {
             const elem = new UserWord(mix[item], true);
             shuffleArray.push(elem);
@@ -215,7 +215,7 @@ class ControllerLinguist {
 
     shuffle(n) {
         const numPool = [];
-        for (let index = 0; index < n; index++) {
+        for (let index = 0; index < n; index += 1) {
             numPool.push(index);
         }
         for (
@@ -235,7 +235,7 @@ class ControllerLinguist {
       wordsArray.forEach((item) => {
           if (item.optional.important === true) {
               importantArray.push(item);
-          } else if(item.optional.hasOwnProperty('rating')) {
+          } else if(item.optional.hasOwnProperty('interval')) {
               repeatArray.push(item);
           } else {
               zeroArray.push(item);
@@ -255,19 +255,19 @@ class ControllerLinguist {
       return array.filter((item) => {
           const date = item.optional.date;
           let interval;
-          if (item.optional.rating === 1) {
+          if (item.optional.interval === 1) {
               interval = againInterval;
           }
-          if (item.optional.rating === 2) {
+          if (item.optional.interval === 2) {
               interval = hardInterval;
           }
-          if (item.optional.rating === 3) {
+          if (item.optional.interval === 3) {
               interval = goodInterval;
           }
-          if (item.optional.rating === 4) {
+          if (item.optional.interval === 4) {
               interval = easyInterval;
           }
-          if (item.optional.rating === 5) {
+          if (item.optional.interval === 5) {
               interval = learnedInterval;
           }
           if ((date + interval) <= currentTime) {
@@ -349,7 +349,7 @@ class ControllerLinguist {
             await this.model.learning.saveRightSet(false);
         }
         
-        if (wordObj.optional.currentError !== 0 || wordObj.optional.isKnown === false) {
+        if (wordObj.optional.currentError !== 0 || wordObj.optional.isKnown === false || wordObj.optional.interval === 1) {
             wordObj.optional.date = Date.now();
             wordObj.learnedAgain = true;
             this.model.repeatWords.push(wordObj);

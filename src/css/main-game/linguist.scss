@@ -142,3 +142,11 @@
 .message {
     color: $base-purple;
 }
+
+.speaker-btn {
+  background: $focus-red url('../img/common/speaker-icon.png') no-repeat;
+  background-size: contain;
+  width: 50px;
+  height: 38px;
+  background-position: center;
+}

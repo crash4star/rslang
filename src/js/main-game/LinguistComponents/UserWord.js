@@ -44,6 +44,7 @@ class UserWord {
         userWord.optional.isKnown = this.isKnown;
         userWord.optional.important = this.important;
         userWord.optional.isForgotten = this.isForgotten;
+        userWord.optional.interval = this.setIntervalNumber();
         return userWord;
     }
 
@@ -83,6 +84,24 @@ class UserWord {
             return false;
         } 
         return obj.optional.learnedAgain;
+    }
+
+    setIntervalNumber() {
+        const anki = this.ratingAnki(this.difficulty);
+        const known = this.ratingKnown(this.isKnown);
+        const error = this.ratingError(this.error, this.currentError, this.tries, this.total); 
+        if (anki) {
+            return anki;
+        }
+        if (error > 0) {
+            return error;
+        }
+        if (known) {
+            return known;
+        }
+        if (this.setLearned() !== false) {
+            return 5;
+        }
     }
 
     setRating() {
@@ -147,20 +166,20 @@ class UserWord {
               return 1;
             } 
             return obj.optional.total + 1;
-        } else {
-            if (this.isNew(obj)) {
-                return 0;
-            } 
-            return obj.optional.total;
-        }
+        } 
+        if (this.isNew(obj)) {
+            return 0;
+        } 
+        return obj.optional.total;
+       
     }
 
     getDifficulty(obj) {
         if (this.isStudy) {
             return 'none';
-        } else {
-            return obj.difficulty;
         }
+        return obj.difficulty;
+  
     }
 
     increaseTries() {
@@ -184,12 +203,12 @@ class UserWord {
     getImportant(obj) {
         if (this.isStudy) {
             return false;
-        } else {
-            if (this.isNew(obj)) {
-                return false;
-            }
-            return obj.optional.important;
         }
+        if (this.isNew(obj)) {
+            return false;
+        }
+        return obj.optional.important;
+        
     }
 
     setIntervalValue(value) {
@@ -199,12 +218,12 @@ class UserWord {
     getDate(obj) {
         if (this.isStudy) { 
             return Date.now();
-        } else {
-            if (this.isNew(obj)) {
-                return 0;
-            } 
-            return obj.optional.date;
         } 
+        if (this.isNew(obj)) {
+            return 0;
+        } 
+        return obj.optional.date;
+        
     }
 
     getKnown(obj) {

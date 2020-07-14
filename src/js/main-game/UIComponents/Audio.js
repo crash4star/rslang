@@ -7,6 +7,7 @@ class Audio extends GeneralContainerElement {
         this.keys = [];
         this.sourceList = [];
     }
+    
     addKeys(...rest) {
         rest.forEach((item) => {
             this.keys.push(item);

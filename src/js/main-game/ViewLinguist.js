@@ -358,6 +358,14 @@ class ViewLinguist {
         }
     }
 
+    bindRestart(restartHandler) {
+        this.endModal.getDescendantById('restartBtn').getHTML().addEventListener('click', () => {
+          this.endModal.getDescendantById('finishBtn').getHTML().click();
+          restartHandler();
+          
+        });
+    }
+
     renderFinish(cards, newWords, longSetToday, percentage, isFinish) {
         this.endModal.getDescendantById('cardsPassed').updateHTML(cards);
         this.endModal.getDescendantById('wordsPassed').updateHTML(newWords);
