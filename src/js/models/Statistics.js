@@ -20,7 +20,6 @@ class Statistics {
         } catch (e) {
             showErrorMessage(e);
         }
-
         return showErrorMessage('connection problem');
     }
 

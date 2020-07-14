@@ -49,7 +49,7 @@ class Settings {
     createUserStartObject() {
         this.currentStatistic.getUserStatistics().then(data => {
             if (data.games === undefined) {
-                currentStatistic.resetStatistics();
+                this.currentStatistic.resetStatistics();
                 this.resetSettings();
             }
         });

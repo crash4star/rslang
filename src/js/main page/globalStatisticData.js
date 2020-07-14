@@ -1,11 +1,5 @@
-import { getDateInString } from '../utils/utils';
-
-
-const minDate = new Date (2020, 6, 1);
-const maxDate = new Date ();
 const minWords = 0;
-const maxWords = 3600;
-const amountOfData = 8;
+const maxDate = new Date();
 
 const getMidnight = (dateInMilliseconds) => {
     const date = new Date(dateInMilliseconds);
@@ -41,32 +35,39 @@ const getDatesWithValues = (dateInMilliseconds, valuesArray) => {
     }
 }
 
-const generateData = () => {
-    const datesArray = getArray(true, amountOfData, minDate.getTime(), maxDate.getTime());
-    const valuesArray = getArray(false, amountOfData, minWords, maxWords);
+const createArrayOfDatesAndValues = (datesArray, valuesArray) => {
     const data = [];
-    for (let i = 0; i < amountOfData; i+= 1) {
+    for (let i = 0; i < datesArray.length; i+= 1) {
         data.push(getDatesWithValues(datesArray[i], valuesArray[i]));
     }
     return data;
 }
 
-const createDateObject = (data) => {
-    debugger;
+const getData = (data) => {
+    const dates = Object.keys(data).map(el => new Date(el).getTime());
+    let values = Object.values(data);
+    console.log(values);
+    let accumulator = 0;
+    for (let i = 0; i < values.length; i += 1) {
+        accumulator += values[i];
+        values[i] = accumulator;
+    }
+    console.log(values);
+    return createArrayOfDatesAndValues(dates, values);
 }
 
-const getData = () => {   
-    const data = generateData();
+const createDateObject = (data) => {  
+    const datesWithValues = getData(data);
     return {
-        'arrayOfDatesAndValues': data,
+        'arrayOfDatesAndValues': datesWithValues,
         'options': {
             'axisX': {
-                'min': new Date(Number(data[0].date)),
+                'min': datesWithValues[0].date,
                 'max': maxDate,
             },
             'axisY' : {
                 'min': minWords,
-                'max': maxWords,
+                'max': datesWithValues[datesWithValues.length - 1].value,
             }
         }
     }
