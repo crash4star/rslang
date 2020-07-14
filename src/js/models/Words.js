@@ -1,20 +1,53 @@
-
 import { showErrorMessage } from '../utils/message';
 
-class Api {
-    constructor(url) {
-        this.url = url;
+class Words {
+    constructor(api, request) {
+        this.api = api;
+        this.request = request;
+
     }
 
-    async getRequest(path) {
+    get optionsData() {
+        return {
+            url: this.api.url,
+            token: localStorage.getItem('token'),
+            userId: localStorage.getItem('userId')
+        };
+    }
+
+    getWords(difficult, page) {
         try {
-            const response = await fetch(`${this.url}${path}`);
-            const data = response.json();
-            return data;
+            return this.api.getRequest(`/words?page=${page}&group=${difficult}`);
+
         } catch (e) {
-            return showErrorMessage('connection problem');
+            return showErrorMessage(e);
+        }
+    }
+
+    getWordsDetails(word) {
+        try {
+            return this.api.getRequest(`/api/public/v1/words/search?search=${word}`);
+        } catch (e) {
+            return showErrorMessage(e);
+        }
+    }
+
+    getUserWords() {
+        try {
+            return this.request.get(`/users/${this.optionsData.userId}/words`);
+        } catch (e) {
+            return showErrorMessage(e);
+        }
+    }  
+
+    createUserWord(wordId, word) {
+        try {
+            return this.request.post(`/users/${this.optionsData.userId}/words/${wordId}`, word);
+            
+        } catch (e) {
+            return showErrorMessage(e);
         }
     }
 }
 
-export default Api;
+export default Words;
