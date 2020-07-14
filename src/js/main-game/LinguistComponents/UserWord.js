@@ -87,21 +87,19 @@ class UserWord {
     }
 
     setIntervalNumber() {
+        if (this.deleted) {
+            return 0;
+        }
         const anki = this.ratingAnki(this.difficulty);
-        const known = this.ratingKnown(this.isKnown);
+        const known = UserWord.ratingKnown(this.isKnown);
         const error = this.ratingError(this.error, this.currentError, this.tries, this.total); 
         if (anki) {
             return anki;
         }
-        if (error > 0) {
-            return error;
-        }
         if (known) {
             return known;
         }
-        if (this.setLearned() !== false) {
-            return 5;
-        }
+        return error;
     }
 
     setRating() {
@@ -109,7 +107,7 @@ class UserWord {
             return 5;
         } 
         const anki = this.ratingAnki(this.difficulty);
-        const known = this.ratingKnown(this.isKnown);
+        const known = UserWord.ratingKnown(this.isKnown);
         if (anki) {
             return anki;
         }
@@ -119,7 +117,7 @@ class UserWord {
         return this.ratingError(this.error, this.currentError, this.tries, this.total); 
     }
 
-    ratingKnown(isKnown) {
+    static ratingKnown(isKnown) {
         if (isKnown === false) {
             return 1;
         }
@@ -142,6 +140,7 @@ class UserWord {
     ratingError(error, currentError, tries, total) {
         const errors = ((error + currentError) * 0.5 * tries) / total;
         switch (true) {
+            case errors === 0: return 5; 
             case errors <= 1: return 4; 
             case errors > 1 && errors <= 2: return 3; 
             case errors > 2 && errors <= 4: return 2; 

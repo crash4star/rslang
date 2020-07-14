@@ -17,7 +17,7 @@ class LearningCard extends GeneralContainerElement {
         this.fillInCard(this.wordProp); 
     }
 
-    buildSentence(sentence, word) {
+    static buildSentence(sentence, word) {
         const pattern = new RegExp(word, 'i');
         const pattern2 = /<([^<>])+>/;
         const newWord = sentence.match(pattern);
@@ -197,7 +197,7 @@ class LearningCard extends GeneralContainerElement {
                 element.addAttribute('src', `https://raw.githubusercontent.com/KateProtasevich/rslang-data/master/${wordObj.image}`);
             } else if (key === 'textMeaning' || key === 'textExample') {
                 element.updateHTML(wordObj[key]);
-                const sent = this.buildSentence(wordObj[key], this.word);
+                const sent = LearningCard.buildSentence(wordObj[key], this.word);
                 const el = element.getHTML().querySelector(sent.tag);
                 el.innerText = '[...]';
                 const exampleBefore = new GeneralContainerElement('span', '');

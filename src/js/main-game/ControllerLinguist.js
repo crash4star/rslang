@@ -31,7 +31,7 @@ class ControllerLinguist {
 
         this.view.bindRenderCardOpt(this.model.learning.getLinguistSettingsFromLocal.bind(this.model.learning));
 
-        this.view.bindSaveCardOpt(this.checkCardOptionsForm, this.analyzeCardOptionsForm.bind(this));
+        this.view.bindSaveCardOpt(ControllerLinguist.checkCardOptionsForm, this.analyzeCardOptionsForm.bind(this));
 
         this.view.bindNextSlide(this.model.learning.getSettingsFromLocal, this.getNextWordFromLocal.bind(this), this.countSaveStudyResult.bind(this), this.model.words.upsertUserWord.bind(this.model.words), this.renderFinishCallback.bind(this), this.renderProgressCallback.bind(this), this.addWords.bind(this));
 
@@ -223,11 +223,14 @@ class ControllerLinguist {
           if (item.optional.important === true) {
               importantArray.push(item);
           } else if(item.optional.hasOwnProperty('interval')) {
-              repeatArray.push(item);
+                if (item.optional.interval > 0) {
+                    repeatArray.push(item);   
+                } 
           } else {
               zeroArray.push(item);
           } 
       });
+      console.log('repeatArray', repeatArray);
       const repeatNowArray = this.getReadyToRepeatWords(repeatArray);
       return [...repeatNowArray, ...importantArray, ...zeroArray];
   }
@@ -278,7 +281,7 @@ class ControllerLinguist {
         return false;
     }
 
-    checkCardOptionsForm(list) {
+    static checkCardOptionsForm(list) {
         const checked = list.filter((item) => item.getValue() === true);
         if (checked.length === 0) {
             return 'Choose at least one of the tips';
@@ -306,7 +309,7 @@ class ControllerLinguist {
             let cardNumber = 0;
             const todayCards = this.model.learning.getStatisticsObjectFromLocal('cardToday');
             const maxCards = this.model.learning.getLearnSettingsFromLocal('maxCardsPerDay');
-            const repeatsToday = this.model.learning.getLearnSettingsFromLocal('repeatToday');
+            let repeatsToday = this.model.learning.getLearnSettingsFromLocal('repeatToday');
             if (maxCards - todayCards === 0) {
                 return false;
             }
