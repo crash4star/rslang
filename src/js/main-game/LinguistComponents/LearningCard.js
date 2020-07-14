@@ -45,8 +45,9 @@ class LearningCard extends GeneralContainerElement {
         const checkBtn = new ButtonElement('checkWordBtn', 'Check');
         checkBtn.addStyles('btn', 'btn-primary');
         const repeatAudio = new ButtonElement('repeatAudio', ' ');
-        const audio = new Audio('learnAudio');
-        repeatAudio.addStyles('none', 'no-pointer', 'btn', 'btn-secondary', 'speaker-btn');
+        
+        repeatAudio.addStyles('none', 'no-pointer', 'btn', 'speaker-btn'); 
+        const audio = new Audio('learnAudio', '', repeatAudio, 'speaker-out-btn');
         faceSide.addChildren(imageContainer, wordContainer, BtnContainer);
         BtnContainer.addStyles('check-container');
         BtnContainer.addChildren(repeatAudio, audio);

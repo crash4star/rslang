@@ -253,9 +253,20 @@ class ViewLinguist {
 
     addCard(settings, word) {
         const card = new LearningCard(word, settings);
-        card.getDescendantById('repeatAudio').getHTML().addEventListener('click', () => {
-            card.getDescendantById('learnAudio').playAll();
-        });
+        // card.getDescendantById('repeatAudio').getHTML().addEventListener('click', (event) => {
+        //     if (event.target.classList.contains('speaker-on-btn')) {
+        //         card.getDescendantById('learnAudio').playAll();
+        //         event.target.classList.remove('speaker-on-btn');
+        //         event.target.classList.add('speaker-out-btn');
+        //     } else {
+        //         card.getDescendantById('learnAudio').stop();
+        //         event.target.classList.add('speaker-on-btn');
+        //         event.target.classList.remove('speaker-out-btn');
+        //     }
+            
+          
+            
+        // });
         
         card.getDescendantById('knowBtn').getHTML().addEventListener('click', () => {
             card.wordObject.isKnown = true;
