@@ -137,11 +137,24 @@ class ControllerLinguist {
         const learnedArrayFull = await this.model.words.getUserWords();
         const level = await this.model.settings.getUserDifficultySettings(); 
         if (this.groupForTrain) {
-            mix = learnedArrayFull.filter((item) => item.optional.special === this.groupForTrain);
-            if (mix.length === 0) {
-                this.view.renderStartPage(null, null, null, `You don't have any words in "${this.groupForTrain}" group`, 'error-message');
+            if (this.groupForTrain === 21) {
+               hardArray = learnedArrayFull.filter((item) => item.optional.interval === 1 || item.optional.interval === 2);
+               if (hardArray.length === 0) {
+                this.view.renderStartPage(null, null, null, `You don't have hard words`, 'error-message');
                 return false;
             }
+          
+            mix = specialArray.slice(0, Math.min(numberOfCards, specialArray.length));
+            } else {
+                specialArray = learnedArrayFull.filter((item) => item.optional.special === this.groupForTrain);
+                if (specialArray.length === 0) {
+                    this.view.renderStartPage(null, null, null, `You don't have any words in "${this.groupForTrain}" group`, 'error-message');
+                    return false;
+                }
+              
+                mix = specialArray.slice(0, Math.min(numberOfCards, specialArray.length));
+            }
+            
         } else {
             if (cards === 0 ) {
                 this.view.renderStartPage(null, null, null, `You don't have cards`, 'error-message');
@@ -175,7 +188,7 @@ class ControllerLinguist {
                     }
                 } else {
                     if (repeatWordsNumber === 0) {
-                        this.view.renderStartPage(null, null, null, "You don't have words to repeat!", 'error-message');
+                        this.view.renderStartPage(null, null, null, "You don't have words to repeat in this time!", 'error-message');
                         return false;
                     }
                     if (repeatWordsNumber >= cards) {
@@ -230,7 +243,7 @@ class ControllerLinguist {
               zeroArray.push(item);
           } 
       });
-      console.log('repeatArray', repeatArray);
+
       const repeatNowArray = this.getReadyToRepeatWords(repeatArray);
       return [...repeatNowArray, ...importantArray, ...zeroArray];
   }

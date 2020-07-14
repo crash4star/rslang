@@ -237,7 +237,7 @@ class UserWord {
 
     getSpecial(obj) {
         if (this.isNew(obj)) {
-            return 'none';
+            return false;
         } 
         return obj.optional.special;
     }
