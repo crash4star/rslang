@@ -1,0 +1,39 @@
+@import './style-guide.scss';
+
+.alert {
+    width: 90%;
+    padding: 10px 15px;
+    position: fixed;
+    bottom:0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 2;
+    background-color: rgba($base-gray, 1);
+    color: black;
+    text-shadow: none;
+    margin-bottom: 0;
+
+    &-message {
+        padding: 10px 20px;
+    }
+}
+
+.alert.hidden {
+    display: none;
+}
+
+.messageHide{
+    animation: hide 1s linear 1 forwards;
+}
+
+@keyframes hide {
+    from {
+        opacity: 1;
+        bottom: 0;
+    }
+
+    to {
+        opacity: 0;
+        bottom: -30px;
+    };
+}
