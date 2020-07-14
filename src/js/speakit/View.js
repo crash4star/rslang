@@ -1,3 +1,4 @@
+import '../../css/speakit/speakit.scss';
 import addElement from '../utils/utils';
 import { defaultCardImage } from './data/data';
 import Chapters from './elements/Chapters';
