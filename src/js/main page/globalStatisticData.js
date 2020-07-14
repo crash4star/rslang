@@ -1,5 +1,6 @@
 import { getDateInString } from '../utils/utils';
 
+
 const minDate = new Date (2020, 6, 1);
 const maxDate = new Date ();
 const minWords = 0;
@@ -50,6 +51,10 @@ const generateData = () => {
     return data;
 }
 
+const createDateObject = (data) => {
+    debugger;
+}
+
 const getData = () => {   
     const data = generateData();
     return {
@@ -67,5 +72,5 @@ const getData = () => {
     }
 }
 
-export default getData;
+export default createDateObject;
 export { getMidnight };

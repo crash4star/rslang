@@ -1,7 +1,12 @@
-import getData from '../data/statistic';
-import { getMidnight } from '../data/statistic';
+import createDateObject from './globalStatistic';
+import { getMidnight } from './globalStatistic';
 import addElement from '../utils/utils';
 import { getDateInString } from '../utils/utils';
+
+import { BASE_HEROKU } from '../data/miniGames';
+import Api from '../models/Api';
+import AuthRequest from '../models/AuthRequest';
+import Words from '../models/Words';
 import '../../css/statistic.scss';
 
 const dashLength = 10;
@@ -13,14 +18,10 @@ const baseBlackColor = '#2F281E';
 const graphColors = ['#c51b20', '#4d89f7'];
     
 
-export default class Statistic  {
+export default class GlobalStatistic  {
     constructor () {
         this.canvasParameters = {};
-        this.date = getData();
-        this.date.options.axisX.min = new Date(this.date.options.axisX.min.getTime() - millisecondsPerDay);
-        this.date.options.axisX.max = new Date(this.date.options.axisX.max.getTime() + millisecondsPerDay * 2);
         this.init();
-        this.drawGraph();
     }
 
     calculateAmountOfDaysDescriptions() {
@@ -48,7 +49,7 @@ export default class Statistic  {
         return this.date.options.axisY.max - this.date.options.axisY.min;;
     }
 
-    init() {
+    renderGraph() {
         const main = document.querySelector('.main');
         const container = main.querySelector('.container');
         const wrapper = addElement('div', container, 'wrapper');
@@ -66,6 +67,19 @@ export default class Statistic  {
         this.stepX = (this.canvasParameters.width - graphMargin * 2) / this.getAmountOfDays();
         this.stepY = (this.axisStartY - graphMargin) / this.getAmountOfWords();
 
+    }
+    
+    async init () {
+        this.api = new Api(BASE_HEROKU);
+        this.authRequest = new AuthRequest(this.api);
+        this.statistic = new Words(this.api, this.authRequest);
+        // !
+        // this.date.options.axisX.min = new Date(this.date.options.axisX.min.getTime() - millisecondsPerDay);
+        // this.date.options.axisX.max = new Date(this.date.options.axisX.max.getTime() + millisecondsPerDay * 2);
+
+        await this.statistic.getUserStatistics()
+        .then(data => createDateObject(data))
+        .then(() => this.renderGraph());
     }
 
     setCanvasParameters () {
