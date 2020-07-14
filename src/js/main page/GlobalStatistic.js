@@ -72,12 +72,12 @@ export default class GlobalStatistic  {
     async init () {
         this.api = new Api(BASE_HEROKU);
         this.authRequest = new AuthRequest(this.api);
-        this.statistic = new Words(this.api, this.authRequest);
+        this.words = new Words(this.api, this.authRequest);
         // !
         // this.date.options.axisX.min = new Date(this.date.options.axisX.min.getTime() - millisecondsPerDay);
         // this.date.options.axisX.max = new Date(this.date.options.axisX.max.getTime() + millisecondsPerDay * 2);
 
-        await this.statistic.getUserStatistics()
+        await this.words.getUserWords()
         .then(data => createDateObject(data))
         .then(() => this.renderGraph());
     }
