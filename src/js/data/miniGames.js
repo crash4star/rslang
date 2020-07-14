@@ -3,7 +3,9 @@ import Api from '../models/Api';
 import Words from '../models/Words';
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
-
+import AudioCallControllerApp from '../audio-call/audio-call.ControllerApp'
+import AudioCallView from '../audio-call/audio-call.View'
+import ViewMethods from '../utils/view-methods'
 
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
@@ -30,7 +32,17 @@ const miniGames = [
         const app = new ControllerApp(new Words(new Api(BASE_HEROKU)), new ViewSavannah());
         app.start();
     }),
-    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => getErrorMessageTemplate('Audio Call')),
+    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => {
+        const rootBlock = document.querySelector('.root');
+        rootBlock.classList.add('root-active');
+        const app = new AudioCallControllerApp(new Words(new Api(BASE_HEROKU)), new AudioCallView(new ViewMethods()), new ViewMethods())
+        new AudioCallView(new ViewMethods()).createStartPage()
+        const startBtn = document.querySelector('.startBtn')
+        startBtn.onclick = () => {
+            document.querySelector('.wrapperForStartPage').remove()
+            app.start();
+        }
+    }),
 
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
