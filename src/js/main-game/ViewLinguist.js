@@ -9,7 +9,7 @@ class ViewLinguist {
         const main = document.querySelector('.main');
         this.mainContainer = main.querySelector('.container');
         this.startPage = new GeneralContainerElement('div', 'start-game');
-        this.slider = null;
+        //this.slider = null;
         this.appSettings = appSettingsForm;
         this.appSettingsBtn = appSettingsBtn;
         this.cardSettingsBtn = cardSettingsBtn;
@@ -23,6 +23,7 @@ class ViewLinguist {
 
     start() {
         this.addMainMarkup();
+        this.initSwiper();
         this.buildStartPage(this.startPage, this.appSettings, this.appSettingsBtn);
         document.querySelector('#cardsSettings').append(this.cardSettings.getHTML());
         document.querySelector('#cardsSettings').append(this.endModal.getHTML());
@@ -30,7 +31,6 @@ class ViewLinguist {
         document.querySelector('#cardsSettings').append(this.endBtn.getHTML());
         document.querySelector('#game-wrapper').classList.add('hidden');
         this.endBtn.addStyles('none'); 
-        this.initSwiper();
         document.querySelector('.swiper-container').append(this.progress.getHTML());
         this.slider.navigation.prevEl.addEventListener('click', () => {
             this.prev++;

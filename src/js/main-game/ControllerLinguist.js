@@ -49,11 +49,11 @@ class ControllerLinguist {
         const newWords = this.model.learning.getStatisticsObjectFromLocal('newWordsToday');
         const correctAnswers = this.model.learning.getStatisticsObjectFromLocal('rightsToday');
         const longSetToday = this.model.learning.getStatisticsObjectFromLocal('longSetToday');
-        const percentage = Math.round((correctAnswers / cards) * 100);
-        const allCards = this.model.learning.getLearnSettingsFromLocal('maxCardsPerDay');
-        const allWords = this.model.learning.getNewWordsFromLocal();
-        
-        if ((cards !== allCards) && (newWords !== allWords)) {
+        const maxCards = this.model.learning.getLearnSettingsFromLocal('maxCardsPerDay');
+        const maxWords = this.model.learning.getNewWordsFromLocal();
+        const allAnswers = this.view.slider.childrenList.length;
+        const percentage = Math.round((correctAnswers / allAnswers) * 100);
+        if ((cards !== maxCards) && (newWords !== maxWords)) {
             return this.view.renderFinish(cards, newWords, longSetToday, percentage, false);
         } 
 
@@ -67,11 +67,11 @@ class ControllerLinguist {
     }
 
     countWords() {
-        return this.countRestForToday(this.model.learning.getNewWordsFromLocal(), this.model.learning.getStatisticsObjectFromLocal('newWordsToday'));
+        return ControllerLinguist.countRestForToday(this.model.learning.getNewWordsFromLocal(), this.model.learning.getStatisticsObjectFromLocal('newWordsToday'));
     }
 
     countCards() {
-        return this.countRestForToday(this.model.learning.getLearnSettingsFromLocal('maxCardsPerDay'), this.model.learning.getStatisticsObjectFromLocal('cardToday'));
+        return ControllerLinguist.countRestForToday(this.model.learning.getLearnSettingsFromLocal('maxCardsPerDay'), this.model.learning.getStatisticsObjectFromLocal('cardToday'));
     }
 
     getMode() {
@@ -79,7 +79,7 @@ class ControllerLinguist {
         return set.optional.linguist.learn.wordsComposition;
     }
 
-    countRestForToday(numberForToday, learnedNumber) { 
+    static countRestForToday(numberForToday, learnedNumber) { 
         return numberForToday - learnedNumber;
     }
 
