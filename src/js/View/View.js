@@ -21,6 +21,16 @@ class View {
         this.app.append(this.ui.mainPage.getHtml());
       }
     });
+    this.ui.gamePage.getHtml().addEventListener('click', (event) => {
+      if (event.target.className.includes('option-button')) {
+        this.ui.gamePage.getChild('menus').getChild('options').getHtml().classList.toggle('options_active');
+      }
+    });
+    this.ui.gamePage.getHtml().addEventListener('click', (event) => {
+      if (event.target.className.includes('level-button')) {
+        this.ui.gamePage.getChild('menus').getChild('level').getHtml().classList.toggle('level_active');
+      }
+    });
   }
 }
 
