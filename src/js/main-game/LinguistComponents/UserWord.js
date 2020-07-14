@@ -26,11 +26,11 @@ class UserWord {
             "difficulty": this.difficulty,
             "optional": {}
         };
-        if (this.isNew(this.body)) {
+        if (UserWord.isNew(this.body)) {
             userWord.optional = {...this.body};
             delete userWord.optional.id;
         } else {
-            userWord.optional = Object.assign({}, this.body.optional);
+            userWord.optional = {...this.body.optional};
         }
         userWord.optional.rating = this.setRating();
         userWord.optional.total = this.total;
@@ -66,33 +66,33 @@ class UserWord {
     }
 
     getForgotten(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return false;
         } 
         return obj.optional.isForgotten;
     }
 
     getLearned(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return false;
         } 
         return obj.optional.isLearned;
     }
 
     getLearnedAgain(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return false;
         } 
         return obj.optional.learnedAgain;
     }
 
     setIntervalNumber() {
-        if (this.deleted) {
+        if (UserWord.deleted) {
             return 0;
         }
-        const anki = this.ratingAnki(this.difficulty);
+        const anki = UserWord.ratingAnki(this.difficulty);
         const known = UserWord.ratingKnown(this.isKnown);
-        const error = this.ratingError(this.error, this.currentError, this.tries, this.total); 
+        const error = UserWord.ratingError(this.error, this.currentError, this.tries, this.total); 
         if (anki) {
             return anki;
         }
@@ -110,7 +110,7 @@ class UserWord {
         if (known) {
             return known;
         }
-        return this.ratingError(this.error, this.currentError, this.tries, this.total); 
+        return UserWord.ratingError(this.error, this.currentError, this.tries, this.total); 
     }
 
     static ratingKnown(isKnown) {
@@ -123,7 +123,7 @@ class UserWord {
         return null;
     }
 
-    ratingAnki(difficulty) {
+    static ratingAnki(difficulty) {
         switch (difficulty) {
             case 'easy': return 4; 
             case 'good' : return 3;
@@ -133,7 +133,7 @@ class UserWord {
         }
     }
 
-    ratingError(error, currentError, tries, total) {
+    static ratingError(error, currentError, tries, total) {
         const errors = ((error + currentError) * 0.5 * tries) / total;
         switch (true) {
             case errors === 0: return 5; 
@@ -144,12 +144,12 @@ class UserWord {
         }
     }
 
-    isNew(obj) {
-        return !obj.hasOwnProperty('wordId');
+    static isNew(obj) {
+        return !Object.prototype.hasOwnProperty.call(obj, 'wordId');  
     }
 
     getId(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return obj.id;
         } 
         return obj.wordId;
@@ -157,12 +157,12 @@ class UserWord {
 
     getTotal(obj) {
         if (this.isStudy) {
-            if (this.isNew(obj)) {
+            if (UserWord.isNew(obj)) {
               return 1;
             } 
             return obj.optional.total + 1;
         } 
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return 0;
         } 
         return obj.optional.total;
@@ -182,14 +182,14 @@ class UserWord {
     }
 
     getError(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return 0;
         } 
         return obj.optional.error;
     }
 
     getDeleted(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return false;
         } 
         return obj.optional.deleted;
@@ -199,11 +199,10 @@ class UserWord {
         if (this.isStudy) {
             return false;
         }
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return false;
         }
-        return obj.optional.important;
-        
+        return obj.optional.important;  
     }
 
     setIntervalValue(value) {
@@ -214,7 +213,7 @@ class UserWord {
         if (this.isStudy) { 
             return Date.now();
         } 
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return 0;
         } 
         return obj.optional.date;
@@ -229,17 +228,21 @@ class UserWord {
     }
 
     getTries(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return 0;
         } 
         return obj.optional.tries;
     }
 
     getSpecial(obj) {
-        if (this.isNew(obj)) {
+        if (UserWord.isNew(obj)) {
             return false;
         } 
         return obj.optional.special;
+    }
+
+    setImportant() {
+        this.important = true;
     }
 }
 

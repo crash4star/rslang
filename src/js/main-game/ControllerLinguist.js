@@ -135,18 +135,19 @@ class ControllerLinguist {
         let newArray = [];
         let mix = [];
         const learnedArrayFull = await this.model.words.getUserWords();
-        const level = await this.model.settings.getUserDifficultySettings(); 
+        const level = await this.model.settings.getUserDifficultySettings() - 1; 
+
         if (this.groupForTrain) {
             if (this.groupForTrain === 21) {
-               hardArray = learnedArrayFull.filter((item) => item.optional.interval === 1 || item.optional.interval === 2);
+               const hardArray = learnedArrayFull.filter((item) => item.optional.interval === 1 || item.optional.interval === 2);
                if (hardArray.length === 0) {
-                this.view.renderStartPage(null, null, null, `You don't have hard words`, 'error-message');
-                return false;
-            }
+                    this.view.renderStartPage(null, null, null, `You don't have hard words`, 'error-message');
+                    return false;
+                }
           
-            mix = specialArray.slice(0, Math.min(numberOfCards, specialArray.length));
+                mix = hardArray.slice(0, Math.min(numberOfCards, hardArray.length));
             } else {
-                specialArray = learnedArrayFull.filter((item) => item.optional.special === this.groupForTrain);
+                const specialArray = learnedArrayFull.filter((item) => item.optional.special === this.groupForTrain);
                 if (specialArray.length === 0) {
                     this.view.renderStartPage(null, null, null, `You don't have any words in "${this.groupForTrain}" group`, 'error-message');
                     return false;
@@ -235,7 +236,7 @@ class ControllerLinguist {
       wordsArray.forEach((item) => {
           if (item.optional.important === true) {
               importantArray.push(item);
-          } else if(item.optional.hasOwnProperty('interval')) {
+          } else if(Object.prototype.hasOwnProperty.call(item.optional, 'interval')) { 
                 if (item.optional.interval > 0) {
                     repeatArray.push(item);   
                 } 

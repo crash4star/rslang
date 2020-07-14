@@ -3,7 +3,7 @@ const defaultLearningSettings = {
     "optional": {
         "settingsProfile": {
             "theme": 0,
-            "difficult": 0
+            "difficult": 2
         },
         "linguist": {
             "learn": {

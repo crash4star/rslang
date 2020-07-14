@@ -42,7 +42,7 @@ class GeneralContainerElement {
         if (rest.length > 0) { 
             rest.forEach((child) => {
                 this.childrenList.push(child);
-                if (child.hasOwnProperty('descendantList')) {
+                if (Object.prototype.hasOwnProperty.call(child, 'descendantList')) {  
                     this.descendantList.push(child);
                     this.descendantList.push(child.descendantList);
                 } else {
@@ -54,21 +54,25 @@ class GeneralContainerElement {
     }
 
     getDescendantsByAttribute(attribute) {
+        let array = [];
         if (this.descendantList.length > 0) {
             function flat(array) {
                 return array.reduce((acc, val) => Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val), []);
             }
-            return flat(this.descendantList).filter((item) => item.getHTML().hasAttribute(attribute)); 
+            array = flat(this.descendantList).filter((item) => item.getHTML().hasAttribute(attribute)); 
         }  
+        return array;
     }
 
     getDescendantById(id) { 
+        let array = [];
         if (this.descendantList.length > 0) {
             function flat(array) {
                 return array.reduce((acc, val) => Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val), []);
             }
-            return flat(this.descendantList).filter((item) => item.getHTML().id === id)[0]; 
+            array = flat(this.descendantList).filter((item) => item.getHTML().id === id)[0]; 
         } 
+        return array;
     }
 }
 
