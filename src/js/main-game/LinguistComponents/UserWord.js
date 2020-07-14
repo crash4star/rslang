@@ -106,11 +106,7 @@ class UserWord {
         if (this.setLearned() !== false) {
             return 5;
         } 
-        const anki = this.ratingAnki(this.difficulty);
         const known = UserWord.ratingKnown(this.isKnown);
-        if (anki) {
-            return anki;
-        }
         if (known) {
             return known;
         }

@@ -1,3 +1,5 @@
+import { showErrorMessage } from '../utils/message';
+
 class LearningModel {
     constructor(api, request) {
         this.api = api;
@@ -18,7 +20,7 @@ class LearningModel {
             const statistics = await this.request.put(URL, stat);
             return statistics.info;
         } catch (e) {
-            console.log(e);
+            showErrorMessage(e);
         }
 
       return 'connection problem';
@@ -30,7 +32,7 @@ class LearningModel {
             const settings = await this.request.put(URL, set);
             return settings.info;
         } catch (e) {
-            console.log(e);
+            showErrorMessage(e);
         }
         return 'connection problem';
     }
@@ -194,7 +196,7 @@ class LearningModel {
     }
 
     async saveLearnSettings(words, options) {  
-        const data = await this.upsertLinguistObjSettings(options, 'learn');
+        await this.upsertLinguistObjSettings(options, 'learn');
         const settings = await this.setUserNewWords(words);
         this.saveSettingsToLocal(settings);
         return settings; 

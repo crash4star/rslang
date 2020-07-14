@@ -9,7 +9,6 @@ class ViewLinguist {
         const main = document.querySelector('.main');
         this.mainContainer = main.querySelector('.container');
         this.startPage = new GeneralContainerElement('div', 'start-game');
-        //this.slider = null;
         this.appSettings = appSettingsForm;
         this.appSettingsBtn = appSettingsBtn;
         this.cardSettingsBtn = cardSettingsBtn;
@@ -24,7 +23,7 @@ class ViewLinguist {
     start() {
         this.addMainMarkup();
         this.initSwiper();
-        this.buildStartPage(this.startPage, this.appSettings, this.appSettingsBtn);
+        ViewLinguist.buildStartPage(this.startPage, this.appSettings, this.appSettingsBtn);
         document.querySelector('#cardsSettings').append(this.cardSettings.getHTML());
         document.querySelector('#cardsSettings').append(this.endModal.getHTML());
         document.querySelector('#cardsSettings').append(this.cardSettingsBtn.getHTML());
@@ -33,15 +32,15 @@ class ViewLinguist {
         this.endBtn.addStyles('none'); 
         document.querySelector('.swiper-container').append(this.progress.getHTML());
         this.slider.navigation.prevEl.addEventListener('click', () => {
-            this.prev++;
+            this.prev += 1;
             this.next = 0; 
         }); 
-        this.disableInputNumber();
+        ViewLinguist.disableInputNumber();
     }
 
-    disableInputNumber() {
+    static disableInputNumber() {
         document.querySelectorAll('[type = "number"]').forEach((item) => {
-            item.onkeypress = function(e) {
+            item.onkeypress = function() {
                 return false;
             }
         }); 
@@ -52,7 +51,7 @@ class ViewLinguist {
         document.querySelector('#slider-wrapper').innerHTML = '<div class="swiper-container"><div class="swiper-wrapper"></div><div class="swiper-pagination" style="background-color: aqua; top: none;"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>';
     }
 
-    buildStartPage(startPage, optionsForm, optionsBtn) {
+    static buildStartPage(startPage, optionsForm, optionsBtn) {
         document.querySelector('#start-wrapper').append(startPage.getHTML());
         startPage.addHTML('<h3>Learning new words</h3>');
         const newWordsToday = new GeneralContainerElement('p', 'newWordsToday');
@@ -125,7 +124,7 @@ class ViewLinguist {
         const wordNumberDone = handlerStatFromLocal('newWordsToday');
         const cardNumberDone = handlerStatFromLocal('cardToday');
         const settingsElements = this.getSettingsElements(this.appSettings);
-        this.appSettingsBtn.getHTML().addEventListener('click', (event) => {
+        this.appSettingsBtn.getHTML().addEventListener('click', () => {
             this.renderSettings(settingsElements, handlerWords(), handlerOpt('learn'));
             if (wordNumberDone <= 1) {
                 const elem = this.appSettings.getDescendantById('wordsPerDay');
@@ -145,8 +144,8 @@ class ViewLinguist {
     }
 
     bindSaveMainOpt(checkFunc, analyzeFunc) {
-        this.appSettings.getDescendantById('mainSaveSettingsBtn').getHTML().addEventListener('click', (event) => {
-            let message = checkFunc(this.appSettings.getDescendantById('wordsPerDay').getValue(), this.appSettings.getDescendantById('maxCardsPerDay').getValue(), this.appSettings.getDescendantById('wordsComposition').getValue()); 
+        this.appSettings.getDescendantById('mainSaveSettingsBtn').getHTML().addEventListener('click', () => {
+            const message = checkFunc(this.appSettings.getDescendantById('wordsPerDay').getValue(), this.appSettings.getDescendantById('maxCardsPerDay').getValue(), this.appSettings.getDescendantById('wordsComposition').getValue()); 
             analyzeFunc(message);
         });
     }
@@ -164,7 +163,7 @@ class ViewLinguist {
         this.showSaveMessage('', this.cardSettings, 'error-message');
         items.forEach((item) => { 
             const key = item.getAttributeValue('data-settings');
-            if (key == 'wordsPerDay') {
+            if (key === 'wordsPerDay') {
                 item.setValue(words);
             } else  {
                 item.setValue(options[key]);
@@ -177,7 +176,7 @@ class ViewLinguist {
     }
 
     bindStudyNow(arrayOfWord, settings, wordHandler, progressHandler) {
-        this.startPage.getDescendantById('studyNowBtn').getHTML().addEventListener('click', (event) => {
+        this.startPage.getDescendantById('studyNowBtn').getHTML().addEventListener('click', () => {
             this.renderStartPage(null, null, null, 'Loading', 'message');
             arrayOfWord().then(value => {
                 if (value) {
@@ -185,9 +184,10 @@ class ViewLinguist {
                     progressHandler();
                     this.startPage.addStyles('none');
                     document.querySelector('#game-wrapper').classList.remove('hidden');
-                } else {
-                    return false;
-                }
+                    return true;
+                } 
+                return false;
+                
             });
         })
     }
@@ -218,7 +218,7 @@ class ViewLinguist {
     bindSaveCardOpt(checkFunc, analyzeFunc) {
         this.cardSettings.getHTML().addEventListener('submit', (event) => {
             event.preventDefault();
-            let message = checkFunc(this.cardSettings.getDescendantById('fieldOfTips').getDescendantsByAttribute('data-settings')); 
+            const message = checkFunc(this.cardSettings.getDescendantById('fieldOfTips').getDescendantsByAttribute('data-settings')); 
             analyzeFunc(message);
         });
     }
@@ -286,7 +286,7 @@ class ViewLinguist {
             event.target.innerText = 'Deleted';
         });
 
-        card.getDescendantById('specialBtn').getHTML().addEventListener('click', (event) => {
+        card.getDescendantById('specialBtn').getHTML().addEventListener('click', () => {
             const text = card.getDescendantById('specialBtn').getHTML().innerHTML;
             if (text === 'Tick as "special"') {
                 card.getDescendantById('specialBtn').getHTML().innerHTML = 'Save';
@@ -298,7 +298,7 @@ class ViewLinguist {
             }
         });
         this.slider.childrenList.push(card);
-        let i = this.slider.slides.length - 1;
+        const i = this.slider.slides.length - 1;
         this.slider.slides[i].append(card.getHTML());
         card.getDescendantById('checkWordBtn').getHTML().addEventListener('click', () => {
             card.wordObject.increaseTries();
@@ -332,7 +332,7 @@ class ViewLinguist {
     async nextHandler(settings, getWord, counterHandler, saveHandler, handlerRender, progressHandler, addWordsHandler) {
 
         this.slider.childrenList[this.slider.childrenList.length - 1].getDescendantById('learnAudio').stop();
-        this.next++;
+        this.next += 1;
         if ((this.next > this.prev) || (this.next ===0 &&  this.prev === 0)) {
             const currentSlide = this.slider.childrenList.filter((item, index) => {
                 return item.getHTML().parentNode.classList.contains('swiper-slide-active');
@@ -343,8 +343,8 @@ class ViewLinguist {
             this.slider.childrenList[this.slider.childrenList.length - 1].getDescendantById('learnAudio').stop();
             const checkedWord = currentSlide.wordObject.getUserWord();
             checkedWord.wordId = currentSlide.wordObject.id;
-            const updateWordObj = await counterHandler(checkedWord, currentSlide.wordObject.body.hasOwnProperty('learnedAgain'));   
-            const save = await saveHandler(currentSlide.wordObject.id, currentSlide.wordObject.getUserWord());  
+            await counterHandler(checkedWord, currentSlide.wordObject.body.hasOwnProperty('learnedAgain'));   
+            await saveHandler(currentSlide.wordObject.id, currentSlide.wordObject.getUserWord());  
             this.slider.slideNext();
             this.slider.update();
             this.slider.updateSize();

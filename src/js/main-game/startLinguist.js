@@ -26,7 +26,6 @@ const words = new Words(api, request);
 const settings = new Settings(api, request);
 
 function mainGame(wordForTrain) {
-    console.log('wordForTrain', wordForTrain);
     return new ControllerLinguist(new ViewLinguist(mainSettingsForm, mainSettingsBtn, cardSettingsForm, cardSettingsBtn, endModal, endBtn), new ModelLinguist(learning, words, settings), wordForTrain, shuffleArr);
 }
 
