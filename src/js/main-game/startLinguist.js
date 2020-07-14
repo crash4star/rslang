@@ -14,6 +14,7 @@ import Api from '../models/Api';
 import Words from '../models/Words';
 import Settings from '../models/Settings';
 import LearningModel from '../models/LearningModel';
+import shuffleArr from '../utils/shuffleArr';
 
 const BASE_HEROKU = `https://afternoon-falls-25894.herokuapp.com`;
 
@@ -25,7 +26,8 @@ const words = new Words(api, request);
 const settings = new Settings(api, request);
 
 function mainGame(wordForTrain) {
-    return new ControllerLinguist(new ViewLinguist(mainSettingsForm, mainSettingsBtn, cardSettingsForm, cardSettingsBtn, endModal, endBtn), new ModelLinguist(learning, words, settings, wordForTrain));
+    console.log('wordForTrain', wordForTrain);
+    return new ControllerLinguist(new ViewLinguist(mainSettingsForm, mainSettingsBtn, cardSettingsForm, cardSettingsBtn, endModal, endBtn), new ModelLinguist(learning, words, settings), wordForTrain, shuffleArr);
 }
 
 

@@ -9,10 +9,11 @@ import {
 } from './assets/CONST';
 
 class ControllerLinguist {
-    constructor(view, model, groupForTrain) {
+    constructor(view, model, groupForTrain, handler) {
         this.view = view;
         this.model = model;
         this.groupForTrain = groupForTrain;
+        this.shuffle = handler;
         this.start();
     }
 
@@ -24,7 +25,7 @@ class ControllerLinguist {
 
         this.view.bindRenderMainOpt(this.model.learning.getStatisticsObjectFromLocal.bind(this.model.learning), this.model.learning.getNewWordsFromLocal.bind(this.model.learning), this.model.learning.getLinguistSettingsFromLocal.bind(this.model.learning));
         
-        this.view.bindSaveMainOpt(this.checkMainOptionsForm, this.analyzeMainOptionsForm.bind(this));
+        this.view.bindSaveMainOpt(ControllerLinguist.checkMainOptionsForm, this.analyzeMainOptionsForm.bind(this));
 
         this.view.bindStudyNow(() => { return this.getWordArray(this.countWords(), this.countCards(), this.getMode())}, this.model.learning.getSettingsFromLocal, this.getNextWordFromLocal.bind(this), this.renderProgressCallback.bind(this));
 
@@ -90,7 +91,7 @@ class ControllerLinguist {
         return this.model.learning.getStringDate(date);
     }
 
-    checkMainOptionsForm(newWordsNumber, maxCardsNumber) {
+    static checkMainOptionsForm(newWordsNumber, maxCardsNumber) {
         if (parseInt(newWordsNumber, 10) > parseInt(maxCardsNumber, 10)) { 
           return 'Number of cards should be more then number of new words';
         }
@@ -111,11 +112,11 @@ class ControllerLinguist {
     }
 
     async saveLearnSettings() {
-        const data = this.model.learning.saveLearnSettings(this.view.getNewWordsElements().getValue(), this.createMainSettingsObject(this.view.getSettingsElements(this.view.appSettings)));
+        const data = this.model.learning.saveLearnSettings(this.view.getNewWordsElements().getValue(), ControllerLinguist.createMainSettingsObject(this.view.getSettingsElements(this.view.appSettings)));
         return data;
     }
 
-    createMainSettingsObject(listOfElements) {
+    static createMainSettingsObject(listOfElements) {
         const settingsObject = {};
         listOfElements.forEach((item) => {
             const key = item.getAttributeValue('data-settings');
@@ -188,18 +189,18 @@ class ControllerLinguist {
             mix = [...newArray, ...learnedArray];
         }
         
-        const shuffleArray = []; 
-        this.shuffle(mix.length).forEach((item) => {
-            const elem = new UserWord(mix[item], true);
-            shuffleArray.push(elem);
+        const shuffleArray = this.shuffle(mix); 
+
+        const wordsArray = shuffleArray.map((item) => {
+            return new UserWord(item, true);
         });
-        this.model.shuffleArray = shuffleArray;
-        return shuffleArray;
+        this.model.shuffleArray = wordsArray;
+        return wordsArray;
     }
 
     async getOnlyNewWordsOfGroup(group, learnedArray) {
         const newArrayFull = await this.model.words.getWordsOfGroup(group, 600); 
-        const learnedArrayOfGroup = this.getLearnedWordsOfGroup(group, learnedArray);
+        const learnedArrayOfGroup = ControllerLinguist.getLearnedWordsOfGroup(group, learnedArray);
         const onlyNewArray = newArrayFull.filter((newItem) => {
             const array = learnedArrayOfGroup.filter((oldItem) => oldItem.wordId === newItem.id);
             if (array.length === 0) {
@@ -210,23 +211,8 @@ class ControllerLinguist {
         return onlyNewArray;
     }
 
-    getLearnedWordsOfGroup(group, learnedArray) {
+    static getLearnedWordsOfGroup(group, learnedArray) {
         return learnedArray.filter((item) => item.optional.group === group);
-    }
-
-    shuffle(n) {
-        const numPool = [];
-        for (let index = 0; index < n; index += 1) {
-            numPool.push(index);
-        }
-        for (
-            let j, x, i = numPool.length; i;
-            j = parseInt(Math.random() * i),
-            x = numPool[--i],
-            numPool[i] = numPool[j],
-            numPool[j] = x
-        );
-        return numPool;
     }
 
   getWordsToRepeat(wordsArray) {
@@ -310,7 +296,7 @@ class ControllerLinguist {
     }
 
     async saveCardSettings() {  
-        const data = this.model.learning.saveCardSettings( this.createMainSettingsObject(this.view.getSettingsElements(this.view.cardSettings)));
+        const data = this.model.learning.saveCardSettings(ControllerLinguist.createMainSettingsObject(this.view.getSettingsElements(this.view.cardSettings)));
         return data;
     }
 
