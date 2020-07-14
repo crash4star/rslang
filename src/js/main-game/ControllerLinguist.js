@@ -51,7 +51,8 @@ class ControllerLinguist {
         const longSetToday = this.model.learning.getStatisticsObjectFromLocal('longSetToday');
         const maxCards = this.model.learning.getLearnSettingsFromLocal('maxCardsPerDay');
         const maxWords = this.model.learning.getNewWordsFromLocal();
-        const allAnswers = this.view.slider.childrenList.length;
+        const repeats = this.model.learning.getStatisticsObjectFromLocal('repeatToday');
+        const allAnswers = repeats + cards;
         const percentage = Math.round((correctAnswers / allAnswers) * 100);
         if ((cards !== maxCards) && (newWords !== maxWords)) {
             return this.view.renderFinish(cards, newWords, longSetToday, percentage, false);
@@ -319,8 +320,14 @@ class ControllerLinguist {
             let cardNumber = 0;
             const todayCards = this.model.learning.getStatisticsObjectFromLocal('cardToday');
             const maxCards = this.model.learning.getLearnSettingsFromLocal('maxCardsPerDay');
+            const repeatsToday = this.model.learning.getLearnSettingsFromLocal('repeatToday');
             if (maxCards - todayCards === 0) {
                 return false;
+            }
+            if (isRepeat) {
+                repeatsToday += 1;
+                const set = await this.model.learning.upsertLinguistPropsStatistics(repeatsToday, 'repeatToday');
+                this.model.learning.saveStatisticsToLocal(set);
             }
             if (!isRepeat) {
                 cardNumber = todayCards+1;

@@ -126,6 +126,7 @@ class LearningModel {
                     statistics.optional.linguist.rightsToday = 0;
                     statistics.optional.linguist.longSetToday = 0;
                     statistics.optional.linguist.rightsSetToday = 0;
+                    statistics.optional.linguist.repeatToday = 0;
                     statistics.optional.linguist.learnedWordsDate[learnDate] = 0;
                     delete statistics.id;
                     await this.upsertLinguistObjStatistics(statistics.optional.linguist); 

@@ -8,6 +8,7 @@ const defaultLearningStatistics = {
           "rightsToday": 0,
           "longSetToday": 0,
           "rightsSetToday": 0,
+          "repeatToday": 0,
           "learnedWordsDate": {}
         }
     }
