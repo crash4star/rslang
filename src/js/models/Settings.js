@@ -1,4 +1,6 @@
 import Statistics from './Statistics';
+import defaultSettings from '../data/defaultSettings';
+
 import { showErrorMessage } from '../utils/message';
 class Settings {
     constructor(api,request) {
@@ -29,15 +31,19 @@ class Settings {
         const startObject = {
             optional: {
                 settingsProfile: {
-                    theme: 0,
-                    difficult: 0
+                    theme: defaultSettings.theme,
+                    difficult: defaultSettings.difficult
                 },
                 settingsWords: 0
             }
         };
 
+        updateSettings (startObject);
+    }
+    
+    updateSettings (settings) {
         try {
-            return this.request.put(`/users/${this.optionsData.userId}/settings`,startObject);
+            return this.request.put(`/users/${this.optionsData.userId}/settings`, settings);
 
         } catch (e) {
             showErrorMessage(e);
@@ -69,4 +75,3 @@ class Settings {
 }
 
 export default Settings;
-

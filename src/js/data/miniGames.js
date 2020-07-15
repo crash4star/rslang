@@ -47,6 +47,6 @@ const miniGames = [
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
-// 
+
 export default miniGames;
 export { getErrorMessageTemplate };
