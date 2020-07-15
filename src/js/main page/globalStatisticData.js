@@ -37,7 +37,7 @@ const getDatesWithValues = (dateInMilliseconds, valuesArray) => {
 
 const createArrayOfDatesAndValues = (datesArray, valuesArray) => {
     const data = [];
-    for (let i = 0; i < datesArray.length; i+= 1) {
+    for (let i = 0; i < datesArray.length; i++) {
         data.push(getDatesWithValues(datesArray[i], valuesArray[i]));
     }
     return data;
@@ -46,13 +46,11 @@ const createArrayOfDatesAndValues = (datesArray, valuesArray) => {
 const getData = (data) => {
     const dates = Object.keys(data).map(el => new Date(el).getTime());
     let values = Object.values(data);
-    console.log(values);
     let accumulator = 0;
     for (let i = 0; i < values.length; i += 1) {
         accumulator += values[i];
         values[i] = accumulator;
     }
-    console.log(values);
     return createArrayOfDatesAndValues(dates, values);
 }
 
