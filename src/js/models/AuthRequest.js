@@ -56,6 +56,18 @@ class AuthRequest {
         const content = await rawResponse.json();
         return { status: true, info: content };
     }
+
+    async getRawResponse(path) {
+        const rawResponse = await fetch(`${this.optionsData.url}${path}`, {
+            method: 'GET',
+            withCredentials: true,
+            headers: {
+                'Authorization': `Bearer ${this.optionsData.token}`,
+                'Accept': 'application/json',
+            }
+        });
+        return rawResponse;
+    }
 }
 
 export default AuthRequest;

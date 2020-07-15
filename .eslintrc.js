@@ -16,5 +16,12 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "import/no-cycle": "off",
+        "no-undef": "off",
+        "prefer-destructuring": ["error", {"object": false, "array": false}],
+        "no-param-reassign": ["error", { "props": false }],
+        "no-plusplus": "off",
+        "class-methods-use-this": "off",
+        "no-inner-declarations": "off"
     }
 };
