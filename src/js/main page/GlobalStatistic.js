@@ -1,7 +1,12 @@
-import getData from '../data/statistic';
-import { getMidnight } from '../data/statistic';
+import createDateObject from './globalStatisticData';
+import { getMidnight } from './globalStatisticData';
 import addElement from '../utils/utils';
 import { getDateInString } from '../utils/utils';
+
+import { BASE_HEROKU } from '../data/miniGames';
+import Api from '../models/Api';
+import AuthRequest from '../models/AuthRequest';
+import Statistics from '../models/Statistics';
 import '../../css/statistic.scss';
 
 const dashLength = 10;
@@ -13,19 +18,18 @@ const baseBlackColor = '#2F281E';
 const graphColors = ['#c51b20', '#4d89f7'];
     
 
-export default class Statistic  {
+export default class GlobalStatistic  {
     constructor () {
         this.canvasParameters = {};
-        this.date = getData();
-        this.date.options.axisX.min = new Date(this.date.options.axisX.min.getTime() - millisecondsPerDay);
-        this.date.options.axisX.max = new Date(this.date.options.axisX.max.getTime() + millisecondsPerDay * 2);
         this.init();
-        this.drawGraph();
     }
 
     calculateAmountOfDaysDescriptions() {
+        this.data.options.axisX.min = new Date(Number(this.data.options.axisX.min) - millisecondsPerDay);
+        this.data.options.axisX.max = new Date(Number(this.data.options.axisX.max) + millisecondsPerDay * 2);
+
         let amountOfDescriptions = amountOfDescriptionsX;
-        const amountDays = Math.ceil(this.getDaysFromMilliseconds(this.date.options.axisX.max - this.date.options.axisX.min)) - 1;
+        const amountDays = Math.ceil(this.getDaysFromMilliseconds(this.data.options.axisX.max - this.data.options.axisX.min)) - 1;
         if (amountDays < amountOfDescriptions * 2) {
             amountOfDescriptions = amountDays;
         } else {
@@ -41,14 +45,14 @@ export default class Statistic  {
     }
 
     getAmountOfDays () {
-        return Math.floor(this.getDaysFromMilliseconds(this.date.options.axisX.max - this.date.options.axisX.min + 1));
+        return Math.floor(this.getDaysFromMilliseconds(this.data.options.axisX.max - this.data.options.axisX.min + 1));
     }
 
     getAmountOfWords() {
-        return this.date.options.axisY.max - this.date.options.axisY.min;;
+        return this.data.options.axisY.max - this.data.options.axisY.min;;
     }
 
-    init() {
+    renderGraph() {
         const main = document.querySelector('.main');
         const container = main.querySelector('.container');
         const wrapper = addElement('div', container, 'wrapper');
@@ -66,6 +70,21 @@ export default class Statistic  {
         this.stepX = (this.canvasParameters.width - graphMargin * 2) / this.getAmountOfDays();
         this.stepY = (this.axisStartY - graphMargin) / this.getAmountOfWords();
 
+    }
+    
+    async init () {
+        this.api = new Api(BASE_HEROKU);
+        this.authRequest = new AuthRequest(this.api);
+        this.statistics = new Statistics(this.api, this.authRequest);
+
+        await this.statistics.getUserStatistics()
+        .then(data => {
+            return createDateObject(data.optional.linguist.learnedWordsDate);
+        })
+        .then((data) => {
+            this.data = data;
+            this.drawGraph();
+        });
     }
 
     setCanvasParameters () {
@@ -131,21 +150,21 @@ export default class Statistic  {
     }
 
     drawData() {
-        const minDate = this.date.options.axisX.min;
-        const minValue = this.date.options.axisY.min;
+        const minDate = this.data.options.axisX.min;
+        const minValue = this.data.options.axisY.min;
         this.ctx.lineTo(this.axisStartX, this.axisStartY);   
         this.ctx.beginPath();
         let lastPointY = this.axisStartY;
-        for (let i = 0; i < this.date.arrayOfDatesAndValues.length; i += 1) {
+        for (let i = 0; i < this.data.arrayOfDatesAndValues.length; i += 1) {
             const colorIndex = i % 2;
             this.ctx.strokeStyle = graphColors[colorIndex];
-            const elementFrom = this.date.arrayOfDatesAndValues[i];
+            const elementFrom = this.data.arrayOfDatesAndValues[i];
             const moveFromX = Math.round(graphMargin + this.getDaysFromMilliseconds(Number(elementFrom.date) - minDate) * this.stepX);
             let moveToX;
-            if (i === this.date.arrayOfDatesAndValues.length - 1) {
+            if (i === this.data.arrayOfDatesAndValues.length - 1) {
                 moveToX = Math.round(graphMargin + this.getDaysFromMilliseconds(Number(getMidnight(Date())) - minDate) * this.stepX + this.stepX);
             } else {
-                const elementTo = this.date.arrayOfDatesAndValues[i + 1];
+                const elementTo = this.data.arrayOfDatesAndValues[i + 1];
                 moveToX = Math.round(graphMargin + this.getDaysFromMilliseconds(Number(elementTo.date) - minDate) * this.stepX);
             }
             const moveToY = Math.round(this.axisStartY - (elementFrom.value - minValue) * this.stepY);
@@ -170,7 +189,6 @@ export default class Statistic  {
     getValueToShow(day, data) {
         let index = data.length - 1;
         while (day < Number(data[index].date)) {
-            console.log(`${day} < ${Number(data[index].date)}`);
             index -= 1;
         }
         return data[index].value;
@@ -185,7 +203,7 @@ export default class Statistic  {
             if (statisticAlert.classList.contains('statisticAlert-hidden')) statisticAlert.classList.remove('statisticAlert-hidden');
             const dateToShow = getDateInString(cursorOverTheDate);
             const valueToShow = this.getValueToShow(activeDay, data);
-            this.setAlertPosition(e.pageX, e.pageY);
+            this.setAlertPosition(e.clientX, e.clientY);
             this.setAlertValue(statisticAlert, dateToShow, valueToShow);
         } else {
             statisticAlert.classList.add('statisticAlert-hidden');
@@ -195,13 +213,13 @@ export default class Statistic  {
     addGraphListeners() {
         const statisticAlert = document.querySelector('#statisticAlert');
         const stepX = this.stepX;
-        const minDate = this.date.options.axisX.min;
-        const data = this.date.arrayOfDatesAndValues;
+        const minDate = this.data.options.axisX.min;
+        const data = this.data.arrayOfDatesAndValues;
         
         document.querySelector('.canvas').addEventListener('click', (e) => {
             const x = e.pageX - e.target.offsetLeft;
             const y = e.pageY - e.target.offsetTop;
-            console.log(x, y);
+            this.showAlert(e, stepX, minDate, data);
         });
 
         document.querySelector('.canvas').addEventListener('mousemove', (e) => {
@@ -218,9 +236,10 @@ export default class Statistic  {
     }
 
     drawGraph() {
+        this.renderGraph();
         this.drawCoordinateAxes();
-        this.drawDescriptionAxis(true, this.canvasParameters.width - graphMargin * 2, this.amountOfDaysDescriptions - 1, this.date.options.axisX.max, this.date.options.axisX.min);
-        this.drawDescriptionAxis(false, this.canvasParameters.height - graphMargin * 2, amountOfDescriptionsY, this.date.options.axisY.max, this.date.options.axisY.min);
+        this.drawDescriptionAxis(true, this.canvasParameters.width - graphMargin * 2, this.amountOfDaysDescriptions - 1, this.data.options.axisX.max, this.data.options.axisX.min);
+        this.drawDescriptionAxis(false, this.canvasParameters.height - graphMargin * 2, amountOfDescriptionsY, this.data.options.axisY.max, this.data.options.axisY.min);
         this.drawData();
         this.addGraphListeners();
     }

@@ -55,6 +55,39 @@ class Words {
 
         return [];
     }
+
+    getWordsOfGroup(difficult, number) {
+        try {
+            return this.api.getRequest(`/words?group=${difficult}&wordsPerExampleSentenceLTE=20&wordsPerPage=${number}`);
+  
+        } catch (e) {
+            console.log(e);
+        }
+  
+        return [];
+    }
+
+    async checkUserWordById(wordId) {
+        const URL = `/users/${this.optionsData.userId}/words/${wordId}`;
+        const res = await this.request.getRawResponse(URL); 
+        return res;
+      }
+  
+    async updateUserWord(wordId, userWord) {
+        const URL = `/users/${this.optionsData.userId}/words/${wordId}`;
+        const data = await this.request.put(URL, userWord);
+        return data.info;
+        }
+  
+    async upsertUserWord(wordId, userWord) {
+        const res = await this.checkUserWordById(wordId);
+        if (res.ok) {
+           this.updateUserWord(wordId, userWord);
+        } else {
+          this.createUserWord(wordId, userWord);
+        }
+        return userWord;
+    }
 }
 
 export default Words;

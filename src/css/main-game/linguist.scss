@@ -1,0 +1,168 @@
+@import './style-guide.scss';
+@import './swiper-custom.scss';
+
+#start-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: $font-open-sans;
+    color: $base-black;
+}
+
+
+#start-game {
+    background-color: $base-white;
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px $base-black;
+}
+
+#start-game h3 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.none {
+    display: none;
+}
+
+.block {
+    display: block;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.start-message {
+    height: 60px;
+}
+
+.word-wrapper {
+    position: relative;
+    display: inline-block!important;
+    padding: 0 8px;
+    margin: 20px;
+    border: 2px solid $base-black;
+    height: 35px;
+    border-radius: 3px;
+    padding: 0 5px;
+}
+
+.word-container {
+    border: none;
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 100%;
+    background-color: white;
+}
+
+.word-input {
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: hidden;
+}
+
+.word-input:focus {
+  border: none;
+  outline: none;
+}
+
+.green {
+    color: green;
+}
+.orange {
+    color: orange;
+}
+.red {
+    color: red;
+}
+
+.z-index10 {
+    z-index: 10;
+}
+
+.z-index0 {
+    z-index: 0;
+}
+
+.opacity {
+    opacity: 0.4;
+}
+
+.no-pointer {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+[data-container='textExampleTranslate'],
+[data-container='textMeaningTranslate'] {
+    color: $base-purple;
+}
+
+#learn-progress {
+    margin: 20px 0;
+}
+
+#linguist {
+    margin: 20px 0;
+}
+
+#cardSettings {
+    width: 40px;
+}
+
+.error-message {
+    color: $focus-red;
+}
+
+.message {
+    color: $base-purple;
+}
+
+.speaker-btn {
+  background: $focus-red url('../img/common/speaker-icon.png') no-repeat;
+  background-size: contain;
+  width: 50px;
+  height: 38px;
+  background-position: center;
+}
+
+.speaker-btn {
+    background: $focus-red url('../img/common/speaker-icon.png') no-repeat;
+    background-size: contain;
+    width: 50px;
+    height: 38px;
+    background-position: center;
+}
+
+.speaker-out-btn {
+    background-color: #6c757d;
+}
+
+.speaker-on-btn {
+    background-color: $focus-red;
+}

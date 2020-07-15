@@ -1,4 +1,3 @@
-
 import { showErrorMessage } from '../utils/message';
 
 class Statistics {
