@@ -15,6 +15,10 @@ class Statistic {
       this.incorrect.push(value);
     }
   }
+
+  getStatistic() {
+    return { correct: this.correct, incorrect: this.incorrect };
+  }
 }
 
 export default Statistic;

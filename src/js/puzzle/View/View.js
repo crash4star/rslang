@@ -1,6 +1,7 @@
 // import Utils from './Utils';
 import Image from './components/Image';
 import Container from './components/Container';
+import Statistic from '../../utils/createStatistic';
 // import Paragraph from './Paragraph';
 
 class View {
@@ -19,6 +20,12 @@ class View {
     this.app.append(this.mainPage.getHtml());
     // this.currentLevelData = {};
     // console.log(this);
+  }
+
+  showStatisticEvent(getStatistic) {
+    this.statistic = new Statistic(this);
+    const statistic = getStatistic();
+    console.log('statistic: ', statistic);
   }
 
   renderGamePage() {

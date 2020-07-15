@@ -48,7 +48,13 @@ class Controller {
           this.currentSettings.levelSettings.page);
       console.log('currentPuzzleInfo: ', currentPuzzleInfo);
       this.view.phrasePanel.showPaintingInfo(currentPuzzleInfo);
+    } else {
+      this.view.showStatisticEvent(this.bindGetStatistic.bind(this));
     }
+  }
+
+  bindGetStatistic() {
+    return this.model.statistic.getStatistic();
   }
 
   continueEvent() {
