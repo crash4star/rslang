@@ -5,9 +5,9 @@ import Chapters from './elements/Chapters';
 import CardsPage from './elements/CardsPage';
 
 export default class View {
-  constructor(model) {
-    debugger;
+  constructor(model, isNeedToLoadStartPage) {
     this.model = model;
+    this.isNeedToLoadStartPage = isNeedToLoadStartPage;
     this.main = document.querySelector('.main');
     this.init();
   }
@@ -17,14 +17,16 @@ export default class View {
   }
 
   renderStartPage() {
-    this.startPage = addElement('div', speakit, 'speakit-startPage', 'speakit-startPage');
-    addElement('h1', this.startPage, 'speakit-startPage--title', 'Speakit');
-    this.addStartPageDescription('Click on the words to hear them sound.');
-    this.addStartPageDescription('Click on the button and speak the words into the microphone.');
-    const startPageButton = addElement('div', this.startPage, 'speakit-startPage--button', 'speakit-startPage--button', 'Start');
-    startPageButton.addEventListener('click', () => {
-      document.getElementById('speakit-startPage').classList.add('hidden');
-    }); 
+    if (this.isNeedToLoadStartPage) {
+      this.startPage = addElement('div', speakit, 'speakit-startPage', 'speakit-startPage');
+      addElement('h1', this.startPage, 'speakit-startPage--title', 'Speakit');
+      this.addStartPageDescription('Click on the words to hear them sound.');
+      this.addStartPageDescription('Click on the button and speak the words into the microphone.');
+      const startPageButton = addElement('div', this.startPage, 'speakit-startPage--button', 'speakit-startPage--button', 'Start');
+      startPageButton.addEventListener('click', () => {
+        document.getElementById('speakit-startPage').classList.add('hidden');
+      }); 
+    }
   }
 
   newGame(e) {

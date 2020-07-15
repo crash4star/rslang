@@ -1,9 +1,10 @@
 import { wordsUrl, gitUrl, translateUrl } from './../data/data';
 import Card from './Card';
-import StatisicPage from './StatisticPage';
 import addElement from '../../utils/utils';
 import Statistic from '../../utils/createStatistic';
 import ViewMethods from '../../utils/view-methods';
+import { BASE_HEROKU } from '../../data/miniGames';
+import SpeakitController from '../SpeakitController';
 
 export default class CardsPage {
     constructor(parent, caller) {
@@ -21,7 +22,7 @@ export default class CardsPage {
         this.init();
     }
 
-    click(e) {
+    setActiveCard(e) {
         if (e.target.closest('.cards-card')) {
             const cardNumber = parseInt(e.target.closest('.cards-card').id, 10);
             this.removeActiveCards();
@@ -36,7 +37,7 @@ export default class CardsPage {
         this.gameIsStarted = false;
         this.gameButton.innerHTML = 'Press to start';
         this.cards.addEventListener('click', (e) => {
-            this.click(e);
+            this.setActiveCard(e);
         });
         this.gameButton.addEventListener('click', this.startGame);
     }
@@ -49,7 +50,8 @@ export default class CardsPage {
         this.resultButton = addElement('div', buttons, 'button results', 'results', 'Results');
 
         this.cards.addEventListener('click', (e) => {
-            this.click(e);
+            debugger;
+            this.setActiveCard(e);
         });
 
         this.restartButton.addEventListener('click', () => {
@@ -176,7 +178,7 @@ export default class CardsPage {
                 };
         });
         this.cards.removeEventListener('click', (e) => {
-            this.click(e);
+            this.setActiveCard(e);
         });
         recognition.start();
     }
@@ -216,7 +218,7 @@ export default class CardsPage {
             el.id = index;
         });
         this.caller.root.innerHTML = '';
-        new Statistic(new ViewMethods()).renderStat(rightAnswer, wrongAnswer);
+        new Statistic(new ViewMethods(), () => new SpeakitController(BASE_HEROKU, false)).renderStat(rightAnswer, wrongAnswer);
 
         this.caller.gamePage.classList.add('hidden');
     }

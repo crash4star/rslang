@@ -3,12 +3,26 @@ import StatisticElement from '../speakit/elements/StatisticElement';
 import '../../css/miniGameStatistic.scss';
 
 class Statistic {
-  constructor(view) {
+  constructor(view, callback) {
     this.view = view;
+    this.callback = callback;
   }
 
   addStatisticElement(element, parent) {
     new StatisticElement(element, parent);
+  }
+
+  addButtonListeners() {
+    this.onMainPageBtn.addEventListener('click', () => {
+      const root = document.querySelector('.root');
+      root.innerHTML = '',
+      root.classList.remove('root-active');
+    });
+    if (!!this.callback) {
+      this.continueBtn.addEventListener('click', () => {
+        this.callback();
+      });
+    }
   }
 
   renderStat(rightAnswers, wrongAnswers) {
@@ -24,17 +38,17 @@ class Statistic {
       node: 'div',
       styleName: 'statBtnsContainer',
     });
-    const continueBtn = this.view.createElement({
+    this.continueBtn = this.view.createElement({
       node: 'button',
       styleName: 'continueBtn',
     });
-    continueBtn.textContent = 'Continue';
+    this.continueBtn.textContent = 'Continue';
 
-    const onMainPageBtn = this.view.createElement({
+    this.onMainPageBtn = this.view.createElement({
       node: 'button',
       styleName: 'onMainPageBtn ',
     });
-    onMainPageBtn.textContent = 'Main page';
+    this.onMainPageBtn.textContent = 'Main page';
     const statContainer = this.view.createElement({
       node: 'div',
       styleName: 'stat-container',
@@ -98,12 +112,14 @@ class Statistic {
 
     statWordsContaier.append(rightAnswersContainer);
     statWordsContaier.append(wrongAnswersContainer);
-    statBtnsContainer.append(continueBtn);
-    statBtnsContainer.append(onMainPageBtn);
+    statBtnsContainer.append(this.continueBtn);
+    statBtnsContainer.append(this.onMainPageBtn);
     statisticWrapper.append(statContainer);
     this.view.getElement('.root').append(statisticWrapper)
     const right = rightAnswers.length;
     createProgressBar(containerForProgressBar, right, 0.1);
+
+    this.addButtonListeners();
   }
 }
 export default Statistic

@@ -2,7 +2,7 @@ import addElement from "../../utils/utils";
 import { soundImageUrl, translateUrl, gitUrl } from './../data/data';
 
 export default class StatisticElement {
-    constructor (data, parent, index) {
+    constructor (data, parent) {
         this.parent = parent;
         this.word = data.word;
         this.transcription = data.transcription;

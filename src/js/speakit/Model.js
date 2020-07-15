@@ -13,7 +13,6 @@ export default class Model {
 
     getUserSettings(settings) {
         this.userSettings.difficult = settings.optional.settingsProfile.difficult;
-        //this.userSettings.wordsPerPage = settings.wordsPerDay;
         return this.userSettings.difficult;
     }
 
@@ -30,7 +29,6 @@ export default class Model {
     }
 
     getWordsToStudy(data) {
-        debugger;
         data.sort((a, b) => {
             const previousRating = a.optional.rating;
             const nextRating = b.optional.rating;
@@ -51,7 +49,6 @@ export default class Model {
     }
 
     async init () {
-        debugger;
         this.api = new Api(this.URL);
         this.authRequest = new AuthRequest(this.api);
         const settings = new Settings(this.api, this.authRequest);

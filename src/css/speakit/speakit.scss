@@ -11,8 +11,6 @@
     display: none;
 }
 
-
-
 .speakit{
     position: absolute;
     background-color: white;
@@ -101,6 +99,11 @@
                 box-shadow: 0 0 0 2px #ffffff;
                 cursor: pointer;
                 transition: .5s;
+                @media screen and (max-width: 425px) {
+                    width: 15px;
+                    height: 15px;
+                    padding: 7px;
+                }
                 
                 &:not(:first-child) {
                     &::before {
@@ -111,6 +114,9 @@
                         top: 9px;
                         right: 5px;
                         background-color: #00c49d;
+                        @media screen and (max-width: 425px) {
+                            top: 7px;
+                        }
                 }
             }
             
@@ -130,6 +136,10 @@
             width: 270px;
             height: 200px;
             object-fit: cover;
+            @media screen and (max-width: 425px) {
+                width: 220px;
+                height: 160px;
+            }
         }
 
         .action {
@@ -139,7 +149,10 @@
             margin: 10px 0;
             display: flex;
             align-items: center;
-            
+
+            @media screen and (max-width: 768px) {
+                height: 15px;
+            }
             
             .mic {
                 width: 30px;
@@ -176,6 +189,14 @@
                 margin: 10px;
                 border-radius: 5px;
                 margin: 10px;
+                @media screen and (max-width: 768px) {
+                    height: 50px;
+                    margin: 5px;
+                }
+
+                @media screen and (max-width: 425px) {
+                    font-size: 12px;
+                }
                 
                 &:hover {
                     cursor: pointer;
@@ -193,6 +214,9 @@
                     height: 30px;
                     margin-right: 10px;
                     object-fit: cover;
+                    @media screen and (max-width: 425px) {
+                        height: 20px;
+                    }
                 }
                 
                 &-text {
@@ -230,6 +254,11 @@
             margin: 10px;
             text-align: center;
             border-radius: 10px;
+            @media screen and (max-width: 768px) {
+                height: 50px;
+                line-height: 50px;
+                font-size: 14px;
+            }
         
             &:hover {
                 cursor: pointer;
@@ -283,9 +312,13 @@
         border: 1px solid #00c49d;
         border-radius: 50%;
         background-color: rgba(0, 196, 157, 0.5);
-        top: 0;
+        top: -15px;
         right: 0;
         position: absolute;
+
+        @media screen and (max-width: 768px) {
+            right: 25px;
+        }
 
         &:hover {
             cursor: pointer;
