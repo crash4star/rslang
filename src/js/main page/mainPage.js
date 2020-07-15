@@ -10,6 +10,7 @@ import { BASE_HEROKU } from '../data/miniGames';
 
 import '../../css/main_page.scss';
 import '../../css/menu.scss';
+import mainGame from '../main-game/startLinguist';
 
 const body = document.querySelector('body');
 
@@ -37,6 +38,10 @@ function renderSettings() {
     return new GlobalSettings(settings);
 }
 
+function renderMainGame() {
+    mainGame();
+}
+
 export default function renderMainPage() {
     clearMarkup();
     renderNotificationBlock();
@@ -45,6 +50,7 @@ export default function renderMainPage() {
     renderMainPart();
     renderFooter();
     renderSettings();
+    renderMainGame();
 }
 
 export { removeContent }
