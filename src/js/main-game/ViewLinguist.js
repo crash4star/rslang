@@ -1,7 +1,7 @@
 import GeneralContainerElement from './UIComponents/GeneralContainerElement';
 import ButtonElement from './UIComponents/ButtonElement';
 import LearningCard from './LinguistComponents/LearningCard';
-import UserWord from './LinguistComponents/UserWord';
+import UserWord from '../utils/UserWord';
 import Progress from './UIComponents/Progress';
 
 class ViewLinguist {

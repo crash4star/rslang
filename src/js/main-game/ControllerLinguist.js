@@ -1,4 +1,4 @@
-import UserWord from './LinguistComponents/UserWord';
+import UserWord from '../utils/UserWord';
 import defaultLearningSettings from './assets/defaultLearningSettings';
 import defaultLearningStatistics from './assets/defaultLearningStatistics';
 import mainGame from './startLinguist';
