@@ -203,6 +203,7 @@ export default class CardsPage {
         if (!this.gameIsStarted) {
             this.removeActiveCards();
         }
+        this.stopGame();
         const rightAnswer = [];
         const wrongAnswer = [];
         this.data.forEach ((element, index) => {
@@ -214,8 +215,7 @@ export default class CardsPage {
             el.isAnswered ? rightAnswer.push(el) : wrongAnswer.push(el);
             el.id = index;
         });
-
-        //const statistic = new StatisicPage(data, this.caller.statPageContent);
+        this.caller.root.innerHTML = '';
         new Statistic(new ViewMethods()).renderStat(rightAnswer, wrongAnswer);
 
         this.caller.gamePage.classList.add('hidden');
