@@ -6,6 +6,7 @@ import CardsPage from './elements/CardsPage';
 
 export default class View {
   constructor(model, isNeedToLoadStartPage) {
+    debugger;
     this.model = model;
     this.isNeedToLoadStartPage = isNeedToLoadStartPage;
     this.main = document.querySelector('.main');
@@ -16,16 +17,80 @@ export default class View {
     addElement('p', this.startPage, 'speakit-startPage--text', this.startPage, text);
   }
 
-  renderStartPage() {
+  hideStartPage() {
+    document.getElementById('speakit-startPage').classList.add('hidden');
+    this.renderGamePage();
+  }
+
+  askWhichGamePlay() {
+    const body = document.querySelector('body');
+    const modalFade = addElement('div', body, 'modal fade', 'speakit-selectGame', null, ['role', 'dialog']);
+    const modalDialog = addElement('div', modalFade, 'modal-dialog');
+    const modalContent = addElement('div', modalDialog, 'modal-content');
+    const modalHeader = addElement('div', modalContent, 'modal-header');
+    addElement('h5', modalHeader, 'modal-title', 'ModalLabel', 'Select game');
+    const closeButton = addElement(
+        'button', 
+        modalHeader, 
+        'close', 
+        null, 
+        null, 
+        ['data-dismiss', 'modal'], 
+        ['aria-label', 'Close']
+    );
+    addElement('span', closeButton, null, null, '&times;', ['aria-hidden', 'true']);
+
+    const modalBody = addElement('div', modalContent, 'modal-body');
+    const form = addElement('form', modalBody);
+    addElement('label', form, null, null, 'Would you want to train studied words of random words?');
+    
+    const modalFooter = addElement('div', modalContent, 'modal-footer');
+    const studiedWords = addElement(
+      'button', 
+      modalFooter, 
+      'btn btn-success', 
+      'speakit-train', 
+      'Studied words', 
+      ['type', 'button'], 
+      ['data-dismiss', 'modal']
+    );
+    const randomWords = addElement(
+        'button', 
+        modalFooter, 
+        'btn btn-success', 
+        'speakit-random', 
+        'Random words', 
+        ['type', 'button'], 
+        ['data-dismiss', 'modal']
+    );
+
+    studiedWords.addEventListener('click', () => {
+      this.isLoadStudiedWords = true;
+      this.hideStartPage();
+    });
+    randomWords.addEventListener('click', () => {
+      this.isLoadStudiedWords = false;
+      this.hideStartPage();
+    })
+  }
+
+  renderStartPage(isNeedToShowModal) {
     if (this.isNeedToLoadStartPage) {
       this.startPage = addElement('div', speakit, 'speakit-startPage', 'speakit-startPage');
       addElement('h1', this.startPage, 'speakit-startPage--title', 'Speakit');
       this.addStartPageDescription('Click on the words to hear them sound.');
       this.addStartPageDescription('Click on the button and speak the words into the microphone.');
       const startPageButton = addElement('div', this.startPage, 'speakit-startPage--button', 'speakit-startPage--button', 'Start');
-      startPageButton.addEventListener('click', () => {
-        document.getElementById('speakit-startPage').classList.add('hidden');
-      }); 
+      
+      if (isNeedToShowModal) {
+        startPageButton.setAttribute('data-toggle', 'modal');
+        startPageButton.setAttribute('data-target', '#speakit-selectGame');
+      } else {
+        startPageButton.addEventListener('click', () => {
+            document.getElementById('speakit-startPage').classList.add('hidden');
+        }); 
+      }
+
     }
   }
 
@@ -38,13 +103,15 @@ export default class View {
   }
 
   renderChapters() {
-    const activeChapter = 0; //get from db
-    this.chapters = new Chapters(this.gamePage, activeChapter);
-    this.chapters.render();
-
-    this.chapters.node.addEventListener('click', (e) => {
-      this.newGame(e);
-  });
+    if (!this.isLoadStudiedWords) {
+      const activeChapter = 0; //get from db
+      this.chapters = new Chapters(this.gamePage, activeChapter);
+      this.chapters.render();
+      
+      this.chapters.node.addEventListener('click', (e) => {
+        this.newGame(e);
+      });
+    }
   }
 
   renderCloseButton() {
@@ -96,39 +163,17 @@ export default class View {
     this.statPage.classList.add('hidden');
   }
 
-  renderStatisticPage() {
-    this.statPage = addElement('div', this.container, 'speakit-statPage hidden');
-    this.statPageContent = addElement('div', this.statPage, 'statPageContent', 'statPage');
-
-    const statButtons = addElement('div', this.statPage, 'buttons');
-    const returnButton = addElement('div', statButtons, 'button return', 'return', 'Return');
-    const newGameButton = addElement('div', statButtons, 'button newGame', 'newGame', 'New game');
-    
-    this.statPage.addEventListener('click', (e) => {
-      if (e.target.closest('.minigame-statistic')){
-        let id = e.target.closest('.minigame-statistic').id;
-        id = parseInt(id, 10);
-        this.cardsPage.playSound(id);
-      }
-    });
-
-    returnButton.addEventListener('click', () => {
-      this.returnToGame();
-    });
-
-    newGameButton.addEventListener('click', () => {
-      this.returnToGame()
-      this.newGame();
-    });
-  }
-
   init() {
     this.root = document.querySelector('.root');
     this.root.classList.add('root-active');
     this.speakit = addElement('div', this.root, 'speakit', 'speakit');
     this.container = addElement('div', this.speakit, 'container');
-    this.renderStartPage();
-    this.renderGamePage();
-    this.renderStatisticPage();
+    if (this.model.words.wordsToStudy.length >= 10) {
+      this.askWhichGamePlay();
+      this.renderStartPage(true);
+    } else {
+      this.renderStartPage(false);
+      this.renderGamePage();
+    }
   }
 }

@@ -9,33 +9,26 @@ const wordsPerRound = 10;
 
 export default class Model {
     constructor(URL) {
-        debugger;
         this.URL = URL;
         this.round = 0;
     }
 
     async getUserSettings(settings) {
-        //this.userSettings.difficult = settings.optional.settingsProfile.difficult;
         this.settings = settings;
         debugger;
         if (!this.settings.optional.speakit) {
             this.settings.optional.speakit = {
                 round: 0
             }
-            await this.settingsObject.updateSettings(this.settings);
+            const updatedSettings = {
+                optional: this.settings.optional
+            }
+            await this.settingsObject.updateSettings(updatedSettings);
         }
 
         this.round = this.settings.optional.speakit.round;
-        debugger;
-        
-        for (let i = 0; i < 360; i += 1) {
-            this.round = i;
-            this.difficult = Math.floor(this.round / gamesInLevel);
-            this.page = Math.floor((this.round % gamesInLevel) / 2);
-            console.log(`round ${i}, difficult ${this.difficult}, page ${this.page}`);
-        }
-
-        return this.userSettings.difficult;
+        this.difficult = Math.floor(this.round / gamesInLevel);
+        this.page = Math.floor((this.round % gamesInLevel) / 2);
     }
 
     getWordsByLevel(data) {
@@ -78,7 +71,6 @@ export default class Model {
         const statistics = new Statistics(this.api, this.authRequest);
         this.words = {};
         this.userSettings = {};
-        this.statistics = {};
         await this.settingsObject.getUserSettings()
         .then(settings => {
             this.getUserSettings(settings);

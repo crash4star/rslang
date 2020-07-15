@@ -81,6 +81,7 @@ export default class CardsPage {
         this.data = [];
         this.init();
     }
+
     getCardsToStudy(cards) {
         const arrayToStudy = [];
         cards.forEach(el => {
@@ -94,7 +95,7 @@ export default class CardsPage {
     }
 
     getCards() {
-        if (this.caller.model.words.wordsToStudy.length === 10) {
+        if (this.caller.isLoadStudiedWords) {
             this.data = shuffleArr(this.getCardsToStudy(this.caller.model.words.wordsToStudy));
         } else {
             this.data = shuffleArr(this.caller.model.words.wordsByLevel);
