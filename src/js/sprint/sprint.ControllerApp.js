@@ -1,7 +1,6 @@
-import Statistic from '../utils/createStatistic';
 import getRandomInt from '../utils/getRandomInt';
 import randomInteger from './components/getRandomIntForRound';
-import timer from './components/timer';
+import checkEndGame from './components/timer';
 
 class SprintControllerApp {
   constructor(model, view, viewMethods) {
@@ -14,28 +13,24 @@ class SprintControllerApp {
   }
 
   start() {
-    
-    this.view.renderStartPage(); 
-   
+    this.view.renderStartPage();
   }
 
   play() {
-    
-    this.view.renderGame() 
-      this.getWords();
-      this.view.createTimer()
-    timer(this.rightAnswers, this.wrongAnswers );
+    this.view.renderGame();
+    this.getWords();
+    this.view.createTimer();
+    checkEndGame(this.rightAnswers, this.wrongAnswers);
 
-   this.view.createPoints(this.points)
+    this.view.createPoints(this.points);
   }
 
   nextRound() {
-    
-    this.view.renderGame() 
-      this.getWords();
-    this.view.createPoints(this.points)
+    this.view.renderGame();
+    this.getWords();
+    this.view.createPoints(this.points);
   }
-  
+
   getWords() {
     const difficult = 0;
     const page = getRandomInt(30);
@@ -83,22 +78,20 @@ class SprintControllerApp {
     rightBtn.onclick = () => {
       if (wordTranslate.classList.contains('rightAnswer')) {
         this.viewMethods.getElement('.sprint-container').remove();
-        this.points+=10;
-        this.rightAnswers.push(enWord)
+        this.points += 10;
+        this.rightAnswers.push(enWord);
         this.nextRound();
       }
     };
 
     wrongBtn.onclick = () => {
-      if(!wordTranslate.classList.contains('rightAnswer')) {
+      if (!wordTranslate.classList.contains('rightAnswer')) {
         this.viewMethods.getElement('.sprint-container').remove();
-        this.wrongAnswers.push(enWord)
+        this.wrongAnswers.push(enWord);
         this.nextRound();
       }
-      
-    }
+    };
   }
-  
 }
 
 export default SprintControllerApp;
