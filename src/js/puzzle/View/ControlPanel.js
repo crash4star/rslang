@@ -9,26 +9,28 @@ import Button from './components/Button';
 import Select from './components/Select';
 
 class ControlPanel extends Container {
-  constructor(id = 'control-panel', styles = 'control-panel') {
+  constructor(id = 'control-panel', styles = 'puzzle__control-panel') {
     super(id, styles);
     this.renderControlPanel();
   }
 
   renderControlPanel() {
-    const levelOptions = new Container('level-options', 'level-options');
-    const selectLevel = new Select('level-select', 'level-select', { // add size on click
+    const levelOptions = new Container('level-options', 'puzzle__level-options');
+    const selectLevel = new Select('level-select', 'puzzle__level-select', { // add size on click
       autocomplete: 'off',
+      name: 'level-select',
     }, ['1', '2', '3', '4', '5', '6']);
-    const selectPage = new Select('page-select', 'page-select', {
+    const selectPage = new Select('page-select', 'puzzle__page-select', {
       autocomplete: 'off',
+      name: 'page-select',
     }, ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
-    const selectButton = new Button('select-button', 'Select', {}, 'select-button');
+    const selectButton = new Button('select-button', 'Select', {}, 'puzzle__select-button');
     levelOptions.add(selectLevel, selectPage, selectButton);
-    const gameOptions = new Container('game-options', 'game-options');
-    const autoSound = new Container('auto-sound-wrapper', 'auto-sound-wrapper');
-    const translation = new Container('translation-wrapper', 'translation-wrapper');
-    const sound = new Container('sound-wrapper', 'sound-wrapper');
-    const picture = new Container('picture-wrapper', 'picture-wrapper');
+    const gameOptions = new Container('game-options', 'puzzle__game-options');
+    const autoSound = new Container('auto-wrapper', 'puzzle__auto-wrapper');
+    const translation = new Container('translation-wrapper', 'puzzle__translation-wrapper');
+    const sound = new Container('sound-wrapper', 'puzzle__sound-wrapper');
+    const picture = new Container('picture-wrapper', 'puzzle__picture-wrapper');
     gameOptions.add(autoSound, translation, sound, picture);
     this.add(levelOptions, gameOptions);
   }
@@ -37,8 +39,8 @@ class ControlPanel extends Container {
     id.forEach((element) => {
       console.log('element: ', element);
       const button = this.getChild('game-options').getChild(element).getHtml();
-      if (!button.className.includes('hint-active')) {
-        button.classList.add('hint-active');
+      if (!button.className.includes('puzzle__hint-active')) {
+        button.classList.add('puzzle__hint-active');
       }
     });
   }
@@ -47,8 +49,8 @@ class ControlPanel extends Container {
     id.forEach((element) => {
       console.log('element: ', element);
       const button = this.getChild('game-options').getChild(element).getHtml();
-      if (button.className.includes('hint-active')) {
-        button.classList.remove('hint-active');
+      if (button.className.includes('puzzle__hint-active')) {
+        button.classList.remove('puzzle__hint-active');
       }
     });
   }
@@ -59,9 +61,24 @@ class ControlPanel extends Container {
     const fromZerroIndexCount = 1;
     const currentLevel = currentSettings.levelSettings.level - fromZerroIndexCount;
     const currentPage = currentSettings.levelSettings.page - fromZerroIndexCount;
+    const pageSelect = document.getElementById('page-select');
+    const levelSelect = document.getElementById('level-select');
+    // console.log('aaaaaaaaaaaaaaaddddddddddddddddd0', typeof pageSelect.options);
+    // Object.keys(pageSelect.options).forEach((element, index) => {
+    //   console.log('element: ', element);
+    //   if (currentPage === index) {
+    //     pageSelect.options[element].setAttribute('selected', '');
+    //   }
+    // });
+    // Object.keys(levelSelect.options).forEach((element, index) => {
+    //   if (currentLevel === index) {
+    //     levelSelect.options[element].setAttribute('selected', '');
+    //   }
+    // });
     document.getElementById('page-select').options[currentPage].selected = true;
     document.getElementById('level-select').options[currentLevel].selected = true;
-    const buttonsID = ['auto-sound-wrapper', 'sound-wrapper', 'picture-wrapper', 'translation-wrapper'];
+    const buttonsID = ['auto-wrapper', 'translation-wrapper', 'sound-wrapper', 'picture-wrapper'];
+    console.log('currentSettings: ', currentSettings);
     const optionsArray = Object.keys(currentSettings.gameSettings);
     optionsArray.forEach((element, index) => {
       if (currentSettings.gameSettings[element] === true) {

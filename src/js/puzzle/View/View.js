@@ -1,5 +1,6 @@
 // import Utils from './Utils';
 import Image from './components/Image';
+import Container from './components/Container';
 // import Paragraph from './Paragraph';
 
 class View {
@@ -12,7 +13,8 @@ class View {
     this.phrasePanel = phrasePanel;
     console.log('controlPanel: ', controlPanel);
     this.appHead = document.head;
-    this.app = document.getElementById('root');
+    this.app = document.querySelector('.root');
+    this.app.classList.add('root-active');
     this.appHead.append(this.favicon.getHtml());
     this.app.append(this.mainPage.getHtml());
     // this.currentLevelData = {};
@@ -20,19 +22,31 @@ class View {
   }
 
   renderGamePage() {
-    this.gamePage = [this.controlPanel.getHtml(), this.hintsPanel.getHtml(),
-      this.puzzlePanel.getHtml(), this.phrasePanel.getHtml()];
-    this.app.append(...this.gamePage);
+    this.gamePage = new Container('game-wrapper', 'puzzle__game-wrapper');
+    this.gamePage.add(this.controlPanel, this.hintsPanel,
+      this.puzzlePanel, this.phrasePanel);
+    this.app.append(this.gamePage.getHtml());
   }
 
   startGameEvent(startGame) {
     this.mainPage.getHtml().addEventListener('click', (event) => {
-      if (event.target.className.includes('start')) {
+      if (event.target.className.includes('puzzle__start')) {
         this.mainPage.removeElement();
         this.renderGamePage();
-        this.controlPanelEvents();
+        // this.controlPanelEvents();
+        this.hintsEvents();
         // puzzlePanelEvents
         startGame();
+      }
+    });
+  }
+
+
+  hintsEvents() {
+    this.hintsPanel.getHtml().addEventListener('click', (event) => {
+      console.log(event.target);
+      if (event.target.className.includes('puzzle__play-wrapper')) {
+        this.hintsPanel.playSound();
       }
     });
   }
@@ -40,7 +54,7 @@ class View {
   gameEvents(check, continueGame, line, dontKnowEvent, showResult) {
     this.phrasePanel.getHtml().addEventListener('click', (event) => {
       console.log(event.target);
-      if (event.target.className.includes('phrase-block')) {
+      if (event.target.className.includes('puzzle__phrase-block')) {
         const phraseWrapper = this.phrasePanel.getChild('phrase-wrapper');
         const item = phraseWrapper.getChild(event.target.id);
         phraseWrapper.removeChild(event.target.id);
@@ -51,7 +65,7 @@ class View {
         if (!phraseWrapper.children.length) {
           this.phrasePanel.activateButton('check');
         }
-      } else if (event.target.className.includes('check')) {
+      } else if (event.target.className.includes('puzzle__check')) {
         if (check()) {
           this.phrasePanel.deactivateButton('check', 'dont-know');
           this.phrasePanel.activateButton('continue');
@@ -59,14 +73,14 @@ class View {
           this.phrasePanel.deactivateButton('continue');
           this.phrasePanel.activateButton('check', 'dont-know');
         }
-      } else if (event.target.className.includes('continue')) { // ????
+      } else if (event.target.className.includes('puzzle__continue')) { // ????
         if (continueGame()) {
           this.phrasePanel.deactivateButton('continue');
           this.phrasePanel.activateButton('check', 'dont-know');
         } else {
           showResult();
         }
-      } else if (event.target.className.includes('dont-know')) {
+      } else if (event.target.className.includes('puzzle__dont-know')) {
         dontKnowEvent();
         if (check()) {
           this.phrasePanel.deactivateButton('check', 'dont-know');
@@ -76,25 +90,55 @@ class View {
     });
   }
 
-  controlPanelEvents() {
+  controlPanelEvents(changeSettings, changeLevel) {
+    this.level = this.controlPanel.getChild('level-options').getChild('level-select').getHtml().value;
+    this.page = this.controlPanel.getChild('level-options').getChild('page-select').getHtml().value;
+    this.controlPanel.getHtml().addEventListener('change', (event) => {
+      const element = event.target;
+      if (element.className.includes('puzzle__level-select') ||
+        element.className.includes('puzzle__page-select')) {
+        if (element.className.includes('puzzle__level-select')) {
+          this.level = element.value;
+        } else {
+          this.page = element.value;
+        }
+      }
+      console.log(this.level, this.page);
+    });
     this.controlPanel.getHtml().addEventListener('click', (event) => {
       console.log(event.target.id);
-      if (event.target.className.includes('select-button')) {
-        console.log('sdsdsdssssssssssss');
-      } else if (event.target.className.includes('auto-sound-wrapper') || event.target.className.includes('translation-wrapper')
-        || event.target.className.includes('picture-wrapper') || event.target.className.includes('sound-wrapper')) {
-        if (event.target.className.includes('hint-active')) {
-          if (event.target.className.includes('translation-wrapper')) {
+      if (event.target.className.includes('puzzle__select-button')) {
+        this.changeGameLevelEvent(changeLevel);
+      } else if (event.target.className.includes('puzzle__auto-wrapper') || event.target.className.includes('puzzle__translation-wrapper')
+        || event.target.className.includes('puzzle__picture-wrapper') || event.target.className.includes('puzzle__sound-wrapper')) {
+        if (event.target.className.includes('puzzle__hint-active')) {
+          if (event.target.className.includes('puzzle__translation-wrapper')) {
             this.hintsPanel.deactivateHint('translation');
-          } else if (event.target.className.includes('sound-wrapper')) {
+            changeSettings('translation-wrapper', false);
+          } else if (event.target.className.includes('puzzle__sound-wrapper')) {
             this.hintsPanel.deactivateHint('play-wrapper');
+            changeSettings('sound-wrapper', false);
+          } else if (event.target.className.includes('puzzle__auto-wrapper')) {
+            // this.hintsPanel.activateHint('play-wrapper');
+            changeSettings('auto-wrapper', false);
+          } else if (event.target.className.includes('puzzle__picture-wrapper')) {
+            // this.hintsPanel.activateHint('play-wrapper');
+            changeSettings('picture-wrapper', false);
           }
           this.controlPanel.deactivateButton(event.target.id);
         } else {
-          if (event.target.className.includes('translation-wrapper')) {
+          if (event.target.className.includes('puzzle__translation-wrapper')) {
             this.hintsPanel.activateHint('translation');
-          } else if (event.target.className.includes('sound-wrapper')) {
+            changeSettings('translation-wrapper', true);
+          } else if (event.target.className.includes('puzzle__sound-wrapper')) {
             this.hintsPanel.activateHint('play-wrapper');
+            changeSettings('sound-wrapper', true);
+          } else if (event.target.className.includes('puzzle__auto-wrapper')) {
+            // this.hintsPanel.activateHint('play-wrapper');
+            changeSettings('auto-wrapper', true);
+          } else if (event.target.className.includes('puzzle__picture-wrapper')) {
+            // this.hintsPanel.activateHint('play-wrapper');
+            changeSettings('picture-wrapper', true);
           }
           this.controlPanel.activateButton(event.target.id);
         }
@@ -102,10 +146,41 @@ class View {
     });
   }
 
+  changeGameLevelEvent(changeLevel) {
+    if (event.target.className.includes('puzzle__select-button')) {
+      const level = this.level;
+      const page = this.page;
+      console.log('DAAATTTAAAAA', level, page);
+      changeLevel(level, page);
+    }
+  }
+
+  // fill phrase field
+  // changeDefaultLevel(changeData) {
+  //   const currentLevelData = {
+  //     level: this.controlPanel.getChild('level-options')
+  // .getChild('level-select').getHtml().value,
+  //     page: this.controlPanel.getChild('level-options').getChild('page-select').getHtml().value,
+  //   };
+  //   changeData(currentLevelData.level, currentLevelData.page);
+  //   this.controlPanel.getHtml().addEventListener('change', (event) => {
+  //     const element = event.target;
+  //     if (element.className.includes('level-select') ||
+  // element.className.includes('page-select')) {
+  //       if (element.className.includes('level-select')) {
+  //         currentLevelData.level = element.value;
+  //       } else {
+  //         currentLevelData.page = element.value;
+  //       }
+  //     }
+  //     changeData(currentLevelData.level, currentLevelData.page);
+  //   });
+  // }
+
   getWidth() {
-    const size = window.getComputedStyle(document.querySelector('.puzzle-box'))
+    const size = window.getComputedStyle(document.querySelector('.puzzle__puzzle-box'))
       .width.split('px');
-    console.log('getComputedStyle: ', window.getComputedStyle(document.querySelector('.puzzle-box')).width.split('px')[0]);
+    console.log('getComputedStyle: ', window.getComputedStyle(document.querySelector('.puzzle__puzzle-box')).width.split('px')[0]);
     this.size = size;
     return size[0];
   }
@@ -225,45 +300,6 @@ class View {
       this.phrasePanel.getHtml();
     }
   }
-  //       auto-sound
-  // translation
-  // sound
-  // picture
-  // changeGameLevelEvent(startGame) {
-  //   this.controlPanel.getHtml().addEventListener('click', (event) => {
-  //     if (event.target.className.includes('select-button')) {
-  //       console.log('sdsdsdssssssssssss');
-  //       // changeLevel();
-  //       // this.controlPanel.getHtml().remove();
-  //       // this.ui.wordPanel.getHtml().remove();
-  //       // this.ui.puzzlePanel.getHtml().remove();
-  //       // this.ui.phrasePanel.getHtml().remove();
-  //       startGame();
-  //     }
-  //   });
-  // }
-
-  // fill phrase field
-  // changeDefaultLevel(changeData) {
-  //   const currentLevelData = {
-  //     level: this.controlPanel.getChild('level-options')
-  // .getChild('level-select').getHtml().value,
-  //     page: this.controlPanel.getChild('level-options').getChild('page-select').getHtml().value,
-  //   };
-  //   changeData(currentLevelData.level, currentLevelData.page);
-  //   this.controlPanel.getHtml().addEventListener('change', (event) => {
-  //     const element = event.target;
-  //     if (element.className.includes('level-select') ||
-  // element.className.includes('page-select')) {
-  //       if (element.className.includes('level-select')) {
-  //         currentLevelData.level = element.value;
-  //       } else {
-  //         currentLevelData.page = element.value;
-  //       }
-  //     }
-  //     changeData(currentLevelData.level, currentLevelData.page);
-  //   });
-  // }
 }
 
 export default View;

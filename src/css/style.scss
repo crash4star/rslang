@@ -1,6 +1,11 @@
 @import '../css/savannah/savannah.scss';
 @import './style-guide.scss';
 @import '../css/audio-call/statistic-mini-games.scss';
+@import './puzzle/mixins';
+@import './puzzle/placeholders';
+@import './puzzle/normalize';
+@import './puzzle/game-page';
+@import './puzzle/main-page';
 
 $border-blue: #BCD0E5;
 
@@ -12,11 +17,11 @@ $border-blue: #BCD0E5;
 header, footer {
     background-color: $base-white;
 }
-  
+
 .btn {
     font-weight: 600;
 }
-  
+
 .btn-red {
     color: $base-white;
     background-color: $base-red;
@@ -26,7 +31,7 @@ header, footer {
         background-color: $hover-red;
     }
 }
-  
+
 .btn-gray {
     border-color: $border-blue;
     margin-left: 15px;
@@ -56,7 +61,7 @@ header {
         text-align: center;
     }
 
-    .logOut { 
+    .logOut {
         img {
             width: 23px;
             height: 23px;

@@ -1,16 +1,17 @@
-import Model from './js/Model/Model';
-import Settings from './js/Model/Settings';
-import Words from './js/Model/Words';
-import Painting from './js/Model/Painting';
-import View from './js/View/View';
-import Favicon from './js/View/Favicon';
-import MainPage from './js/View/MainPage';
-import ControlPanel from './js/View/ControlPanel';
-import HintsPanel from './js/View/HintsPanel';
-import PuzzlePanel from './js/View/PuzzlePanel';
-import PhrasePanel from './js/View/PhrasePanel';
-import Controller from './js/Controller/Controller';
-import Statistic from './js/Model/Statistic';
+// import ServerSettings from '../../models/Settings'; new ServerSettings()
+import Model from './Model/Model';
+import Settings from './Model/Settings';
+import Words from './Model/Words';
+import Painting from './Model/Painting';
+import View from './View/View';
+import Favicon from './View/components/Favicon';
+import MainPage from './View/MainPage';
+import ControlPanel from './View/ControlPanel';
+import HintsPanel from './View/HintsPanel';
+import PuzzlePanel from './View/PuzzlePanel';
+import PhrasePanel from './View/PhrasePanel';
+import Controller from './Controller/Controller';
+import Statistic from './Model/Statistic';
 
 function startApp() {
   const model = new Model(new Settings(), new Words(), new Painting(), new Statistic());
@@ -21,4 +22,4 @@ function startApp() {
   return app;
 }
 
-export { startApp };
+export default startApp;

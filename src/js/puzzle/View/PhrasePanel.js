@@ -9,17 +9,17 @@ import Paragraph from './components/Paragraph';
 // import Select from './components/Select';
 
 class PhrasePanel extends Container {
-  constructor(id = 'phrase-panel', styles = 'phrase-panel') {
+  constructor(id = 'phrase-panel', styles = 'puzzle__phrase-panel') {
     super(id, styles);
     this.renderPhrasePanel();
   }
 
   renderPhrasePanel() {
-    const phrase = new Container('phrase-wrapper', 'phrase-wrapper');
-    const buttonContainer = new Container('button-container', 'button-container');
-    const dontKnowButton = new Button('dont-know', 'I don\'t know', {}, 'dont-know active');
-    const checkButton = new Button('check', 'Check', {}, 'check');
-    const continueButton = new Button('continue', 'Continue', {}, 'continue');
+    const phrase = new Container('phrase-wrapper', 'puzzle__phrase-wrapper');
+    const buttonContainer = new Container('button-container', 'puzzle__button-container');
+    const dontKnowButton = new Button('dont-know', 'I don\'t know', {}, 'puzzle__dont-know puzzle__active');
+    const checkButton = new Button('check', 'Check', {}, 'puzzle__check');
+    const continueButton = new Button('continue', 'Continue', {}, 'puzzle__continue');
     buttonContainer.add(dontKnowButton, checkButton, continueButton);
     this.add(phrase, buttonContainer);
   }
@@ -31,14 +31,14 @@ class PhrasePanel extends Container {
 
   updatePhrasePanel(data) {
     data.forEach((el, index) => {
-      const item = new Paragraph(`block-${index}`, `${data[index]}`, 'phrase-block', { draggable: 'true' });
+      const item = new Paragraph(`block-${index}`, `${data[index]}`, 'puzzle__phrase-block', { draggable: 'true' });
       // item.getHtml().style.width = '400px';
       this.getChild('phrase-wrapper').add(item);
     });
   }
 
   showPaintingInfo(data) {
-    const item = new Paragraph('decription', `${data}`, 'phrase-block', { draggable: 'true' });
+    const item = new Paragraph('decription', `${data}`, 'puzzle__phrase-block', { draggable: 'true' });
     // item.getHtml().style.width = '400px';
     this.getChild('phrase-wrapper').add(item);
     this.getChild('phrase-wrapper').getHtml();
@@ -48,8 +48,8 @@ class PhrasePanel extends Container {
     id.forEach((element) => {
       console.log('this: ', this);
       const button = this.getChild('button-container').getChild(element).getHtml();
-      if (!button.className.includes('active')) {
-        button.classList.add('active');
+      if (!button.className.includes('puzzle__active')) {
+        button.classList.add('puzzle__active');
       }
     });
   }
@@ -57,8 +57,8 @@ class PhrasePanel extends Container {
   deactivateButton(...id) {
     id.forEach((element) => {
       const button = this.getChild('button-container').getChild(element).getHtml();
-      if (button.className.includes('active')) {
-        button.classList.remove('active');
+      if (button.className.includes('puzzle__active')) {
+        button.classList.remove('puzzle__active');
       }
     });
   }

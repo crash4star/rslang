@@ -1,4 +1,8 @@
 class Settings {
+  // constructor(serverSettings) {
+  //   this.serverSettings = serverSettings;
+  // }
+
   async getLevelSettings() {
     if (!localStorage.getItem('levelSettings')) {
       localStorage.setItem('levelSettings', JSON.stringify({ level: 1, page: 1 }));
@@ -21,8 +25,8 @@ class Settings {
         puzzleImage: true,
       }));
     }
-    this.gameSettings = localStorage.getItem('gameSettings');
-    return JSON.parse(this.gameSettings);
+    this.gameSettings = JSON.parse(localStorage.getItem('gameSettings'));
+    return this.gameSettings;
   }
 
   setGameSettings(option, value) {

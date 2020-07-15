@@ -9,17 +9,17 @@ import Paragraph from './components/Paragraph';
 // import Select from './components/Select';
 
 class MainPage extends Container {
-  constructor(id = 'main-page', styles = 'main-page') {
+  constructor(id = 'main-page', styles = 'puzzle__main-page') {
     super(id, styles);
     this.renderMainPage();
   }
 
   renderMainPage() {
-    const mainPageWrapper = new Container('main-wrapper', 'main-wrapper');
+    const mainPageWrapper = new Container('main-wrapper', 'puzzle__main-wrapper');
     mainPageWrapper.add(
-      new Paragraph('heading', 'English Puzzle', 'heading'),
-      new Paragraph('about', 'Click on words, collect phrases. Words can be drag and drop. Select tooltips in the menu', 'about'),
-      new Button('start', 'Start Game', {}, 'start'),
+      new Paragraph('heading', 'English Puzzle', 'puzzle__heading'),
+      new Paragraph('about', 'Click on words, collect phrases. Words can be drag and drop. Select tooltips in the menu', 'puzzle__about'),
+      new Button('start', 'Start Game', {}, 'puzzle__start'),
     );
     this.add(mainPageWrapper);
   }

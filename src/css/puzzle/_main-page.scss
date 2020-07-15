@@ -1,77 +1,80 @@
-.main-page {
-}
+.puzzle {
+  &__main-page {
+  }
 
-.main-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-}
+  &__main-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.heading,
-.about,
-.start {
-  @extend %font-prime;
-  text-shadow: 0 0 3px #000;
-  letter-spacing: 0.04em;
-}
+  &__heading,
+  &__about,
+  &__start {
+    @extend %font-prime;
+    text-shadow: 0 0 3px #000;
+    letter-spacing: 0.04em;
+  }
 
-.heading {
-  padding-top: 200px;
-  @extend %font-prime;
-  text-shadow: 0 0 3px rgb(117, 5, 168);;
-  letter-spacing: 0.1em;
-  color: rgb(255, 255, 255);
-  @include font(70px, 70px, 200);
-  text-transform: uppercase;
-  text-align: center;
-}
-
-.about {
-  width: 900px;
-  text-align: center;
-  @extend %font-prime;
-  text-shadow: 0 0 3px rgb(117, 5, 168);;
-  letter-spacing: 0.02em;
-  color: rgb(255, 255, 255);
-  @include font(40px, 40px, 400);
-}
-
-.start {
-  border-radius: 20px;
-  border: 2px solid;
-  @include font(30px);
-  text-decoration: none;
-  outline: none;
-  margin: 10px 20px;
-  padding: 15px 30px;
-  text-transform: uppercase;
-  color: rgb(255, 255, 255);
-  background: rgb(117, 5, 168);
-  &:hover {
+  &__heading {
+    padding-top: 200px;
+    @extend %font-prime;
+    text-shadow: 0 0 3px rgb(117, 5, 168);;
+    letter-spacing: 0.1em;
     color: rgb(255, 255, 255);
-    background-color: rgb(66, 2, 95);
-    transform: scale(0.9);
-    transition: all 0.3s;
+    @include font(70px, 70px, 200);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  &__about {
+    width: 900px;
+    text-align: center;
+    @extend %font-prime;
+    text-shadow: 0 0 3px rgb(117, 5, 168);;
+    letter-spacing: 0.02em;
+    color: rgb(255, 255, 255);
+    @include font(40px, 40px, 400);
+  }
+
+  &__start {
+    border-radius: 20px;
+    border: 2px solid;
+    @include font(30px);
+    text-decoration: none;
+    outline: none;
+    margin: 10px 20px;
+    padding: 15px 30px;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    background: rgb(117, 5, 168);
+    &:hover {
+      color: rgb(255, 255, 255);
+      background-color: rgb(66, 2, 95);
+      transform: scale(0.9);
+      transition: all 0.3s;
+    }
+  }
+
+  &__button-wrapper {
+    cursor: pointer;
+    border-radius: 20px;
+    border: 2px solid;
+    @include font(30px);
+    text-decoration: none;
+    outline: none;
+    margin: 5px 20px;
+    padding: 7px 11px;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    background: rgb(117, 5, 168);
+    &:hover {
+      color: rgb(255, 255, 255);
+      background-color: rgb(66, 2, 95);
+      transform: scale(0.9);
+      transition: all 0.3s;
+    }
   }
 }
 
-.button-wrapper {
-  cursor: pointer;
-  border-radius: 20px;
-  border: 2px solid;
-  @include font(30px);
-  text-decoration: none;
-  outline: none;
-  margin: 5px 20px;
-  padding: 7px 11px;
-  text-transform: uppercase;
-  color: rgb(255, 255, 255);
-  background: rgb(117, 5, 168);
-  &:hover {
-    color: rgb(255, 255, 255);
-    background-color: rgb(66, 2, 95);
-    transform: scale(0.9);
-    transition: all 0.3s;
-  }
-}

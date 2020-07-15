@@ -9,19 +9,19 @@ import Paragraph from './components/Paragraph';
 // import Select from './components/Select';
 
 class PuzzlePanel extends Container {
-  constructor(id = 'puzzle-panel', styles = 'puzzle-panel') {
+  constructor(id = 'puzzle-panel', styles = 'puzzle__puzzle-panel') {
     super(id, styles);
     this.renderPuzzlePanel();
   }
 
   renderPuzzlePanel() {
-    const puzzleBox = new Container('puzzle-box', 'puzzle-box');
+    const puzzleBox = new Container('puzzle-box', 'puzzle__puzzle-box');
     this.add(puzzleBox);
   }
 
   addLine(index) {
     console.log('ssss');
-    this.getChild('puzzle-box').add(new Container(`line-${index}`, 'line'));
+    this.getChild('puzzle-box').add(new Container(`line-${index}`, 'puzzle__line'));
     this.getChild('puzzle-box').getHtml();
     console.log(this);
   }
@@ -49,9 +49,9 @@ class PuzzlePanel extends Container {
     const items = this.getItems(line);
     marks.forEach((element, index) => {
       if (element === true) {
-        items[index].classList.add('correct-mark');
+        items[index].classList.add('puzzle__correct-mark');
       } else {
-        items[index].classList.add('incorrect-mark');
+        items[index].classList.add('puzzle__incorrect-mark');
       }
     });
   }
@@ -72,7 +72,7 @@ class PuzzlePanel extends Container {
 
   setElements(line, data) {
     data.forEach((element, index) => {
-      const item = new Paragraph(`block-${index}`, `${data[index]}`, 'phrase-block', { draggable: 'true' });
+      const item = new Paragraph(`block-${index}`, `${data[index]}`, 'puzzle__phrase-block', { draggable: 'true' });
       this.getChild('puzzle-box').getChild(`line-${line}`).add(item);
       this.getChild('puzzle-box').getChild(`line-${line}`).getHtml();
     });

@@ -8,6 +8,7 @@ class Controller {
   }
 
   async bindStartGame() {
+    this.currentTurn = 0;
     this.currentSettings = await this.getCurrentSettings();
     console.log('currentLevelController: ', this.currentSettings);
     // this.view.renderGamePage(currentSettings);
@@ -27,6 +28,7 @@ class Controller {
     this.view.gameEvents(this.checkEvent.bind(this), this.continueEvent.bind(this),
       this.getCurrentTurn.bind(this), this.dontKnowEvent.bind(this),
       this.showResultEvent.bind(this));
+    this.view.controlPanelEvents(this.bindChangeSettingsEvent.bind(this), this.bindChangeLevel.bind(this));
   }
 
   getCurrentTurn() {
@@ -34,16 +36,19 @@ class Controller {
   }
 
   showResultEvent() {
-    this.view.phrasePanel.removeAllItems();
-    this.view.puzzlePanel.removeAllLines();
-    // this.view.puzzlePanel.setBackground(currentPuzzle);
-    this.box = document.getElementById('puzzle-box');
-    this.box.style.backgroundImage = `url('${this.currentPuzzle}')`;
-    const currentPuzzleInfo = this.model.paintings
-      .getPaintingDescription(this.currentSettings.levelSettings.level,
-        this.currentSettings.levelSettings.page);
-    console.log('currentPuzzleInfo: ', currentPuzzleInfo);
-    this.view.phrasePanel.showPaintingInfo(currentPuzzleInfo);
+    if (this.currentTurn === this.numberOfTurns) {
+      this.currentTurn += 1;
+      this.view.phrasePanel.removeAllItems();
+      this.view.puzzlePanel.removeAllLines();
+      // this.view.puzzlePanel.setBackground(currentPuzzle);
+      this.box = document.getElementById('puzzle-box');
+      this.box.style.backgroundImage = `url('${this.currentPuzzle}')`;
+      const currentPuzzleInfo = this.model.paintings
+        .getPaintingDescription(this.currentSettings.levelSettings.level,
+          this.currentSettings.levelSettings.page);
+      console.log('currentPuzzleInfo: ', currentPuzzleInfo);
+      this.view.phrasePanel.showPaintingInfo(currentPuzzleInfo);
+    }
   }
 
   continueEvent() {
@@ -90,16 +95,39 @@ class Controller {
       words[this.currentTurn].audioExample);
     this.view.phrasePanel.updatePhrasePanel(words[this.currentTurn].gamePhrase);
     this.view.puzzlePanel.addLine(this.currentTurn);
-    this.view.setImageOnItems(this.currentPuzzle, words[this.currentTurn].textExample,
-      this.currentTurn);
+    // this.view.setImageOnItems(this.currentPuzzle, words[this.currentTurn].textExample,
+    //   this.currentTurn);
+    console.log('Autolisten: ', this.currentSettings.gameSettings.autoListen);
+    if (this.currentSettings.gameSettings.autoListen === true) {
+      setTimeout(() => {
+        this.view.hintsPanel.playSound();
+      }, 100);
+    }
+  }
+
+  async bindChangeSettingsEvent(optionId, value) {
+    console.log('optionId: ', optionId);
+    const optionsID = ['auto-wrapper', 'translation-wrapper', 'sound-wrapper', 'picture-wrapper'];
+    const options = {
+      0: 'autoListen',
+      1: 'translation',
+      2: 'listenSentence',
+      3: 'puzzleImage',
+    };
+    this.model.options.setGameSettings(options[optionsID.indexOf(optionId)], value);
+    this.currentSettings = await this.getCurrentSettings();
+    console.log('this.currentSettings: ', this.currentSettings);
   }
 
   async bindGetLevel() {
     return this.model.options.getLevelSettings();
   }
 
-  bindChangeLevelData(level, page) {
+  bindChangeLevel(level, page) {
     this.model.options.setLevelSettings(level, page);
+    this.view.phrasePanel.removeAllItems();
+    this.view.puzzlePanel.removeAllLines();
+    this.bindStartGame();
   }
 
   async getWordsSet(group, page) {

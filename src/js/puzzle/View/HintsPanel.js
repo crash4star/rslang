@@ -10,17 +10,17 @@ import Audio from './components/Audio';
 // import Select from './components/Select';
 
 class HintsPanel extends Container {
-  constructor(id = 'hints-panel', styles = 'hints-panel') {
+  constructor(id = 'hints-panel', styles = 'puzzle__hints-panel') {
     super(id, styles);
     this.renderWordPanel();
   }
 
   renderWordPanel() {
-    const soundButton = new Container('play-wrapper', 'play-wrapper');
+    const soundButton = new Container('play-wrapper', 'puzzle__play-wrapper');
     const audio = new Audio('audio', {
       src: '',
     });
-    const translation = new Paragraph('translation', '', 'translation');
+    const translation = new Paragraph('translation', '', 'puzzle__translation');
     this.add(soundButton, audio, translation);
   }
 
@@ -31,16 +31,20 @@ class HintsPanel extends Container {
 
   deactivateHint(id) {
     const hint = this.getChild(id).getHtml();
-    if (!hint.className.includes('hint-invisible')) {
-      hint.classList.add('hint-invisible');
+    if (!hint.className.includes('puzzle__hint-invisible')) {
+      hint.classList.add('puzzle__hint-invisible');
     }
   }
 
   activateHint(id) {
     const hint = this.getChild(id).getHtml();
-    if (hint.className.includes('hint-invisible')) {
-      hint.classList.remove('hint-invisible');
+    if (hint.className.includes('puzzle__hint-invisible')) {
+      hint.classList.remove('puzzle__hint-invisible');
     }
+  }
+
+  playSound() {
+    this.getChild('audio').getHtml().play();
   }
 }
 
