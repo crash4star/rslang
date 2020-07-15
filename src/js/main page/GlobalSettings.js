@@ -1,20 +1,15 @@
 import addElement from '../utils/utils';
-import { showErrorMessage, showSuccessMessage } from '../utils/message';
-import { BASE_HEROKU } from '../data/miniGames';
-import Api from '../models/Api';
-import AuthRequest from '../models/AuthRequest';
-import Settings from '../models/Settings';
+import { showSuccessMessage } from '../utils/message';
 
 const body = document.querySelector('body');
+const togglerScriptURL = 'https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js';
 
 export default class GlobalSettings {
-    constructor() {
+    constructor(settings) {
+        this.settings = settings;
         this.totalLevels = 6;
         this.minLevel = 1;
         this.step = 1;
-        this.settingsFromDB;
-        this.theme;
-        this.difficult;
         this.init();
     }
 
@@ -77,7 +72,7 @@ export default class GlobalSettings {
         this.updateSettingsInDb();
     }
 
-    renderDifficultSlider() {
+    renderDifficultLevelSlider() {
         const formGroup = addElement('div', this.form, 'form-group');
         addElement('label', formGroup, null, null, "Difficult:", ['for', 'difficultLevel']);
         const slider = addElement(
@@ -117,14 +112,6 @@ export default class GlobalSettings {
         });
     }
 
-    async updateSettingsInDbAndShowMessage(settings) {
-        await this.updateSettingsInDb(settings).then(result => {
-            showSuccessMessage('Settings is saved');
-
-            showErrorMessage(`Something went wrong. Can't update settings in database`);
-        })
-    }
-
     async updateSettingsInDb() {
         const settings = {
             optional: this.settingsFromDB.optional
@@ -139,8 +126,9 @@ export default class GlobalSettings {
 
     async createObjectInDbIfNeed() {
         if (!this.settingsFromDB.optional || !this.settingsFromDB.optional.settingsProfile) {
-            return await this.settings.resetSettings().then(() => this.getSettingsFromDB());
+            return this.settings.resetSettings().then(() => this.getSettingsFromDB());
         }
+        return null;
     }
 
     loadScriptForToggler() {
@@ -149,20 +137,17 @@ export default class GlobalSettings {
             null, 
             null,
             null, 
-            ['src' , 'https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js']
+            ['src' , togglerScriptURL]
         );
     }
 
     async init () {
-        this.api = new Api(BASE_HEROKU);
-        this.authRequest = new AuthRequest(this.api);
-        this.settings = new Settings(this.api, this.authRequest);
         await this.getSettingsFromDB()
         .then(() => this.createObjectInDbIfNeed())
         .then(() => {
             this.renderSettingsForm();
             this.renderThemeSwitcher();
-            this.renderDifficultSlider();
+            this.renderDifficultLevelSlider();
             this.loadScriptForToggler();
         });
     }
