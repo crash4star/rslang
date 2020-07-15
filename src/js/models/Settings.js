@@ -2,6 +2,7 @@ import Statistics from './Statistics';
 import defaultSettings from '../data/defaultSettings';
 
 import { showErrorMessage } from '../utils/message';
+
 class Settings {
     constructor(api,request) {
         this.api = api;
@@ -72,6 +73,13 @@ class Settings {
             this.request.get(URL, update);
         });
     }
+
+    async getUserDifficultySettings() {
+        const URL = `/users/${this.optionsData.userId}/settings`;
+        const settings = await this.request.get(URL);
+        return settings.optional.settingsProfile.difficult;
+      }
 }
 
 export default Settings;
+
