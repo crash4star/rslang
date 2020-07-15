@@ -1,10 +1,43 @@
+
 class SprintView {
     constructor(viewMethods) {
       this.viewMethods = viewMethods;
       this.app = this.viewMethods.getElement('.root');
     }
 
-    render() {
+    renderStartPage() {
+      const sprintWrapper = this.viewMethods.createElement({
+        node: 'div',
+        styleName: 'sprint-wrapper',
+      });
+      const sprintContainer = this.viewMethods.createElement({
+        node: 'div',
+        styleName: 'sprint-container',
+      });
+
+      const nameOfTheGame = this.viewMethods.createElement({
+        node: 'h1',
+        styleName: 'sprint-nameOfTheGame',
+      });
+      nameOfTheGame.textContent = 'SPRINT';
+      const description = this.viewMethods.createElement({
+        node: 'div',
+        styleName: 'sprint-gameDescription',
+      });
+      description.textContent = 'Game: the player is given a word in English and a translation of the word, you need to specify whether this translation belongs to this word'
+      const startBtn = this.viewMethods.createElement({
+        node: 'button',
+        styleName: 'sprint-startBtn',
+      });
+      startBtn.textContent = 'START'
+      sprintContainer.append(nameOfTheGame)
+      sprintContainer.append(description)
+      sprintContainer.append(startBtn)
+      sprintWrapper.append(sprintContainer)
+      this.app.append(sprintWrapper);
+    }
+
+    renderGame() {
         const sprintWrapper = this.viewMethods.createElement({
             node: 'div',
             styleName: 'sprint-wrapper',
@@ -12,6 +45,10 @@ class SprintView {
           const sprintContainer = this.viewMethods.createElement({
             node: 'div',
             styleName: 'sprint-container',
+          });
+          const sprintGameContainer = this.viewMethods.createElement({
+            node: 'div',
+            styleName: 'sprint-game-container',
           });
           const containerForEnWord = this.viewMethods.createElement({
             node: 'div',
@@ -40,13 +77,20 @@ class SprintView {
             node: 'button',
             styleName: 'sprint-wrongBtn',
           })
+          const timer = this.viewMethods.createElement({
+            node: 'div',
+            styleName: 'timer',
+          })
+
           wrongAnswerBtn.textContent = 'Wrong'
           btnsContainer.append(wrongAnswerBtn)
           btnsContainer.append(rightAnswerBtn)
           wordsContainer.append(containerForEnWord)
           wordsContainer.append(containerForRuWord)
-          sprintContainer.append(wordsContainer)
-          sprintContainer.append(btnsContainer)
+          sprintWrapper.append(timer)
+          sprintGameContainer.append(wordsContainer)
+          sprintGameContainer.append(btnsContainer)
+          sprintContainer.append(sprintGameContainer)
           sprintWrapper.append(sprintContainer)
           this.app.append(sprintWrapper);
     }
@@ -68,6 +112,17 @@ class SprintView {
       this.viewMethods.getElement('.sprint-enWord-container').append(enWord)
       this.viewMethods.getElement('.sprint-ruWord-container').append(ruWord)
     }
+
+    createPoints(points) {
+    const pointsContainer = this.viewMethods.createElement({
+        node: 'div',
+        styleName: 'points',
+      })
+      pointsContainer.textContent = points
+      this.viewMethods.getElement('.sprint-container').append(pointsContainer)
+    }
+
+    
 }
 
 export default SprintView

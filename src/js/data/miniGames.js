@@ -39,6 +39,11 @@ const miniGames = [
         rootBlock.classList.add('root-active');
         const app = new SprintControllerApp(new Words(new Api(BASE_HEROKU)), new SprintView(new ViewMethods()), new ViewMethods())
         app.start()
+        const startBtn = document.querySelector('.sprint-startBtn')
+        startBtn.onclick = () => {
+            document.querySelector('.sprint-wrapper').remove()
+            app.play();
+        }
     }),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
