@@ -4,7 +4,6 @@ class Statistics {
     constructor(api,request) {
         this.api = api;
         this.request = request;
-
     }
 
     get optionsData() {
@@ -19,10 +18,8 @@ class Statistics {
         try {
             return this.request.get(`/users/${this.optionsData.userId}/statistics`);
         } catch (e) {
-
             showErrorMessage(e);
         }
-
         return showErrorMessage('connection problem');
     }
 
@@ -62,9 +59,7 @@ class Statistics {
         try {
             return this.request.put(`/users/${this.optionsData.userId}/statistics`, startObject);
         } catch (e) {
-
             showErrorMessage(e);
-
         }
 
         return [];

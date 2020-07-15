@@ -23,7 +23,7 @@ class LearningModel {
             showErrorMessage(e);
         }
 
-      return 'connection problem';
+        return showErrorMessage('connection problem');
     }
 
     async setUserSettings(set) { 
@@ -34,7 +34,7 @@ class LearningModel {
         } catch (e) {
             showErrorMessage(e);
         }
-        return 'connection problem';
+        return showErrorMessage('connection problem');
     }
 
     async upsertLinguistObjStatistics(stat) { 

@@ -2,7 +2,6 @@ class ProfileOptions {
     constructor(api, request) {
         this.api = api;
         this.request = request;
-
     }
 
     get optionsData() {
