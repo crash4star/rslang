@@ -1,17 +1,18 @@
 import Api from '../models/Api';
 import Words from '../models/Words';
-import { wordsUrl } from '../speakit/data/data';
 import AuthRequest from '../models/AuthRequest';
 import Settings from '../models/Settings';
 import Statistics from '../models/Statistics';
 
 export default class Model {
     constructor(URL) {
+        debugger;
         this.URL = URL;
         this.round = 0;
     }
 
     getUserSettings(settings) {
+        debugger;
         this.userSettings.difficult = settings.optional.settingsProfile.difficult;
         return this.userSettings.difficult;
     }

@@ -5,6 +5,9 @@ import Statistic from '../../utils/createStatistic';
 import ViewMethods from '../../utils/view-methods';
 import { BASE_HEROKU } from '../../data/miniGames';
 import SpeakitController from '../SpeakitController';
+import shuffleArr from '../../utils/shuffleArr';
+
+const countWordsToStudy = 10;
 
 export default class CardsPage {
     constructor(parent, caller) {
@@ -17,6 +20,7 @@ export default class CardsPage {
         this.audio = new Audio();
         this.data = [];
         this.rightAnswerCounter = 0;
+        this.isTrainStudyingWords = false;
         this.gameIsStarted = false;
         this.render();
         this.init();
@@ -36,9 +40,7 @@ export default class CardsPage {
     stopGame () {
         this.gameIsStarted = false;
         this.gameButton.innerHTML = 'Press to start';
-        this.cards.addEventListener('click', (e) => {
-            this.setActiveCard(e);
-        });
+        this.cards.addEventListener('click', (e) => this.setActiveCard(e));
         this.gameButton.addEventListener('click', this.startGame);
     }
 
@@ -67,8 +69,8 @@ export default class CardsPage {
         });
     }
 
-    async init() {
-        await this.getCards();
+    init() {
+        this.getCards();
         this.cards.innerHTML = '';
         this.renderCards();
     }
@@ -79,16 +81,23 @@ export default class CardsPage {
         this.data = [];
         this.init();
     }
+    getCardsToStudy(cards) {
+        const arrayToStudy = [];
+        cards.forEach(el => {
+            let card = {};
+            let {word, transcription, audio, image} = el.optional;
+            card = {word, transcription, audio, image};
+            card.id = el.id;
+            arrayToStudy.push(card);
+        });
+        return arrayToStudy;
+    }
 
-    async getCards() {
-        const page = Math.floor(Math.random() * 30);
-        const url = `${wordsUrl}?group=${this.chapter}&page=${page}`;
-        const res = await fetch(url);
-        const json = await res.json();
-        for (let i = 0; i < 10; i += 1) {
-            const number = Math.floor(Math.random() * json.length);
-            this.data.push(json[number]);
-            json.splice(number, 1)
+    getCards() {
+        if (this.caller.model.words.wordsToStudy.length === 10) {
+            this.data = shuffleArr(this.getCardsToStudy(this.caller.model.words.wordsToStudy));
+        } else {
+            this.data = shuffleArr(this.caller.model.words.wordsByLevel);
         }
     }
 
@@ -140,7 +149,9 @@ export default class CardsPage {
 
     startGame() {
         this.gameIsStarted = true;
+        debugger;
         this.gameButton.removeEventListener('click', this.startGame);
+        this.cards.removeEventListener('click', (e) => this.setActiveCard(e));
         this.gameButton.innerHTML = 'Speak please';
         this.removeActiveCards();
         this.translation.innerHTML = '';
@@ -176,9 +187,6 @@ export default class CardsPage {
                     recognition.stop();
                     this.showStatistic();
                 };
-        });
-        this.cards.removeEventListener('click', (e) => {
-            this.setActiveCard(e);
         });
         recognition.start();
     }
