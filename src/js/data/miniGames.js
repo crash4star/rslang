@@ -4,7 +4,6 @@ import Words from '../models/Words';
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
 
-
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
 
