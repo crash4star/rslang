@@ -15,7 +15,6 @@ class UserWord {
         this.isForgotten = this.getForgotten(this.body);
         this.isKnown = this.getKnown(this.body);
         this.important = this.getImportant(this.body);
-        this.date = this.getDate(this.body);
         this.tries = this.getTries(this.body);
         this.special = this.getSpecial(this.body);
         this.isLearned = this.getLearned(this.body);
@@ -38,7 +37,7 @@ class UserWord {
         userWord.optional.error = this.error + this.currentError;
         userWord.optional.currentError = this.currentError;
         userWord.optional.deleted = this.deleted;
-        userWord.optional.date = this.date;
+        userWord.optional.date = this.getDate(this.body);
         userWord.optional.tries = this.tries;
         userWord.optional.special = this.special;
         userWord.optional.isLearned = this.setLearned(this.body);
@@ -108,7 +107,7 @@ class UserWord {
     }
 
     setIntervalNumber(obj) {
-        if (UserWord.deleted) {
+        if (this.deleted) {
             return 0;
         }
         if (this.isStudy) {
