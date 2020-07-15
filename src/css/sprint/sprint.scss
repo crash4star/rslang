@@ -1,0 +1,21 @@
+.sprint-container {
+    background-color: #f977ce;
+    background-image: linear-gradient(180deg, #804eb9 0%, #c073a6 90%);
+    width: 60%;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+  }
+  
+  .sprint-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-size: 32px;
+  }
