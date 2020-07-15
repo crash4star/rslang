@@ -11,7 +11,6 @@ class LearningCard extends GeneralContainerElement {
         this.wordProp = this.wordObject.getUserWord().optional;
         this.setObject = setObj;
         this.word = this.wordProp.word;
-        this.wordElement = new LearningWord(this.word);
         
         this.buildCard(this.setObject);
         this.fillInCard(this.wordProp); 
@@ -32,6 +31,7 @@ class LearningCard extends GeneralContainerElement {
     }
 
     buildCard(settings) {
+        this.wordElement = new LearningWord(this.word);
         const faceSide = new GeneralContainerElement('div', '');
         faceSide.addStyles('faceSide');
         const backSide = new GeneralContainerElement('div', '');
