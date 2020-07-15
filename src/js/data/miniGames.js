@@ -3,6 +3,8 @@ import Api from '../models/Api';
 import Words from '../models/Words';
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
+import SpeakitController from '../speakit/SpeakitController';
+
 
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
@@ -21,7 +23,7 @@ const getErrorMessageTemplate = (gameName) => {
 }
 
 const miniGames = [
-    getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => getErrorMessageTemplate('SpeakIt')),
+    getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => new SpeakitController(BASE_HEROKU, true)),
     getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => getErrorMessageTemplate('English Puzzle')),
     getMiniGamesTemplate('Savannah', 'Description', 'minigame.png', () => {
         const rootBlock = document.querySelector('.root');
