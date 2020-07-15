@@ -2,6 +2,7 @@
 import Image from './components/Image';
 import Container from './components/Container';
 import Statistic from '../../utils/createStatistic';
+import ViewMethods from '../../utils/view-methods';
 // import Paragraph from './Paragraph';
 
 class View {
@@ -17,14 +18,18 @@ class View {
     this.app = document.querySelector('.root');
     this.app.classList.add('root-active');
     this.appHead.append(this.favicon.getHtml());
-    this.app.append(this.mainPage.getHtml());
+    this.startPage = new Container('game-wrapper', 'puzzle__game-wrapper');
+    this.startPage.add(this.mainPage);
+    this.app.append(this.startPage.getHtml());
     // this.currentLevelData = {};
     // console.log(this);
   }
 
   showStatisticEvent(getStatistic) {
-    this.statistic = new Statistic(this);
+    this.statistic = new Statistic( new ViewMethods());
     const statistic = getStatistic();
+    this.gamePage.removeElement();
+    this.statistic.renderStat(statistic.correct, statistic.incorrect);
     console.log('statistic: ', statistic);
   }
 
@@ -38,7 +43,7 @@ class View {
   startGameEvent(startGame) {
     this.mainPage.getHtml().addEventListener('click', (event) => {
       if (event.target.className.includes('puzzle__start')) {
-        this.mainPage.removeElement();
+        this.startPage.removeElement();
         this.renderGamePage();
         // this.controlPanelEvents();
         this.hintsEvents();
@@ -47,7 +52,6 @@ class View {
       }
     });
   }
-
 
   hintsEvents() {
     this.hintsPanel.getHtml().addEventListener('click', (event) => {

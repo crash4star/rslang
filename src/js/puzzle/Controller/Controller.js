@@ -71,6 +71,7 @@ class Controller {
     this.view.puzzlePanel.removeAllItems(this.currentTurn);
     this.view.puzzlePanel.setElements(this.currentTurn,
       this.words[this.currentTurn].answerPhrase);
+    this.model.statistic.addIncorrectValue(this.words[this.currentTurn].word);
     // this.view.phrasePanel.updatePhrasePanel(this.words[this.currentTurn].answerPhrase);
     // console.log('this.words[this.currentTurn].answerPhrase: ',
     // this.words[this.currentTurn].answerPhrase);
