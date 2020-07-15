@@ -3,6 +3,8 @@ import Api from '../models/Api';
 import Words from '../models/Words';
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
+import AudioCallControllerApp from '../audio-call/audio-call.ControllerApp'
+import AudioCallView from '../audio-call/audio-call.View'
 import ViewMethods from '../utils/view-methods'
 import SprintControllerApp from '../sprint/sprint.ControllerApp';
 import SprintView from '../sprint/sprint.View'
@@ -32,7 +34,17 @@ const miniGames = [
         const app = new ControllerApp(new Words(new Api(BASE_HEROKU)), new ViewSavannah());
         app.start();
     }),
-    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => getErrorMessageTemplate('Audio Call')),
+    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => {
+        const rootBlock = document.querySelector('.root');
+        rootBlock.classList.add('root-active');
+        const app = new AudioCallControllerApp(new Words(new Api(BASE_HEROKU)), new AudioCallView(new ViewMethods()), new ViewMethods())
+        new AudioCallView(new ViewMethods()).createStartPage()
+        const startBtn = document.querySelector('.startBtn')
+        startBtn.onclick = () => {
+            document.querySelector('.wrapperForStartPage').remove()
+            app.start();
+        }
+    }),
 
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => {
         const rootBlock = document.querySelector('.root');
@@ -47,6 +59,6 @@ const miniGames = [
     }),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
-// getErrorMessageTemplate('Sprint')
+
 export default miniGames;
-export { getErrorMessageTemplate, BASE_HEROKU };
+export { getErrorMessageTemplate };
