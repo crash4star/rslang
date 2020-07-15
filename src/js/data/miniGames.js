@@ -41,7 +41,7 @@ const miniGames = [
         app.start()
         const startBtn = document.querySelector('.sprint-startBtn')
         startBtn.onclick = () => {
-            document.querySelector('.sprint-wrapper').remove()
+            document.querySelector('.sprint-container').remove()
             app.play();
         }
     }),

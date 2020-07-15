@@ -6,6 +6,19 @@
     height: 100%;
     color: white;
   }
+  .sprint-closeBtn {
+    position: absolute;
+    top: 15%;
+    right: 20%;
+    background-image: url(../img/img-audio-call/icons8-close50.png);
+    width: 50px;
+    height: 50px;
+    background-color: white;
+  }
+  .sprint-closeBtn:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
 
 .sprint-container {
     background-image: url(../img/img-sprint/amiram-zocowitzky-fiverr-jungle-cartoon-logo-intro-anim-design-preview-002.jpg);
@@ -76,9 +89,10 @@ height: 70%;
   .sprint-words-container{
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 .sprint-enWord {
-  font-size: 32px;
+  font-size: 48px;
 }
 .sprint-ruWord {
   font-size: 24px;
@@ -95,7 +109,7 @@ height: 70%;
     border-radius: 5px;
     color: white;
     width: 40%;
-    font-size: 32px;
+    font-size: 24px;
   }
   .sprint-wrongBtn {
     background-color: brown;
@@ -103,7 +117,7 @@ height: 70%;
     border-radius: 5px;
     color: white;
     width: 40%;
-    font-size: 32px;
+    font-size: 24px;
   }
 
   .sprint-rightBtn:hover, .sprint-wrongBtn:hover {
@@ -111,4 +125,53 @@ height: 70%;
   }
 .sprint-enWord-container, .sprint-ruWord-container {
   color: black
+}
+
+
+@media(max-width: 1100px) {
+  .sprint-btns-container{
+    width: 100%;
+    // justify-content: space-between;
+  }
+  .sprint-container{
+
+    width: 80%;
+  }
+  .sprint-game-container {
+    width: 80%;
+  }
+  
+  .points {
+    top: 10%
+  }
+
+}
+@media(max-width: 560px) {
+  .sprint-container{
+    height: 90%;
+    width: 90%;
+  }
+  .timer {
+    font-size: 38px;
+    width: 70px;
+    height: 70px;
+    right: 40%;
+  }
+  .sprint-btns-container{
+    flex-direction: column;
+    align-items: center;
+  }
+  .sprint-rightBtn, .sprint-wrongBtn {
+    width: 60%;
+  }
+  .sprint-closeBtn{
+    right: 10%;
+    top: 6%;
+    width: 40px;
+    height: 40px;
+    background-position: center;
+  }
+  .sprint-nameOfTheGame{
+    font-size: 48px;
+  }
 }
