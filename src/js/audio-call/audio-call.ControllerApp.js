@@ -124,7 +124,7 @@ class AudioCallControllerApp {
 
   endGame() {
     this.viewMethods.getElement('.root').innerHTML = '';
-    new Statistic(this.viewMethods).renderStat(rightAnswers, wrongAnswers);
+    new Statistic(this.viewMethods).renderStat(rightAnswers, wrongAnswers, 10);
   }
 }
 

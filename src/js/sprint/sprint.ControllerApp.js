@@ -9,6 +9,7 @@ class SprintControllerApp {
     this.viewMethods = viewMethods;
     this.rightAnswers = [];
     this.wrongAnswers = [];
+    this.round = 0;
     this.points = 0;
   }
 
@@ -26,6 +27,7 @@ class SprintControllerApp {
   }
 
   nextRound() {
+    this.round++
     this.view.renderGame();
     this.getWords();
     this.view.createPoints(this.points);
@@ -76,7 +78,9 @@ class SprintControllerApp {
     const enWord = this.viewMethods.getElement('.sprint-enWord').textContent;
 
     rightBtn.onclick = () => {
+      
       if (wordTranslate.classList.contains('rightAnswer')) {
+
         this.viewMethods.getElement('.sprint-container').remove();
         this.points += 10;
         this.rightAnswers.push(enWord);
@@ -85,6 +89,7 @@ class SprintControllerApp {
     };
 
     wrongBtn.onclick = () => {
+      
       if (!wordTranslate.classList.contains('rightAnswer')) {
         this.viewMethods.getElement('.sprint-container').remove();
         this.wrongAnswers.push(enWord);

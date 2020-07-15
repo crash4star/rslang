@@ -10,6 +10,7 @@ function tick() {
 
 function checkEndGame(rightAnswers, wrongAnswers) {
 
+
 const root = document.querySelector('#root')
 const sprintWrapper = document.querySelector('.sprint-wrapper')
 const timerId = setInterval(tick, 1000);

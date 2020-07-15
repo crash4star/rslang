@@ -86,7 +86,8 @@ class Statistic {
     statisticWrapper.append(statContainer);
     this.view.getElement('.root').append(statisticWrapper)
     const right = rightAnswers.length;
-    createProgressBar(containerForProgressBar, right, 0.1);
+    const round = rightAnswers.length + wrongAnswers.length
+    createProgressBar(containerForProgressBar, right, round);
   }
 }
 export default Statistic
