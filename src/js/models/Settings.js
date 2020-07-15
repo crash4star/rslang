@@ -1,5 +1,6 @@
 import Statistics from './Statistics';
 import { showErrorMessage } from '../utils/message';
+
 class Settings {
     constructor(api,request) {
         this.api = api;

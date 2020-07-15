@@ -47,6 +47,7 @@ class ViewLinguist {
     }
 
     addMainMarkup() {
+        document.querySelector('#root').innerText = '';
         this.mainContainer.innerHTML = '<div id="start-wrapper"></div><div id="game-wrapper"><div id="cardsSettings"></div><div id="linguist"><div id="slider-wrapper"></div></div></div>';
         document.querySelector('#slider-wrapper').innerHTML = '<div class="swiper-container"><div class="swiper-wrapper"></div><div class="swiper-pagination" style="background-color: aqua; top: none;"></div><div class="swiper-button-next"></div><div class="swiper-button-prev"></div></div>';
     }
@@ -345,7 +346,7 @@ class ViewLinguist {
         this.slider.childrenList[this.slider.childrenList.length - 1].getDescendantById('learnAudio').stop();
         this.next += 1;
         if ((this.next > this.prev) || (this.next ===0 &&  this.prev === 0)) {
-            const currentSlide = this.slider.childrenList.filter((item, index) => {
+            const currentSlide = this.slider.childrenList.filter((item) => {
                 return item.getHTML().parentNode.classList.contains('swiper-slide-active');
             })[0];
             this.slider.childrenList[this.slider.childrenList.length - 1].addStyles('no-pointer');     
@@ -353,8 +354,8 @@ class ViewLinguist {
             const notEnd = this.createCard(settings, getWord);
             this.slider.childrenList[this.slider.childrenList.length - 1].getDescendantById('learnAudio').stop();
             const checkedWord = currentSlide.wordObject.getUserWord();
-            checkedWord.wordId = currentSlide.wordObject.id;
-            await counterHandler(checkedWord, currentSlide.wordObject.body.hasOwnProperty('learnedAgain'));   
+            checkedWord.wordId = currentSlide.wordObject.id;   
+            await counterHandler(checkedWord, Object.prototype.hasOwnProperty.call(currentSlide.wordObject.body, 'learnedAgain'));   
             await saveHandler(currentSlide.wordObject.id, currentSlide.wordObject.getUserWord());  
             this.slider.slideNext();
             this.slider.update();

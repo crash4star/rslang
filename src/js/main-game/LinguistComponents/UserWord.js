@@ -19,6 +19,7 @@ class UserWord {
         this.tries = this.getTries(this.body);
         this.special = this.getSpecial(this.body);
         this.isLearned = this.getLearned(this.body);
+        this.props = this.getProps(this.body);
     }
 
     getUserWord() {
@@ -32,7 +33,7 @@ class UserWord {
         } else {
             userWord.optional = {...this.body.optional};
         }
-        userWord.optional.rating = this.setRating();
+        userWord.optional.rating = this.setRating(this.body);
         userWord.optional.total = this.total;
         userWord.optional.error = this.error + this.currentError;
         userWord.optional.currentError = this.currentError;
@@ -40,29 +41,49 @@ class UserWord {
         userWord.optional.date = this.date;
         userWord.optional.tries = this.tries;
         userWord.optional.special = this.special;
-        userWord.optional.isLearned = this.setLearned();
+        userWord.optional.isLearned = this.setLearned(this.body);
         userWord.optional.isKnown = this.isKnown;
         userWord.optional.important = this.important;
         userWord.optional.isForgotten = this.isForgotten;
-        userWord.optional.interval = this.setIntervalNumber();
+        userWord.optional.interval = this.setIntervalNumber(this.body);
         return userWord;
     }
 
-    setLearned() {
-        if ((this.currentError !== 0 || this.isKnown === false) && this.isLearned === true) {
-            this.isForgotten = true;
-            return false;
-        }
-        if ((this.currentError === 0 || this.isKnown === true) && this.isKnown !== false) {
-            if (this.isForgotten === false && this.isLearned === true) {
-                return 'again';
-            } 
-            if (this.isForgotten === false && this.isLearned === false) {
-                return true;
+    getProps(obj) {
+        let props;
+        if (UserWord.isNew(obj)) {
+            props = obj;
+            delete obj.id;
+            return props;
+        } 
+        return obj.optional;
+    }
+
+    getWord() { 
+        return this.props.word;
+    }
+
+    setLearned(obj) {
+        if (this.isStudy) {
+            if ((this.currentError !== 0 || this.isKnown === false) && this.isLearned === true) {
+                this.isForgotten = true;
+                return false;
             }
-            return 'again';  
-        }
-        return false;
+            if ((this.currentError === 0 || this.isKnown === true) && this.isKnown !== false) {
+                if (this.isForgotten === false && this.isLearned === true) {
+                    return 'again';
+                } 
+                if (this.isForgotten === false && this.isLearned === false) {
+                    return true;
+                }
+                return 'again';  
+            }
+            return false;
+        } 
+        if (UserWord.isNew(obj)) {
+            return false;
+        } 
+        return obj.optional.isLearned;
     }
 
     getForgotten(obj) {
@@ -86,31 +107,56 @@ class UserWord {
         return obj.optional.learnedAgain;
     }
 
-    setIntervalNumber() {
+    setIntervalNumber(obj) {
         if (UserWord.deleted) {
             return 0;
         }
-        const anki = UserWord.ratingAnki(this.difficulty);
-        const known = UserWord.ratingKnown(this.isKnown);
-        const error = UserWord.ratingError(this.error, this.currentError, this.tries, this.total); 
-        if (anki) {
-            return anki;
+        if (this.isStudy) {
+            const anki = UserWord.ratingAnki(this.difficulty);
+            const known = UserWord.ratingKnown(this.isKnown);
+            const error = UserWord.ratingError(this.error, this.currentError, this.tries, this.total); 
+            if (anki) {
+                return anki;
+            }
+            if (known) {
+                return known;
+            }
+            return error;  
         }
-        if (known) {
-            return known;
+        if (UserWord.isNew(obj)) {
+            if (this.important === true) {
+                return 1;
+            }
+            return 6;
         }
-        return error;
+        if (this.important === true) {
+            return 1;
+        }
+        return obj.optional.interval;
     }
 
-    setRating() {
-        if (this.setLearned() !== false) {
-            return 5;
-        } 
-        const known = UserWord.ratingKnown(this.isKnown);
-        if (known) {
-            return known;
+    setRating(obj) {
+        if (this.isStudy) {
+            if (this.setLearned(obj) !== false) {
+                return 5;
+            } 
+            const known = UserWord.ratingKnown(this.isKnown);
+            if (known) {
+                return known;
+            }
+            return UserWord.ratingError(this.error, this.currentError, this.tries, this.total); 
         }
-        return UserWord.ratingError(this.error, this.currentError, this.tries, this.total); 
+        if (UserWord.isNew(obj)) {
+            if (this.important === true) {
+                return 1;
+            }
+            return 6;
+        }
+        if (this.important === true) {
+            return 1;
+        }
+        return obj.optional.rating;
+
     }
 
     static ratingKnown(isKnown) {
@@ -224,6 +270,9 @@ class UserWord {
         if (this.isStudy) {
             return 0; 
         }
+        if (UserWord.isNew(obj)) {
+            return 0;
+        } 
         return obj.optional.isKnown;
     }
 
@@ -244,6 +293,7 @@ class UserWord {
     setImportant() {
         this.important = true;
     }
+
 }
 
 export default UserWord;

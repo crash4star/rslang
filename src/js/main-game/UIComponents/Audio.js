@@ -13,7 +13,6 @@ class Audio extends GeneralContainerElement {
     }
 
     clickRepeat() {
-        console.log(this.btn.getHTML());
         this.btn.getHTML().addEventListener('click', () => {
             if (this.btn.getHTML().classList.contains(this.offStyle)) {
                 this.playAll();

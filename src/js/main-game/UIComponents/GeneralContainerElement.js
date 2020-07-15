@@ -54,25 +54,25 @@ class GeneralContainerElement {
     }
 
     getDescendantsByAttribute(attribute) {
-        let array = [];
+        let arrayFiltered = [];
         if (this.descendantList.length > 0) {
             function flat(array) {
                 return array.reduce((acc, val) => Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val), []);
             }
-            array = flat(this.descendantList).filter((item) => item.getHTML().hasAttribute(attribute)); 
+            arrayFiltered = flat(this.descendantList).filter((item) => item.getHTML().hasAttribute(attribute)); 
         }  
-        return array;
+        return arrayFiltered;
     }
 
     getDescendantById(id) { 
-        let array = [];
+        let arrayFiltered = [];
         if (this.descendantList.length > 0) {
             function flat(array) {
                 return array.reduce((acc, val) => Array.isArray(val) ? acc.concat(flat(val)) : acc.concat(val), []);
             }
-            array = flat(this.descendantList).filter((item) => item.getHTML().id === id)[0]; 
+            arrayFiltered = flat(this.descendantList).filter((item) => item.getHTML().id === id)[0]; 
         } 
-        return array;
+        return arrayFiltered;
     }
 }
 

@@ -234,19 +234,17 @@ class ControllerLinguist {
       const repeatArray = [];
       const zeroArray = [];
       wordsArray.forEach((item) => {
-          if (item.optional.important === true) {
+          if (item.optional.interval === 1) {
               importantArray.push(item);
-          } else if(Object.prototype.hasOwnProperty.call(item.optional, 'interval')) { 
-                if (item.optional.interval > 0) {
-                    repeatArray.push(item);   
-                } 
-          } else {
+          } else if(item.optional.interval > 1 && item.optional.interval < 6) { 
+                repeatArray.push(item);   
+          } else if (item.optional.interval === 6) {
               zeroArray.push(item);
           } 
       });
 
       const repeatNowArray = this.getReadyToRepeatWords(repeatArray);
-      return [...repeatNowArray, ...importantArray, ...zeroArray];
+      return [...importantArray, ...repeatNowArray, ...zeroArray];
   }
 
   getReadyToRepeatWords(array) {

@@ -120,7 +120,7 @@ class LearningModel {
         const learnDate = `${this.getShortStringDate(Date.now())}`;
         if (res.ok) {
             statistics = await res.json(); 
-            if (statistics.optional.hasOwnProperty('linguist')) {
+            if (Object.prototype.hasOwnProperty.call(statistics.optional, 'linguist')) {   
                 lastDate = statistics.optional.linguist.date;
                 if (this.isNewDate(lastDate)) {
                     statistics.optional.linguist.newWordsToday = 0;
@@ -181,7 +181,7 @@ class LearningModel {
         let settings;
         if (res.ok) {
             const data = await res.json(); 
-            if (data.optional.hasOwnProperty('linguist')) {
+            if (Object.prototype.hasOwnProperty.call(data.optional, 'linguist')) { 
                 settings = data;
             }  else {
                 settings = defaultSettings;
@@ -271,8 +271,8 @@ class LearningModel {
         if (!isRight) {
             rightsSet = 0;
         } else {
-            rightsSet = rightsSet +1;
-            rights = rights +1;
+            rightsSet += 1;
+            rights += 1;
             if (rightsSet > longSet) {
                 longSet = rightsSet;
             }
