@@ -5,7 +5,6 @@ import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
 import PuzzleGame from '../puzzle/initApp';
 
-
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
 
@@ -38,4 +37,4 @@ const miniGames = [
 ];
 //
 export default miniGames;
-export { getErrorMessageTemplate };
+export { getErrorMessageTemplate, BASE_HEROKU };

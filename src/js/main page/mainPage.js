@@ -1,9 +1,13 @@
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
 import renderMenu from './menu';
-import renderSettings from './settings';
-import addElement from '../utils/utils';
-import { clearMarkup } from '../utils/utils';
+import GlobalSettings from './GlobalSettings';
+import addElement, { clearMarkup } from '../utils/utils';
+import Api from '../models/Api';
+import AuthRequest from '../models/AuthRequest';
+import Settings from '../models/Settings';
+import { BASE_HEROKU } from '../data/miniGames';
+
 import '../../css/main_page.scss';
 import '../../css/menu.scss';
 
@@ -24,6 +28,13 @@ function removeContent() {
     const main = document.querySelector('.main');
     main.querySelector('.container').innerHTML = '';
     document.querySelector('.root').innerHTML = '';
+}
+
+function renderSettings() {
+    const api = new Api(BASE_HEROKU);
+    const authRequest = new AuthRequest(api);
+    const settings = new Settings(api, authRequest);
+    return new GlobalSettings(settings);
 }
 
 export default function renderMainPage() {
