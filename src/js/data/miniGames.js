@@ -49,4 +49,4 @@ const miniGames = [
 ];
 
 export default miniGames;
-export { getErrorMessageTemplate };
+export { getErrorMessageTemplate,  BASE_HEROKU  };
