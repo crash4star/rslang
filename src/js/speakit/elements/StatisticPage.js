@@ -10,6 +10,7 @@ export default class StatisicPage {
 
     showStat() {
         //this.content = document.getElementById('statPage');
+        debugger;
         this.statPage.innerHTML = '';
         const uncorrect = addElement('div', this.statPage, 'chapter');
         addElement('div', uncorrect, 'chapter-header uncorrect', null, 'Mistakes');

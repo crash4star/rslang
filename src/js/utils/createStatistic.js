@@ -1,0 +1,108 @@
+import createProgressBar from './progressBar'
+import StatisticElement from '../speakit/elements/StatisticElement';
+import '../../css/miniGameStatistic.scss';
+
+class Statistic {
+  constructor(view) {
+    this.view = view;
+  }
+
+  addStatisticElement(element, parent) {
+    new StatisticElement(element, parent);
+  }
+
+  renderStat(rightAnswers, wrongAnswers) {
+    const statisticWrapper = this.view.createElement({
+      node: 'div',
+      styleName: 'statistic-wrapper',
+    })
+    const statWordsContaier = this.view.createElement({
+      node: 'div',
+      styleName: 'statProgressBar-WordsContainer',
+    });
+    const statBtnsContainer = this.view.createElement({
+      node: 'div',
+      styleName: 'statBtnsContainer',
+    });
+    const continueBtn = this.view.createElement({
+      node: 'button',
+      styleName: 'continueBtn',
+    });
+    continueBtn.textContent = 'Continue';
+
+    const onMainPageBtn = this.view.createElement({
+      node: 'button',
+      styleName: 'onMainPageBtn ',
+    });
+    onMainPageBtn.textContent = 'Main page';
+    const statContainer = this.view.createElement({
+      node: 'div',
+      styleName: 'stat-container',
+    });
+    const rightAnswersContainer = this.view.createElement({
+      node: 'div',
+      styleName: 'right-answers',
+    });
+    const wrongAnswersContainer = this.view.createElement({
+      node: 'div',
+      styleName: 'wrong-answers',
+    });
+    const rightAnswersContainerHeading = this.view.createElement({ node: 'div', styleName: 'rigthAnswersHeading' });
+    rightAnswersContainerHeading.textContent = 'Right Answers:';
+
+    const wrongAnswersContainerHeading = this.view.createElement({ node: 'div', styleName: 'wrongAnswersHeading' });
+    wrongAnswersContainerHeading.textContent = 'Wrong Answers:';
+
+    statWordsContaier.append(rightAnswersContainer);
+    statWordsContaier.append(wrongAnswersContainer);
+    const containerForProgressBar = this.view.createElement({
+      node: 'div',
+      id: 'circle-container',
+    });
+
+    statWordsContaier.append(containerForProgressBar);
+
+    statContainer.append(statWordsContaier);
+    statContainer.append(statBtnsContainer);
+    rightAnswersContainer.append(rightAnswersContainerHeading);
+    wrongAnswersContainer.append(wrongAnswersContainerHeading);
+    rightAnswers.forEach((item) => {
+      let rightAnswer = item;
+      rightAnswer = this.view.createElement({
+        node: 'div',
+        styleName: 'right-answer',
+      });
+      if (Array.isArray(item)) {
+        rightAnswer.textContent = item;
+      } else {
+          this.addStatisticElement(item, rightAnswer);
+      }
+      rightAnswersContainer.append(rightAnswer);
+    });
+    
+    wrongAnswers.forEach((item) => {
+      let wrongAnswer = item;
+      wrongAnswer = this.view.createElement({
+        node: 'div',
+        styleName: 'wrong-answer',
+      });
+      
+      if (Array.isArray(item)) {
+        wrongAnswer.textContent = item;
+      } else {
+        this.addStatisticElement(item, wrongAnswer);
+      }
+      wrongAnswersContainer.append(wrongAnswer);
+    });
+
+    statWordsContaier.append(rightAnswersContainer);
+    statWordsContaier.append(wrongAnswersContainer);
+    statBtnsContainer.append(continueBtn);
+    statBtnsContainer.append(onMainPageBtn);
+    statisticWrapper.append(statContainer);
+    this.view.getElement('.root').append(statisticWrapper)
+    const right = rightAnswers.length;
+    createProgressBar(containerForProgressBar, right, 0.1);
+  }
+}
+export default Statistic

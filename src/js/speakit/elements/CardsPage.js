@@ -2,6 +2,8 @@ import { wordsUrl, gitUrl, translateUrl } from './../data/data';
 import Card from './Card';
 import StatisicPage from './StatisticPage';
 import addElement from '../../utils/utils';
+import Statistic from '../../utils/createStatistic';
+import ViewMethods from '../../utils/view-methods';
 
 export default class CardsPage {
     constructor(parent, caller) {
@@ -14,6 +16,7 @@ export default class CardsPage {
         this.audio = new Audio();
         this.data = [];
         this.rightAnswerCounter = 0;
+        this.gameIsStarted = false;
         this.render();
         this.init();
     }
@@ -30,7 +33,11 @@ export default class CardsPage {
     }
 
     stopGame () {
+        this.gameIsStarted = false;
         this.gameButton.innerHTML = 'Press to start';
+        this.cards.addEventListener('click', (e) => {
+            this.click(e);
+        });
         this.gameButton.addEventListener('click', this.startGame);
     }
 
@@ -126,6 +133,7 @@ export default class CardsPage {
     }
 
     startGame() {
+        this.gameIsStarted = true;
         this.gameButton.removeEventListener('click', this.startGame);
         this.gameButton.innerHTML = 'Speak please';
         this.removeActiveCards();
@@ -156,12 +164,15 @@ export default class CardsPage {
                 });
                 console.log (transcript[0], data);
                 this.checkAnswer(transcript[0], data);
-                if (document.getElementsByClassName('card active').length === 10) {
+                if (document.getElementsByClassName('cards-card active').length === 10) {
                     console.log('stop');
                     recognition.onend = null;
                     recognition.stop();
                     this.showStatistic();
                 };
+        });
+        this.cards.removeEventListener('click', (e) => {
+            this.click(e);
         });
         recognition.start();
     }
@@ -183,20 +194,26 @@ export default class CardsPage {
     restart() {
         this.removeActiveCards();
     }
-
+    
     showStatistic() {
-        const data = [];
+        if (!this.gameIsStarted) {
+            this.removeActiveCards();
+        }
+        const rightAnswer = [];
+        const wrongAnswer = [];
         this.data.forEach ((element, index) => {
             const el = {};
             el.word = element.word;
             el.audio = element.audio.substr(6);
             el.transcription = element.transcription;
             el.isAnswered = this.cardNodes[index].classList.contains('active') ? true : false;
-            data.push(el);
+            el.isAnswered ? rightAnswer.push(el) : wrongAnswer.push(el);
+            el.id = index;
         });
 
-        const statistic = new StatisicPage(data, this.caller.statPageContent);
+        //const statistic = new StatisicPage(data, this.caller.statPageContent);
+        new Statistic(new ViewMethods()).renderStat(rightAnswer, wrongAnswer);
+
         this.caller.gamePage.classList.add('hidden');
-        this.caller.statPage.classList.remove('hidden');
     }
 }

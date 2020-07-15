@@ -48,6 +48,7 @@ export default class View {
     const closeButton = addElement('div', this.gamePage, 'speakit-close');
     closeButton.addEventListener('click', () =>  {
       this.root.innerHTML = '';
+      this.root.classList.remove('root-active');
     });
   }
 
@@ -89,8 +90,8 @@ export default class View {
     const newGameButton = addElement('div', statButtons, 'button newGame', 'newGame', 'New game');
     
     this.statPage.addEventListener('click', (e) => {
-      if (e.target.closest('.speakit-statistic')){
-        let id = e.target.closest('.speakit-statistic').id;
+      if (e.target.closest('.minigame-statistic')){
+        let id = e.target.closest('.minigame-statistic').id;
         id = parseInt(id, 10);
         this.cardsPage.playSound(id);
       }

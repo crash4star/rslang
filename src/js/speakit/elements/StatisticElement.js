@@ -6,20 +6,27 @@ export default class StatisticElement {
         this.parent = parent;
         this.word = data.word;
         this.transcription = data.transcription;
-        this.audio = data.audio;
+        this.audioURL = data.audio;
         this.isAnswered = data.isAnswered;
-        this.id = index;
+        this.id = data.id;
         this.init();
     }
 
     async init() {
-        const element = addElement('div', this.parent, 'speakit-statistic', this.id);
+        this.audio = new Audio();
+        const element = addElement('div', this.parent, 'minigame-statistic', this.id);
         addElement('img', element, 'card-sound', null, null, ['src', soundImageUrl]);
         addElement('div', element, 'word', null, this.word);
         addElement('div', element, 'transcription', null, this.transcription);
         const translation = await(this.getTranslation(this.word));
         addElement('div', element, 'translation', null, translation);
-        // element.addEventListener('click', this.sound);
+
+        const audioFile = this.audioURL;
+        element.addEventListener('click', () => {
+            const src = audioFile;
+            this.audio.src = `${gitUrl}${src}`;
+            this.audio.play();
+        });
     }
 
     async getTranslation(word) {
