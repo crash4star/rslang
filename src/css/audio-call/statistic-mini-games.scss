@@ -122,6 +122,10 @@
   }
 }
 @media (max-width: 780px) {
+  .stat-container  {
+    height: 85%;
+    width: 60%;
+  }
   .statBtnsContainer {
     flex-direction: column;
     align-items: center;
@@ -139,12 +143,25 @@
     font-size: 1.2rem;
   }
 }
+@media (max-width: 780px) {
+  .stat-container  {
+    width: 70%;
+    height: 97%;
+  }
+}
 @media (max-width: 575px) {
+  .stat-container  {
+    width: 70%;
+  }
   .progress-text {
     font-size: 1rem;
   }
 }
 @media (max-width: 475px) {
+  .stat-container  {
+    height: 100%;
+    width: 100%;
+  }
   .stat-container {
     align-items: center;
   }

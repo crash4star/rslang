@@ -8,6 +8,7 @@ export default class View {
   constructor(model) {
     debugger;
     this.model = model;
+    this.main = document.querySelector('.main');
     this.init();
   }
 
@@ -49,6 +50,7 @@ export default class View {
     closeButton.addEventListener('click', () =>  {
       this.root.innerHTML = '';
       this.root.classList.remove('root-active');
+      this.showMainWindow();
     });
   }
 
@@ -69,7 +71,18 @@ export default class View {
     this.renderCards();
   }
 
+  hideMainWindow() {
+    this.root.classList.add('speakit');
+    this.main.classList.add('speakit');
+  }
+
+  showMainWindow() {
+    this.root.classList.remove('speakit');
+    this.main.classList.remove('speakit');
+  }
+
   renderGamePage() {
+    this.hideMainWindow();
     this.gamePage = addElement('div', this.container, 'speakit-gamePage');
     this.renderChapters();
     this.renderCloseButton();

@@ -66,6 +66,7 @@ class Statistic {
     statContainer.append(statBtnsContainer);
     rightAnswersContainer.append(rightAnswersContainerHeading);
     wrongAnswersContainer.append(wrongAnswersContainerHeading);
+    
     rightAnswers.forEach((item) => {
       let rightAnswer = item;
       rightAnswer = this.view.createElement({

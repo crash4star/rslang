@@ -58,7 +58,11 @@ export default class CardsPage {
         });
 
         this.gameButton.addEventListener('click', () => this.startGame());
-        this.resultButton.addEventListener('click', () => this.showStatistic())
+        this.resultButton.addEventListener('click', () => 
+        {
+            this.caller.showMainWindow();
+            this.showStatistic();
+        });
     }
 
     async init() {
