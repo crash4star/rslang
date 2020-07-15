@@ -1,5 +1,7 @@
 import renderMiniGames from '../main page/miniGames';
 import { showErrorMessage, showSuccessMessage } from '../utils/message';
+import mainGame from '../main-game/startLinguist';
+import GlobalStatistic from '../main page/GlobalStatistic';
 
 const getMenuTemplate = (name, callback) => {
     return {
@@ -17,12 +19,12 @@ const getSuccessMessageTemplate = (section) => {
 }
 
 const menu = [
-    getMenuTemplate ('Main game', () => getErrorMessageTemplate('Main game')),
+    getMenuTemplate ('Main game', () => mainGame()),
     getMenuTemplate('Mini games', () => {
         renderMiniGames();
         getSuccessMessageTemplate('Mini games');
     }),
-    getMenuTemplate ('Statistic', () => getErrorMessageTemplate('Statistic')),
+    getMenuTemplate ('Statistic', () => {new GlobalStatistic()}),
     getMenuTemplate ('Dictionary', () => getErrorMessageTemplate('Dictionary')),
     getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),
     getMenuTemplate ('About us', () => getErrorMessageTemplate('About us')),

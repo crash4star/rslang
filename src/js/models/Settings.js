@@ -1,20 +1,13 @@
-<<<<<<< HEAD
-import AuthRequest from './AuthRequest';
 import Statistics from './Statistics';
+import defaultSettings from '../data/defaultSettings';
 
-class Settings {
-    constructor(api) {
-        this.api = api;
-        this.request = new AuthRequest(this.api);
-=======
-import Statistics from './Statistics';
 import { showErrorMessage } from '../utils/message';
+
 class Settings {
     constructor(api,request) {
         this.api = api;
         this.request = request;
         this.currentStatistic = new Statistics(this.api);
->>>>>>> savannah
     }
 
     get optionsData() {
@@ -29,54 +22,41 @@ class Settings {
         try {
             return this.request.get(`/users/${this.optionsData.userId}/settings`);
         } catch (e) {
-<<<<<<< HEAD
-            console.log(e);
-        }
-
-        return 'connection problem';
-=======
             showErrorMessage(e);
         }
 
         return showErrorMessage('connection problem');
->>>>>>> savannah
     }
 
     resetSettings() {
         const startObject = {
             optional: {
                 settingsProfile: {
-                    theme: 0,
-                    difficult: 0
+                    theme: defaultSettings.theme,
+                    difficult: defaultSettings.difficult
                 },
                 settingsWords: 0
             }
         };
 
+        updateSettings (startObject);
+    }
+    
+    updateSettings (settings) {
         try {
-            return this.request.put(`/users/${this.optionsData.userId}/settings`,startObject);
+            return this.request.put(`/users/${this.optionsData.userId}/settings`, settings);
 
         } catch (e) {
-<<<<<<< HEAD
-            console.log(e);
-=======
             showErrorMessage(e);
->>>>>>> savannah
         }
 
         return [];
     }
 
     createUserStartObject() {
-<<<<<<< HEAD
-        const currentStatistic = new Statistics(this.api);
-        
-        currentStatistic.getUserStatistics().then(data => {
-=======
         this.currentStatistic.getUserStatistics().then(data => {
->>>>>>> savannah
             if (data.games === undefined) {
-                currentStatistic.resetStatistics();
+                this.currentStatistic.resetStatistics();
                 this.resetSettings();
             }
         });
@@ -90,17 +70,16 @@ class Settings {
             delete currentSettings.id;
             return currentSettings;
         }).then(update => {
-<<<<<<< HEAD
-            this.request.put(URL, update);
-=======
             this.request.get(URL, update);
->>>>>>> savannah
         });
     }
+
+    async getUserDifficultySettings() {
+        const URL = `/users/${this.optionsData.userId}/settings`;
+        const settings = await this.request.get(URL);
+        return settings.optional.settingsProfile.difficult;
+      }
 }
 
-<<<<<<< HEAD
 export default Settings;
-=======
-export default Settings;
->>>>>>> savannah
+

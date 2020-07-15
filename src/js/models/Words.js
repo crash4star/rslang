@@ -1,15 +1,9 @@
-import AuthRequest from './AuthRequest';
+import { showErrorMessage } from '../utils/message';
 
 class Words {
-<<<<<<< HEAD
-    constructor(api) {
-        this.api = api;
-        this.request = new AuthRequest(this.api);
-=======
     constructor(api, request) {
         this.api = api;
         this.request = request;
->>>>>>> savannah
     }
 
     get optionsData() {
@@ -25,7 +19,7 @@ class Words {
             return this.api.getRequest(`/words?page=${page}&group=${difficult}`);
 
         } catch (e) {
-            console.log(e);
+            return showErrorMessage(e);
         }
 
         return [];
@@ -35,7 +29,7 @@ class Words {
         try {
             return this.api.getRequest(`/api/public/v1/words/search?search=${word}`);
         } catch (e) {
-            console.log(e);
+            return showErrorMessage(e);
         }
 
         return [];
@@ -45,7 +39,7 @@ class Words {
         try {
             return this.request.get(`/users/${this.optionsData.userId}/words`);
         } catch (e) {
-            console.log(e);
+            return showErrorMessage(e);
         }
 
         return [];
@@ -56,10 +50,43 @@ class Words {
             return this.request.post(`/users/${this.optionsData.userId}/words/${wordId}`, word);
             
         } catch (e) {
-            console.log(e);
+            return showErrorMessage(e);
         }
 
         return [];
+    }
+
+    getWordsOfGroup(difficult, number) {
+        try {
+            return this.api.getRequest(`/words?group=${difficult}&wordsPerExampleSentenceLTE=20&wordsPerPage=${number}`);
+  
+        } catch (e) {
+            console.log(e);
+        }
+  
+        return [];
+    }
+
+    async checkUserWordById(wordId) {
+        const URL = `/users/${this.optionsData.userId}/words/${wordId}`;
+        const res = await this.request.getRawResponse(URL); 
+        return res;
+      }
+  
+    async updateUserWord(wordId, userWord) {
+        const URL = `/users/${this.optionsData.userId}/words/${wordId}`;
+        const data = await this.request.put(URL, userWord);
+        return data.info;
+        }
+  
+    async upsertUserWord(wordId, userWord) {
+        const res = await this.checkUserWordById(wordId);
+        if (res.ok) {
+           this.updateUserWord(wordId, userWord);
+        } else {
+          this.createUserWord(wordId, userWord);
+        }
+        return userWord;
     }
 }
 
