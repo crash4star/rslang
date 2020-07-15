@@ -242,7 +242,6 @@ class ControllerLinguist {
               zeroArray.push(item);
           } 
       });
-console.log(importantArray, repeatArray, zeroArray);
       const repeatNowArray = this.getReadyToRepeatWords(repeatArray);
       return [...importantArray, ...repeatNowArray, ...zeroArray];
   }
