@@ -1,5 +1,5 @@
 import renderMiniGames from '../main page/miniGames';
-import { showErrorMessage, showSuccessMessage } from '../utils/message';
+import { showErrorMessage } from '../utils/message';
 
 import mainGame from '../main-game/startLinguist';
 
@@ -16,17 +16,13 @@ const getErrorMessageTemplate = (section) => {
     showErrorMessage(`To show ${section} add callback in '/data/menu.js'`);
 }
 
-// const getSuccessMessageTemplate = (section) => {
-//     showSuccessMessage(`Section ${section} is loaded`);
-// }
-
 const menu = [
     getMenuTemplate ('Main game', () => mainGame()),
     getMenuTemplate('Mini games', () => {
         renderMiniGames();
     }),
     getMenuTemplate ('Statistic', () => {
-        GlobalStatistic();
+        new GlobalStatistic();
     }),
     getMenuTemplate ('Dictionary', () => getErrorMessageTemplate('Dictionary')),
     getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),

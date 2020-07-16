@@ -55,6 +55,7 @@ export default class GlobalStatistic  {
         const main = document.querySelector('.main');
         const container = main.querySelector('.container');
         const wrapper = addElement('div', container, 'wrapper');
+        addElement('h2', wrapper, null, null, 'Total words learned');
         this.canvas = addElement('canvas', wrapper, 'canvas');
         this.ctx = this.canvas.getContext('2d');
         this.alert = addElement('div', wrapper, 'statisticAlert statisticAlert-hidden', 'statisticAlert');
@@ -104,9 +105,22 @@ export default class GlobalStatistic  {
         this.ctx.lineTo(this.canvasParameters.width - graphMargin + dashLength / 2, this.axisStartY);
         this.ctx.stroke();
     }
+    calculateAmountOfDescriptions(maxValue, minValue, amountOfDescriptions) {
+        amountOfDescriptions = maxValue - minValue;
+        let index = 2;
+        while (index < Math.sqrt(maxValue - minValue)) {
+            if ((maxValue - minValue) % index === 0) {
+                amountOfDescriptions = index;
+            }
+            index += 1;
+        }
+        return amountOfDescriptions - 1;
+    }
 
     drawDescriptionAxis(axisIsX, length, amountOfDescriptions, maxValue, minValue) {
-        
+        if (!axisIsX && (maxValue - minValue) % amountOfDescriptions !== 0) {
+            amountOfDescriptions = this.calculateAmountOfDescriptions(maxValue, minValue, amountOfDescriptions);
+        }
         const stepBetweenDescriptions = length / (amountOfDescriptions + 1);
         const stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
         
@@ -119,7 +133,7 @@ export default class GlobalStatistic  {
             const descriptionPositionY = axisIsX ? 
                 this.axisStartY + graphMargin / 2 : 
                 this.axisStartY - stepBetweenDescriptions * coefficient;
-                const descriptionValue = Number(minValue) + Math.round(stepBetweenValues * i);
+                const descriptionValue = Number(minValue) + Math.round(stepBetweenValues * i * 10) / 10;
                 if (axisIsX) {
                     descriptionValue = getDateInString(new Date(descriptionValue));
                     this.ctx.moveTo(descriptionPositionX, this.axisStartY - dashLength / 2);
