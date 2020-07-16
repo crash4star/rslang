@@ -1,16 +1,18 @@
 import CreateWords from './components/createWords';
 import notificationStart from './components/audio';
 import Statistic from '../utils/createStatistic';
+import getRandomInt from '../utils/getRandomInt'
 
-const wrongAnswers = [];
-const rightAnswers = [];
-let round = 0;
-let page = 0;
+
 class AudioCallControllerApp {
   constructor(model, view, viewMethods) {
     this.model = model;
     this.view = view;
     this.viewMethods = viewMethods;
+    this.wrongAnswers = [];
+    this.rightAnswers = [];
+    this.round = 0;
+    this.page = getRandomInt(30)
   }
 
   start() {
@@ -20,9 +22,8 @@ class AudioCallControllerApp {
 
   getWords() {
     const difficult = 0;
-
     this.model
-      .getWords(difficult, page)
+      .getWords(difficult, this.page)
       .then((data) => {
         const words = [];
         data.forEach((item) => {
@@ -57,14 +58,14 @@ class AudioCallControllerApp {
 
       word.onclick = () => {
         document.querySelector('.wave').classList.remove('sonar-wave');
-        page += 1;
-        round += 1;
+        this.page = getRandomInt(30);
+        this.round += 1;
         if (word.classList.contains('answer')) {
-          rightAnswers.push(enWord);
+          this.rightAnswers.push(enWord);
           word.style.pointerEvents = 'none';
           this.correctAnswer(enWord);
         } else {
-          wrongAnswers.push(enWord);
+          this.wrongAnswers.push(enWord);
           word.style.pointerEvents = 'none';
           word.style.textDecoration = 'line-through';
           this.incorrectAnswer(enWord);
@@ -114,7 +115,7 @@ class AudioCallControllerApp {
     this.viewMethods.getElement('.next-round').onclick = () => {
       this.viewMethods.getElement('.answerWord').remove();
       this.view.removeRuWordsAndBtn();
-      if (round === 10) {
+      if (this.round === 10) {
         this.endGame();
       } else {
         this.getWords();
@@ -124,7 +125,7 @@ class AudioCallControllerApp {
 
   endGame() {
     this.viewMethods.getElement('.root').innerHTML = '';
-    new Statistic(this.viewMethods).renderStat(rightAnswers, wrongAnswers, 10);
+    new Statistic(this.viewMethods).renderStat(this.rightAnswers, this.wrongAnswers);
   }
 }
 

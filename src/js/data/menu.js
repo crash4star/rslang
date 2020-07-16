@@ -24,7 +24,6 @@ const menu = [
     getMenuTemplate ('Main game', () => mainGame()),
     getMenuTemplate('Mini games', () => {
         renderMiniGames();
-        getSuccessMessageTemplate('Mini games');
     }),
     getMenuTemplate ('Statistic', () => {new GlobalStatistic()}),
     getMenuTemplate ('Dictionary', () => getErrorMessageTemplate('Dictionary')),
