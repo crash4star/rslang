@@ -28,7 +28,7 @@ class Controller {
     this.view.gameEvents(this.checkEvent.bind(this), this.continueEvent.bind(this),
       this.getCurrentTurn.bind(this), this.dontKnowEvent.bind(this),
       this.showResultEvent.bind(this));
-    this.view.controlPanelEvents(this.bindChangeSettingsEvent.bind(this), this.bindChangeLevel.bind(this));
+    this.view.controlPanelEvents(this.bindChangeSettingsEvent.bind(this));
   }
 
   getCurrentTurn() {
@@ -100,7 +100,7 @@ class Controller {
     console.log(this.currentTurn);
     this.view.hintsPanel.updateHintsPanel(words[this.currentTurn].textExampleTranslate,
       words[this.currentTurn].audioExample);
-    this.view.phrasePanel.updatePhrasePanel(words[this.currentTurn].gamePhrase);
+    this.view.phrasePanel.updatePhrasePanel(words, this.currentTurn, this.view.getWidth(), this.currentPuzzle);
     this.view.puzzlePanel.addLine(this.currentTurn);
     // this.view.setImageOnItems(this.currentPuzzle, words[this.currentTurn].textExample,
     //   this.currentTurn);
@@ -128,13 +128,6 @@ class Controller {
 
   async bindGetLevel() {
     return this.model.options.getLevelSettings();
-  }
-
-  bindChangeLevel(level, page) {
-    this.model.options.setLevelSettings(level, page);
-    this.view.phrasePanel.removeAllItems();
-    this.view.puzzlePanel.removeAllLines();
-    this.bindStartGame();
   }
 
   async getWordsSet(group, page) {

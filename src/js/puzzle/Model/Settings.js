@@ -1,7 +1,7 @@
 class Settings {
-  // constructor(serverSettings) {
-  //   this.serverSettings = serverSettings;
-  // }
+  constructor(serverSettings) {
+    this.serverSettings = serverSettings;
+  }
 
   async getLevelSettings() {
     if (!localStorage.getItem('levelSettings')) {
@@ -16,7 +16,27 @@ class Settings {
     localStorage.setItem('levelSettings', this.levelSettings);
   }
 
-  getGameSettings() {
+  async getGameSettings() {
+    this.backendSettings = await this.serverSettings.getUserSettings();
+    console.log('USER SETTINGS', this.backendSettings);
+    // if (!this.backendSettings.optional.puzzle) {
+    //   console.log('its ok');
+    //   const settings = {
+    //     puzzle: {
+    //       autoListen: true,
+    //       translation: true,
+    //       listenSentence: true,
+    //       puzzleImage: true,
+    //     }
+    //   }
+    //   const backendSettings = {
+    //     optional: settings
+    //   };
+    //   console.log('USER SETTINGS', this.backendSettings);
+    //   await this.serverSettings.updateSettings(backendSettings);
+    // }
+    this.backendSettings = await this.serverSettings.getUserSettings();
+    console.log('USER SETTINGS', this.backendSettings);
     if (!localStorage.getItem('gameSettings')) {
       localStorage.setItem('gameSettings', JSON.stringify({
         autoListen: true,

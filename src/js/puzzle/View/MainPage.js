@@ -18,7 +18,7 @@ class MainPage extends Container {
     const mainPageWrapper = new Container('main-wrapper', 'puzzle__main-wrapper');
     mainPageWrapper.add(
       new Paragraph('heading', 'English Puzzle', 'puzzle__heading'),
-      new Paragraph('about', 'Click on words, collect phrases. Words can be drag and drop. Select tooltips in the menu', 'puzzle__about'),
+      new Paragraph('about', 'Click on words, collect phrases. Select tooltips in the menu', 'puzzle__about'),
       new Button('start', 'Start Game', {}, 'puzzle__start'),
     );
     this.add(mainPageWrapper);

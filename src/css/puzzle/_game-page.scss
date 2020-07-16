@@ -8,7 +8,7 @@
 
     @media (min-width: 992px) {
       width: 60rem;
-      top: 10%;
+      top: 5%;
     }
 
     @media (min-width: 768px) {
@@ -53,26 +53,15 @@
     }
   }
 
-  &__level-options {
+  &__game-controls {
     display: flex;
     align-items: center;
   }
 
-  &__page-select,
-  &__level-select {
-    border-radius: 20px;
-    border: 2px solid;
-    @include font(15px);
-    text-decoration: none;
-    outline: none;
-    margin: 5px 5px;
-    padding: 15px 30px;
-    text-transform: uppercase;
-    color: rgb(255, 255, 255);
-    background: rgb(117, 5, 168);
-  }
-
-  &__select-button {
+  &__close-button {
+    cursor: pointer;
+    width: 112px;
+    height: 53px;
     border-radius: 20px;
     border: 2px solid;
     @include font(15px);
@@ -89,6 +78,13 @@
       transform: scale(0.9);
       transition: all 0.3s;
     }
+  }
+
+  &__close-button {
+    background-image: url("/img/puzzle/left-arrow.svg");
+    background-size: 60% 60%;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   &__game-options {
@@ -152,8 +148,9 @@
   &__puzzle-box {
     background-color: #fff;
     margin: 0 auto;
-    border-radius: 20px;
+    // border-radius: 20px;
     border: 2px solid #fff;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.42);
     max-width: 800px;
     height: 400px;
     // display: flex;
@@ -167,7 +164,7 @@
   // }
 
   &__phrase-panel {
-    padding: 20px;
+    padding: 20px 0 20px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -230,7 +227,7 @@
     @include font(30px);
     text-decoration: none;
     outline: none;
-    margin: 5px 20px;
+    margin: 5px 10px;
     padding: 7px 11px;
     text-transform: uppercase;
     color: rgb(255, 255, 255);
@@ -283,24 +280,31 @@
     // text-shadow: 0 0 3px rgb(255, 255, 255);
     // letter-spacing: 0.02em;
     // color: rgb(117, 5, 168);
-    // @include font(1rem, 1rem, 400);
+    @include font(1rem, 1rem, 400);
     // overflow: hidden;
     // text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 40px;
     box-sizing: border-box;
     vertical-align: middle;
-    text-shadow: black 0px 0px 4px;
-    border: 1px solid rgb(117, 5, 168);
-    text-shadow: 0 0 5px rgb(255, 255, 255);
+    border: 2px solid rgb(117, 5, 168);
+    text-shadow: 0 0 7px rgb(0, 0, 0);
     color: rgb(117, 5, 168);
     text-align: center;
     user-select: none;
     padding: 0px;
     margin: 0px;
+    @media (max-width: 600px) {
+      @include font(0.6rem, 0.6rem, 400);
+    }
   }
 
   &__line {
     display: flex;
+    align-items: center;
+    justify-content: flex-start;
     height: 40px;
     padding: 0px;
     overflow: auto;
