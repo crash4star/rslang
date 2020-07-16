@@ -87,7 +87,7 @@ class Statistic {
         node: 'div',
         styleName: 'right-answer',
       });
-      if (Array.isArray(item)) {
+      if (Array.isArray(rightAnswers)) {
         rightAnswer.textContent = item;
       } else {
           this.addStatisticElement(item, rightAnswer);
@@ -102,7 +102,7 @@ class Statistic {
         styleName: 'wrong-answer',
       });
       
-      if (Array.isArray(item)) {
+      if (Array.isArray(wrongAnswers)) {
         wrongAnswer.textContent = item;
       } else {
         this.addStatisticElement(item, wrongAnswer);
@@ -117,7 +117,8 @@ class Statistic {
     statisticWrapper.append(statContainer);
     this.view.getElement('.root').append(statisticWrapper)
     const right = rightAnswers.length;
-    createProgressBar(containerForProgressBar, right, 0.1);
+    const round = rightAnswers.length + wrongAnswers.length
+    createProgressBar(containerForProgressBar, right, round);
 
     this.addButtonListeners();
   }
