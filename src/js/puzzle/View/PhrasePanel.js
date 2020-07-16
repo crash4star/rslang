@@ -29,20 +29,30 @@ class PhrasePanel extends Container {
   //   const widthToOneChar = this.state.width / this.state.numOfChars
   //   const curWidth = item.content.length * widthToOneChar
   // }
+  sortItems() {
+    const items = [];
+    this.getChild('phrase-wrapper').children.forEach((el, index) => {
+      items.push(this.getChild('phrase-wrapper').children.find((el) => {
+        return el.index === index;
+      }));
+    });
+    this.removeAllItems();
+    return items;
+  }
 
-  updatePhrasePanel(data, currentIndex, puzzlePanelWidth, image) {
-    this.puzzlePanelWidth = puzzlePanelWidth;
-    const items = shuffle(this.generateItems(data, currentIndex, puzzlePanelWidth));
+  updatePhrasePanel(data, currentIndex, imageData, image) {
+    this.puzzlePanelWidth = imageData.fieldWidth;
+    const items = shuffle(this.generateItems(data, currentIndex, imageData));
     items.forEach((element) => {
       this.getChild('phrase-wrapper').add(element);
       console.log('item: ', items);
     });
-    this.setImageOnItems(items, image);
+    this.addPuzzleBackGround(items, image, imageData);
   }
 
-  generateItems(data, currentIndex, puzzlePanelWidth) {
+  generateItems(data, currentIndex, imageData) {
     const items = [];
-    console.log('puzzlePanelWidth: ', puzzlePanelWidth);
+    console.log('imageData: ', imageData);
     console.log('data: ', data);
     data[currentIndex].answerPhrase.forEach((el, index) => {
       const item = new Paragraph(`block-${index}`, el, 'puzzle__phrase-block', {});
@@ -56,16 +66,16 @@ class PhrasePanel extends Container {
       item.lineIndex = currentIndex;
       item.index = index;
       item.answerPhrase = data[currentIndex].answerPhrase;
-      this.setItemWidth(item, puzzlePanelWidth);
+      this.setItemWidth(item, imageData);
       items.push(item);
       console.log('item: ', item);
     });
     return items;
   }
 
-  setItemWidth(item, puzzlePanelWidth) {
+  setItemWidth(item, imageData) {
     const itemHtml = item.getHtml();
-    const widthToOneChar = puzzlePanelWidth / (item.sentenceLength - item.numOfSpaces);
+    const widthToOneChar = imageData.fieldWidth / (item.sentenceLength - item.numOfSpaces);
     const currentWidth = item.wordLength * widthToOneChar;
     console.log('item.wordLength: ', item.wordLength);
     itemHtml.style.width = `${currentWidth}px`;
@@ -97,34 +107,29 @@ class PhrasePanel extends Container {
     });
   }
 
-  getBackgroundSize() {
-    const definedHeight = 400;
-    this.kImage = this.imgWidth / this.imgHeight;
-    this.kField = this.puzzlePanelWidth / definedHeight;
-    if (this.kImage <= this.kField) {
+  getBackgroundSize(imageData) {
+    console.log('imageData: ', imageData);
+    if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
       return `${this.puzzlePanelWidth}px auto`;
     }
     return 'auto 400px';
   }
 
-  getBackgroundPosition(item) { // element.textContent, element.sentence, index, element.lineIndex
-    const definedHeight = 400;
-    this.kImage = this.imgWidth / this.imgHeight;
-    this.kField = this.puzzlePanelWidth / definedHeight;
+  getBackgroundPosition(item, imageData) { // element.textContent, element.sentence, index, element.lineIndex
     let x;
     let y;
-    if (this.kImage <= this.kField) {
-      const offsetY = (((this.puzzlePanelWidth / this.imgWidth) * this.imgHeight)
-        - definedHeight) / 2;
+    if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
+      const offsetY = (((this.puzzlePanelWidth / imageData.imgWidth) * imageData.imgHeight)
+        - imageData.definedHeight) / 2;
       y = (offsetY + item.lineIndex * 40) * -1;
       const arrOfWords = item.answerPhrase;
       let wordsLength = 0;
       for (let i = 0; i < item.index; i += 1) {
         wordsLength += arrOfWords[i].length;
       }
-      x = ((this.puzzlePanelWidth / item.sentenceLength) * wordsLength) * -1;
+      x = ((this.puzzlePanelWidth / (item.sentenceLength - item.numOfSpaces)) * wordsLength) * -1;
     } else {
-      const offsetX = (((definedHeight / this.imgHeight) * this.imgWidth)
+      const offsetX = (((imageData.definedHeight / imageData.imgHeight) * imageData.imgWidth)
         - this.puzzlePanelWidth) / 2;
       y = item.lineIndex * -40;
       const arrOfWords = item.answerPhrase;
@@ -132,35 +137,18 @@ class PhrasePanel extends Container {
       for (let i = 0; i < item.index; i += 1) {
         wordsLength += arrOfWords[i].length;
       }
-      x = ((this.puzzlePanelWidth / item.sentenceLength) * wordsLength + offsetX) * -1;
+      x = ((this.puzzlePanelWidth / (item.sentenceLength - item.numOfSpaces)) * wordsLength + offsetX) * -1;
     }
     return { x, y };
   }
 
-  setImageOnItems(items, image) {
-    const img = new Image('img', {
-      src: image,
-    }, 'img');
-    img.getHtml().onload = () => {
-      this.imgWidth = img.getHtml().width;
-      this.imgHeight = img.getHtml().height;
-      console.log(this.imgWidth, this.imgHeight);
-      console.log('img: ', img);
-      console.log(this);
-      console.log('window: ', window);
-      // this.puzzlePanelWidth = this.getWidth();
-      this.addPuzzleBackGround(items, image);
-      console.log('puzzlePanelWidth: ', this.puzzlePanelWidth);
-    };
-  }
-
-  addPuzzleBackGround(items, image) {
-    console.log('this.getBackgroundSize(): ', this.getBackgroundSize());
+  addPuzzleBackGround(items, image, imageData) {
+    console.log('this.getBackgroundSize(): ', this.getBackgroundSize(imageData));
     items.forEach((element, index) => {
-      const position = this.getBackgroundPosition(element, index);
+      const position = this.getBackgroundPosition(element, imageData);
       const elementHtml = element.getHtml();
       elementHtml.style.backgroundImage = `url(${image})`;
-      elementHtml.style.backgroundSize = this.getBackgroundSize();
+      elementHtml.style.backgroundSize = this.getBackgroundSize(imageData);
       elementHtml.style.backgroundRepeat = 'no-repeat';
       elementHtml.style.backgroundPosition = `${position.x}px ${position.y}px `;
       elementHtml.style.color = '#fff';

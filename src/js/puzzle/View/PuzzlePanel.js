@@ -71,17 +71,39 @@ class PuzzlePanel extends Container {
   }
 
   setElements(line, data) {
-    data.forEach((element, index) => {
-      const item = new Paragraph(`block-${index}`, `${data[index]}`, 'puzzle__phrase-block', { draggable: 'true' });
-      this.getChild('puzzle-box').getChild(`line-${line}`).add(item);
-      this.getChild('puzzle-box').getChild(`line-${line}`).getHtml();
+    data.forEach((element) => {
+      this.getChild('puzzle-box').getChild(`line-${line}`).add(element);
+      // this.getChild('puzzle-box').getChild(`line-${line}`).getHtml();
     });
   }
 
-  // setBackground(url) {
-  //   this.box = document.getElementById('puzzle-box');
-  //   this.box.backgroundImage = `${url}`;
-  // }
+  getBackgroundSize(imageData) {
+    console.log('imageData: ', imageData);
+    if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
+      return `${imageData.fieldWidth}px auto`;
+    }
+    return 'auto 400px';
+  }
+
+  setBackground(url, imageData) {
+    let x;
+    let y;
+    const divider = 2;
+    if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
+      y = (((imageData.fieldWidth / imageData.imgWidth) * imageData.imgHeight) - imageData.definedHeight) / divider;
+      x = 0;
+    } else {
+      x = (((imageData.definedHeight / imageData.imgHeight) * imageData.imgWidth) - imageData.fieldWidth) / divider;
+      y = 0;
+    }
+    this.box = document.getElementById('puzzle-box');
+    this.box.style.width = `${imageData.fieldWidth}px`;
+    this.box.style.height = '400px';
+    this.box.style.backgroundImage = `url('${url}')`;
+    this.box.style.backgroundSize = this.getBackgroundSize(imageData);
+    this.box.style.backgroundRepeat = 'no-repeat';
+    this.box.style.backgroundPosition = `${-x}px ${-y}px`;
+  }
 }
 
 export default PuzzlePanel;

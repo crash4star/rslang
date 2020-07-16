@@ -1,5 +1,5 @@
 // import Utils from './Utils';
-import Image from './components/Image';
+// import ImageComponent from './components/Image';
 import Container from './components/Container';
 import Statistic from '../../utils/createStatistic';
 import ViewMethods from '../../utils/view-methods';
@@ -48,20 +48,22 @@ class View {
         // this.controlPanelEvents();
         this.hintsEvents();
         // puzzlePanelEvents
-        this.resizeEvent();
+        //this.resizeEvent();
         startGame();
       }
     });
   }
 
-  resizeEvent() {
-    window.addEventListener('resize', () => {
+  resizeEvent(getImageUrl) {
+    window.addEventListener('resize', async () => {
       this.puzzlePanelWidth = this.getWidth();
       this.items = this.phrasePanel.getChildren();
       console.log('this.items', this.items);
+      const imageData = await this.getImageData(getImageUrl());
+      console.log('imageData: ', imageData);
       if (this.items.length) {
         this.items.forEach((element) => {
-          this.phrasePanel.setItemWidth(element, this.puzzlePanelWidth);
+          this.phrasePanel.setItemWidth(element, imageData);
         });
       }
       // setItemWidth(item, this.puzzlePanelWidth);
@@ -165,6 +167,29 @@ class View {
       this.app = document.querySelector('.root');
       this.app.classList.remove('root-active');
     }
+  }
+
+  loadImage(url) {
+    return new Promise(resolve => {
+      const image = new Image();
+      image.addEventListener('load', () => {
+        resolve(image);
+      });
+      image.src = url;
+    });
+  }
+
+  async getImageData(url) {
+    const image = await this.loadImage(url);
+    const imageParams = {
+      imgHeight: image.height,
+      imgWidth: image.width,
+      definedHeight: 400,
+    }
+    imageParams.imgCoefficient = imageParams.imgWidth / imageParams.imgHeight;
+    imageParams.fieldCoefficient = this.getWidth() / imageParams.definedHeight;
+    imageParams.fieldWidth = this.getWidth();
+    return imageParams;
   }
 
   getWidth() {

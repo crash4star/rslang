@@ -17,7 +17,9 @@ class Controller {
       this.currentSettings.levelSettings.page);
     console.log('words: ', this.words);
     this.currentPuzzle = this.model.paintings.getPainting(this.currentSettings.levelSettings.level,
-      this.currentSettings.levelSettings.page); // aaa
+    this.currentSettings.levelSettings.page); // aaa
+    this.imgData = await this.view.getImageData(this.currentPuzzle);
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAimgData: ', this.imgData);
     // this.view.changeGameLevelEvent(this.bindStartGame.bind(this), this.bindGetLevel.bind(this));
     // this.view.changeDefaultLevel(this.bindChangeLevelData.bind(this));
     // const currentPuzzle = this.model.paintings.getPainting(currentSettings.levelSettings.level,
@@ -29,20 +31,24 @@ class Controller {
       this.getCurrentTurn.bind(this), this.dontKnowEvent.bind(this),
       this.showResultEvent.bind(this));
     this.view.controlPanelEvents(this.bindChangeSettingsEvent.bind(this));
+    this.view.resizeEvent(this.getCurrentImage.bind(this));
+  }
+
+  getCurrentImage() {
+    return this.currentPuzzle;
   }
 
   getCurrentTurn() {
     return this.currentTurn;
   }
 
-  showResultEvent() {
+  async showResultEvent() {
     if (this.currentTurn === this.numberOfTurns) {
       this.currentTurn += 1;
       this.view.phrasePanel.removeAllItems();
       this.view.puzzlePanel.removeAllLines();
       // this.view.puzzlePanel.setBackground(currentPuzzle);
-      this.box = document.getElementById('puzzle-box');
-      this.box.style.backgroundImage = `url('${this.currentPuzzle}')`;
+      this.view.puzzlePanel.setBackground(this.currentPuzzle, this.imgData);
       const currentPuzzleInfo = this.model.paintings
         .getPaintingDescription(this.currentSettings.levelSettings.level,
           this.currentSettings.levelSettings.page);
@@ -69,8 +75,11 @@ class Controller {
   dontKnowEvent() {
     this.view.phrasePanel.removeAllItems();
     this.view.puzzlePanel.removeAllItems(this.currentTurn);
-    this.view.puzzlePanel.setElements(this.currentTurn,
-      this.words[this.currentTurn].answerPhrase);
+    this.view.phrasePanel.updatePhrasePanel(this.words, this.currentTurn, this.imgData, this.currentPuzzle);
+    const sortedItems = this.view.phrasePanel.sortItems();
+    this.view.puzzlePanel.setElements(this.currentTurn, sortedItems);
+    // this.view.puzzlePanel.setElements(this.currentTurn,
+    //  this.words[this.currentTurn].answerPhrase);
     this.model.statistic.addIncorrectValue(this.words[this.currentTurn].word);
     // this.view.phrasePanel.updatePhrasePanel(this.words[this.currentTurn].answerPhrase);
     // console.log('this.words[this.currentTurn].answerPhrase: ',
@@ -100,7 +109,7 @@ class Controller {
     console.log(this.currentTurn);
     this.view.hintsPanel.updateHintsPanel(words[this.currentTurn].textExampleTranslate,
       words[this.currentTurn].audioExample);
-    this.view.phrasePanel.updatePhrasePanel(words, this.currentTurn, this.view.getWidth(), this.currentPuzzle);
+    this.view.phrasePanel.updatePhrasePanel(words, this.currentTurn, this.imgData, this.currentPuzzle);
     this.view.puzzlePanel.addLine(this.currentTurn);
     // this.view.setImageOnItems(this.currentPuzzle, words[this.currentTurn].textExample,
     //   this.currentTurn);
