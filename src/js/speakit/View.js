@@ -4,15 +4,17 @@ import { defaultCardImage } from './data/data';
 import Chapters from './elements/Chapters';
 import CardsPage from './elements/CardsPage';
 import { gamesInLevel } from './Model'
+import { showErrorMessage, showSuccessMessage } from '../utils/message';
 
 const minWordsToStudy = 10;
 
 
 export default class View {
-  constructor(model, isNeedToLoadStartPage) {
+  constructor(model, controller, isNeedToLoadStartPage, isLoadStudiedWords = false) {
+    this.parentController = controller;
     this.model = model;
     this.isNeedToLoadStartPage = isNeedToLoadStartPage;
-    this.isLoadStudiedWords = false;  
+    this.isLoadStudiedWords = isLoadStudiedWords;  
     this.main = document.querySelector('.main');
     this.init();
   }
@@ -27,8 +29,8 @@ export default class View {
   }
 
   askWhichGamePlay() {
-    const body = document.querySelector('body');
-    const modalFade = addElement('div', body, 'modal fade', 'speakit-selectGame', null, ['role', 'dialog']);
+    const root = document.querySelector('.root');
+    const modalFade = addElement('div', root, 'modal fade', 'speakit-selectGame', null, ['role', 'dialog']);
     const modalDialog = addElement('div', modalFade, 'modal-dialog');
     const modalContent = addElement('div', modalDialog, 'modal-content');
     const modalHeader = addElement('div', modalContent, 'modal-header');
@@ -71,15 +73,18 @@ export default class View {
     studiedWords.addEventListener('click', () => {
       this.isLoadStudiedWords = true;
       this.hideStartPage();
+      showSuccessMessage(`Game is loading in traininig mode`);
     });
     randomWords.addEventListener('click', () => {
       this.isLoadStudiedWords = false;
       this.hideStartPage();
+      showSuccessMessage(`Game is loading in playing mode`);
     })
   }
 
   renderStartPage(isNeedToShowModal) {
     if (this.isNeedToLoadStartPage) {
+      this.askWhichGamePlay();
       this.startPage = addElement('div', speakit, 'speakit-startPage', 'speakit-startPage');
       addElement('h1', this.startPage, 'speakit-startPage--title', 'Speakit');
       this.addStartPageDescription('Click on the words to hear them sound.');
@@ -91,7 +96,8 @@ export default class View {
         startPageButton.setAttribute('data-target', '#speakit-selectGame');
       } else {
         startPageButton.addEventListener('click', () => {
-            document.getElementById('speakit-startPage').classList.add('hidden');
+          this.hideStartPage();
+          showErrorMessage(`It's not enough words to study. Game is loading in play mode`);
         }); 
       }
 
@@ -126,6 +132,8 @@ export default class View {
       this.chapters.node.addEventListener('click', (e) => {
         this.newGame(e);
       });
+    } else {
+        addElement('ul', this.gamePage, 'speakit-chapters', 'speakit-chapters', null, ['visible', 'hidden']);
     }
   }
 
@@ -156,12 +164,12 @@ export default class View {
   }
 
   hideMainWindow() {
-    this.root.classList.add('speakit');
+    this.root.classList.add('root-speakit');
     this.main.classList.add('speakit');
   }
 
   showMainWindow() {
-    this.root.classList.remove('speakit');
+    this.root.classList.remove('root-speakit');
     this.main.classList.remove('speakit');
   }
 
@@ -183,11 +191,13 @@ export default class View {
     this.root.classList.add('root-active');
     this.speakit = addElement('div', this.root, 'speakit', 'speakit');
     this.container = addElement('div', this.speakit, 'container');
-    if (this.model.words.wordsToStudy.length >= minWordsToStudy) {
-      this.askWhichGamePlay();
-      this.renderStartPage(true);
+    if (this.isNeedToLoadStartPage) {
+      if (this.model.words.wordsToStudy.length >= minWordsToStudy) {  
+        this.renderStartPage(true);
+      } else {
+        this.renderStartPage(false);
+      }
     } else {
-      this.renderStartPage(false);
       this.renderGamePage();
     }
   }

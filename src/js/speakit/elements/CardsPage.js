@@ -4,7 +4,6 @@ import addElement from '../../utils/utils';
 import Statistic from '../../utils/createStatistic';
 import ViewMethods from '../../utils/view-methods';
 import { BASE_HEROKU } from '../../data/miniGames';
-import SpeakitController from '../SpeakitController';
 import shuffleArr from '../../utils/shuffleArr';
 import UserWord from '../../utils/UserWord';
 import Api from '../../models/Api';
@@ -22,7 +21,7 @@ export default class CardsPage {
     this.audio = new Audio();
     this.data = [];
     this.rightAnswerCounter = 0;
-    this.isTrainStudyingWords = false;
+    this.isTrainStudyingWords = caller.isLoadStudiedWords;
     this.gameIsStarted = false;
     this.render();
     this.init();
@@ -96,7 +95,7 @@ export default class CardsPage {
   }
 
   getCards() {
-    if (this.caller.isLoadStudiedWords) {
+    if (this.isTrainStudyingWords) {
       this.data = shuffleArr(this.getCardsToStudy(this.caller.model.words.wordsToStudy));
     } else {
       this.data = shuffleArr(this.caller.model.words.wordsByLevel);
@@ -207,7 +206,7 @@ export default class CardsPage {
   }
   
   async checkAndUpdateSettings(allWordsIsAnswered) {
-    if (allWordsIsAnswered && !this.caller.isLoadStudiedWords) {
+    if (allWordsIsAnswered && !this.isTrainStudyingWords) {
       this.caller.model.settings.optional.speakit.round += 1;
       const updatedSettings = {
         optional: this.caller.model.settings.optional
@@ -221,10 +220,13 @@ export default class CardsPage {
     const authRequest = new AuthRequest(api);
     const words = new Words(api, authRequest);
     for (let i = 0; i < importantAnswer.length; i += 1) {
-      const userWord = new UserWord (importantAnswer[i], false);
-      userWord.setImportant();
-      userWord.getUserWord();
-      words.upsertUserWord(userWord.id, userWord);
+      const dataBaseObject = importantAnswer[i];
+      const wordObject = {
+        optional: dataBaseObject.optional,
+        difficulty: dataBaseObject.difficulty
+      }
+      wordObject.optional.impotant = true;
+      words.upsertUserWord(dataBaseObject.wordId, wordObject);
     }
   }
   
@@ -247,7 +249,7 @@ export default class CardsPage {
         rightAnswer.push(el)
       } else { 
         wrongAnswer.push(el);
-        if (this.isLoadStudiedWords) {
+        if (this.isTrainStudyingWords) {
           importantAnswer.push(element.obj);
         }
       } 
@@ -255,10 +257,11 @@ export default class CardsPage {
       el.wordId = element.id;
     });
     this.caller.root.innerHTML = '';
-    if (this.isLoadStudiedWords) {
+    if (this.isTrainStudyingWords) {
       this.setImportantToStudy(importantAnswer);
     }
-    new Statistic(new ViewMethods(), () => new SpeakitController(BASE_HEROKU, false)).renderStat(rightAnswer, wrongAnswer);
+    debugger;
+    new Statistic(new ViewMethods(), () => this.caller.parentController.init(false, this.isTrainStudyingWords)).renderStat(rightAnswer, wrongAnswer);
 
     this.caller.gamePage.classList.add('hidden');
   }

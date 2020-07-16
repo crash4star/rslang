@@ -12,14 +12,19 @@ class Statistic {
     new StatisticElement(element, parent);
   }
 
+  clearRoot(root) {
+    root.innerHTML = '',
+    root.classList.remove('root-active');
+  }
+
   addButtonListeners() {
+    const root = document.querySelector('.root');
     this.onMainPageBtn.addEventListener('click', () => {
-      const root = document.querySelector('.root');
-      root.innerHTML = '',
-      root.classList.remove('root-active');
+      this.clearRoot(root);
     });
     if (this.callback) {
       this.continueBtn.addEventListener('click', () => {
+        this.clearRoot(root);
         this.callback();
       });
     }

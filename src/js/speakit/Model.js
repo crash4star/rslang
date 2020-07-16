@@ -2,7 +2,6 @@ import Api from '../models/Api';
 import Words from '../models/Words';
 import AuthRequest from '../models/AuthRequest';
 import Settings from '../models/Settings';
-import Statistics from '../models/Statistics';
 
 const gamesInLevel = 60;
 const wordsPerRound = 10;
@@ -67,7 +66,6 @@ export default class Model {
         this.authRequest = new AuthRequest(this.api);
         this.settingsObject = new Settings(this.api, this.authRequest);
         const words = new Words(this.api, this.authRequest);
-        const statistics = new Statistics(this.api, this.authRequest);
         this.words = {};
         this.userSettings = {};
         await this.settingsObject.getUserSettings()
