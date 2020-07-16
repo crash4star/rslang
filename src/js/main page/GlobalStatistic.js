@@ -2,7 +2,6 @@ import createDateObject from './globalStatisticData';
 import { getMidnight } from './globalStatisticData';
 import addElement from '../utils/utils';
 import { getDateInString } from '../utils/utils';
-
 import { BASE_HEROKU } from '../data/miniGames';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
@@ -49,7 +48,7 @@ export default class GlobalStatistic  {
     }
 
     getAmountOfWords() {
-        return this.data.options.axisY.max - this.data.options.axisY.min;;
+        return this.data.options.axisY.max - this.data.options.axisY.min;
     }
 
     renderGraph() {
