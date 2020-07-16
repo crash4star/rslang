@@ -87,12 +87,12 @@
     font-size: 1.4rem;
   }
   progress-text {
-    top: 155% !important;
+    // top: 155% !important;
   }
 }
 @media (max-width: 1225px) {
   .progress-text {
-    top: 150% !important;
+    top: 70% !important;
   }
 }
 
