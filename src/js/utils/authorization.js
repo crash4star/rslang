@@ -1,4 +1,5 @@
 import renderMainPage from '../main page/mainPage';
+
 const mailOptions = {
     regExp: /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/,
     errorMessage: 'Please, check your e-mail',

@@ -10,8 +10,8 @@ export default class Chapters {
 
     render() {
         this.node = addElement('ul', this.parent, 'speakit-chapters', 'speakit-chapters');
-        for (let i = 0; i < chaptersNumber; i += 1) {
-            const addClass = (i === 0) ? 'active' : null;
+        for (let i = 0; i < this.chaptersNumber; i += 1) {
+            const addClass = (i === this.activeElement) ? 'active' : null;
             addElement('li', this.node, addClass);
         }
     }

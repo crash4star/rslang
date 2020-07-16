@@ -81,6 +81,7 @@ class Words {
   
     async upsertUserWord(wordId, userWord) {
         const res = await this.checkUserWordById(wordId);
+        debugger;
         if (res.ok) {
            this.updateUserWord(wordId, userWord);
         } else {

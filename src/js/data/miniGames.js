@@ -8,12 +8,12 @@ import SpeakitController from '../speakit/SpeakitController';
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
 
-const getMiniGamesTemplate = (title, description, img, callback) => { //callback must run game
+const getMiniGamesTemplate = (title, description, img, callback) => { // callback must run game
     return {
         title: `${title}`,
         description: `${description}`,
         img: `${img}`,
-        callback: callback
+        callback
     }
 }
 

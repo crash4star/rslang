@@ -15,7 +15,7 @@ const getArray = (isDate, arrayLength, min, max) => {
     const data = [];
     for (let i = 0; i < arrayLength; i+= 1) {
         const valueIsUnique = false;
-        let counter = 0;
+        const counter = 0;
         while (!valueIsUnique) {
             const value = Math.floor(Math.random() * (max - min)) + min;
             value = isDate ? getMidnight(value) : value;

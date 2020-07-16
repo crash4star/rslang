@@ -18,7 +18,7 @@ class Statistic {
       root.innerHTML = '',
       root.classList.remove('root-active');
     });
-    if (!!this.callback) {
+    if (this.callback) {
       this.continueBtn.addEventListener('click', () => {
         this.callback();
       });
@@ -87,7 +87,7 @@ class Statistic {
         node: 'div',
         styleName: 'right-answer',
       });
-      if (Array.isArray(item)) {
+      if (Array.isArray(rightAnswer)) {
         rightAnswer.textContent = item;
       } else {
           this.addStatisticElement(item, rightAnswer);
@@ -102,7 +102,7 @@ class Statistic {
         styleName: 'wrong-answer',
       });
       
-      if (Array.isArray(item)) {
+      if (Array.isArray(wrongAnswer)) {
         wrongAnswer.textContent = item;
       } else {
         this.addStatisticElement(item, wrongAnswer);

@@ -1,7 +1,7 @@
-import createDateObject from './globalStatisticData';
-import { getMidnight } from './globalStatisticData';
-import addElement from '../utils/utils';
-import { getDateInString } from '../utils/utils';
+import createDateObject, { getMidnight } from './globalStatisticData';
+
+import addElement, { getDateInString } from '../utils/utils';
+
 import { BASE_HEROKU } from '../data/miniGames';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
@@ -38,7 +38,7 @@ export default class GlobalStatistic  {
                     amount = i;
                 }
             }
-            amountOfDescriptions = (amount) ? amount: amountOfDescriptions;
+            amountOfDescriptions = (amount) || amountOfDescriptions;
         }
         return amountOfDescriptions;
     }
@@ -107,8 +107,8 @@ export default class GlobalStatistic  {
 
     drawDescriptionAxis(axisIsX, length, amountOfDescriptions, maxValue, minValue) {
         
-        let stepBetweenDescriptions = length / (amountOfDescriptions + 1);
-        let stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
+        const stepBetweenDescriptions = length / (amountOfDescriptions + 1);
+        const stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
         
         for (let i = 0; i <= amountOfDescriptions + 1; i+= 1) {
             this.ctx.beginPath();
@@ -225,7 +225,7 @@ export default class GlobalStatistic  {
             this.showAlert(e, stepX, minDate, data);
         });
 
-        document.querySelector('.canvas').addEventListener('click', (e) => { //for phones
+        document.querySelector('.canvas').addEventListener('click', (e) => { // for phones
             this.showAlert(e, stepX, minDate, data);
         });
 

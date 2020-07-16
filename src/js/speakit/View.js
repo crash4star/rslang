@@ -3,12 +3,16 @@ import addElement from '../utils/utils';
 import { defaultCardImage } from './data/data';
 import Chapters from './elements/Chapters';
 import CardsPage from './elements/CardsPage';
+import { gamesInLevel } from './Model'
+
+const minWordsToStudy = 10;
+
 
 export default class View {
   constructor(model, isNeedToLoadStartPage) {
-    debugger;
     this.model = model;
     this.isNeedToLoadStartPage = isNeedToLoadStartPage;
+    this.isLoadStudiedWords = false;  
     this.main = document.querySelector('.main');
     this.init();
   }
@@ -94,17 +98,28 @@ export default class View {
     }
   }
 
+  async updateSettingsInDataBase(chapter) {
+    const round = gamesInLevel * chapter;
+    this.model.settings.optional.speakit.round = round;
+    const updatedSettings = {
+      optional: this.model.settings.optional
+    }
+    await this.model.settingsObject.updateSettings(updatedSettings);
+
+  }
+
   newGame(e) {
     let chapter;
     if (e !== undefined) {
         chapter = this.chapters.setActiveElement(e.target);
     }
+    this.updateSettingsInDataBase(chapter);
     this.cardsPage.refresh(chapter);
   }
 
   renderChapters() {
     if (!this.isLoadStudiedWords) {
-      const activeChapter = 0; //get from db
+      const activeChapter = this.model.difficult + 1;
       this.chapters = new Chapters(this.gamePage, activeChapter);
       this.chapters.render();
       
@@ -168,7 +183,7 @@ export default class View {
     this.root.classList.add('root-active');
     this.speakit = addElement('div', this.root, 'speakit', 'speakit');
     this.container = addElement('div', this.speakit, 'container');
-    if (this.model.words.wordsToStudy.length >= 10) {
+    if (this.model.words.wordsToStudy.length >= minWordsToStudy) {
       this.askWhichGamePlay();
       this.renderStartPage(true);
     } else {

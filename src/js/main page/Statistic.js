@@ -1,7 +1,7 @@
-import getData from '../data/statistic';
-import { getMidnight } from '../data/statistic';
-import addElement from '../utils/utils';
-import { getDateInString } from '../utils/utils';
+import getData, { getMidnight } from '../data/statistic';
+
+import addElement, { getDateInString } from '../utils/utils';
+
 import '../../css/statistic.scss';
 
 const dashLength = 10;
@@ -35,7 +35,7 @@ export default class Statistic  {
                     amount = i;
                 }
             }
-            amountOfDescriptions = (amount) ? amount: amountOfDescriptions;
+            amountOfDescriptions = (amount) || amountOfDescriptions;
         }
         return amountOfDescriptions;
     }
@@ -89,8 +89,8 @@ export default class Statistic  {
 
     drawDescriptionAxis(axisIsX, length, amountOfDescriptions, maxValue, minValue) {
         
-        let stepBetweenDescriptions = length / (amountOfDescriptions + 1);
-        let stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
+        const stepBetweenDescriptions = length / (amountOfDescriptions + 1);
+        const stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
         
         for (let i = 0; i <= amountOfDescriptions + 1; i+= 1) {
             this.ctx.beginPath();
@@ -208,7 +208,7 @@ export default class Statistic  {
             this.showAlert(e, stepX, minDate, data);
         });
 
-        document.querySelector('.canvas').addEventListener('click', (e) => { //for phones
+        document.querySelector('.canvas').addEventListener('click', (e) => { // for phones
             this.showAlert(e, stepX, minDate, data);
         });
 

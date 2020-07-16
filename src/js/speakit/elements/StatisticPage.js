@@ -9,7 +9,7 @@ export default class StatisicPage {
     }
 
     showStat() {
-        //this.content = document.getElementById('statPage');
+        // this.content = document.getElementById('statPage');
         debugger;
         this.statPage.innerHTML = '';
         const uncorrect = addElement('div', this.statPage, 'chapter');

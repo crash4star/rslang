@@ -27,7 +27,7 @@ function createProgressBar(container, rightAnswers, count) {
     step: (state, shape) => {
       shape.path.setAttribute('stroke', state.color);
       shape.path.setAttribute('stroke-width', state.width);
-      shape.setText(Math.round(shape.value() * 100) + ' %');
+      shape.setText(`${Math.round(shape.value() * 100)  } %`);
     },
   });
 

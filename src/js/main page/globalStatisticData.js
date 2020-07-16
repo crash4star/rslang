@@ -10,7 +10,7 @@ const getArray = (isDate, arrayLength, min, max) => {
     const data = [];
     for (let i = 0; i < arrayLength; i+= 1) {
         const valueIsUnique = false;
-        let counter = 0;
+        const counter = 0;
         while (!valueIsUnique) {
             const value = Math.floor(Math.random() * (max - min)) + min;
             value = isDate ? getMidnight(value) : value;
@@ -45,7 +45,7 @@ const createArrayOfDatesAndValues = (datesArray, valuesArray) => {
 
 const getData = (data) => {
     const dates = Object.keys(data).map(el => new Date(el).getTime());
-    let values = Object.values(data);
+    const values = Object.values(data);
     let accumulator = 0;
     for (let i = 0; i < values.length; i += 1) {
         accumulator += values[i];

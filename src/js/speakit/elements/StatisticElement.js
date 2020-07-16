@@ -1,5 +1,5 @@
 import addElement from "../../utils/utils";
-import { soundImageUrl, translateUrl, gitUrl } from './../data/data';
+import { soundImageUrl, translateUrl, gitUrl } from "../data/data";
 
 export default class StatisticElement {
     constructor (data, parent) {

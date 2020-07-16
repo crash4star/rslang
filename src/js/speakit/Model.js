@@ -15,7 +15,6 @@ export default class Model {
 
     async getUserSettings(settings) {
         this.settings = settings;
-        debugger;
         if (!this.settings.optional.speakit) {
             this.settings.optional.speakit = {
                 round: 0
@@ -45,17 +44,17 @@ export default class Model {
 
     getWordsToStudy(data) {
         data.sort((a, b) => {
-            const previousRating = a.optional.rating;
-            const nextRating = b.optional.rating;
-            if (previousRating > nextRating) return -1;
+            const previousRating = a.optional.interval;
+            const nextRating = b.optional.interval;
+            if (previousRating < nextRating) return -1;
             if (previousRating === nextRating) return 0;
-            if (previousRating < nextRating) return 1;
+            if (previousRating > nextRating) return 1;
         });
         this.words.wordsToStudy = [];
         let counter = 0;
         let index = 0;
         while (counter < 10 && index < data.length) {
-            if (data[index].optional.rating > 0) {
+            if (data[index].optional.interval > 0) {
                 this.words.wordsToStudy.push(data[index]);
                 counter += 1;
             }
@@ -83,3 +82,5 @@ export default class Model {
         });
     }
 }
+
+export { gamesInLevel };
