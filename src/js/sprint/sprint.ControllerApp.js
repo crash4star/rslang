@@ -83,7 +83,7 @@ class SprintControllerApp {
         this.combo += 1;
         
         console.log(this.combo)
-        if (this.combo >= 4) {
+        if (this.combo >= 4  && this.combo < 7) {
           this.points += 20;
         } else if (this.combo >= 7) {
           this.points += 40;
@@ -118,7 +118,7 @@ class SprintControllerApp {
         this.combo += 1;
        
         console.log(this.combo)
-        if (this.combo >= 4) {
+        if (this.combo >= 4 && this.combo < 7) {
           this.points += 20;
         } else if (this.combo >= 7) {
           this.points += 40;
