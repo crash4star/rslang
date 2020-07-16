@@ -52,7 +52,22 @@
     border: 2px solid green;
     border-radius: 10px;
   }
-  .sprint-startBtn:hover {
+  .sprint-startBtnlearnedWords {
+    width: 50%;
+    height: 5%;
+    background-color: lightgreen;
+    font-size: 24px;
+    border: 2px solid green;
+    border-radius: 10px;
+  }
+  .hint {
+    position: absolute;
+    width: 200px;
+    background-color: red;
+    bottom: 10%;
+    left: 20%;
+  }
+  .sprint-startBtn:hover, .sprint-startBtnlearnedWords:hover {
     transform: scale(1.1);
   }
  .points {
@@ -144,12 +159,29 @@ height: 70%;
   .points {
     top: 10%
   }
+  .sprint-startBtnlearnedWords {
+    width: 70%;
+  }
 
 }
+@media(max-width: 670) {
+  .sprint-startBtnlearnedWords {
+    width: 100%;
+    font-size: 18px;
+    height: 10%;
+  }
+  .sprint-gameDescription {
+    font-size: 18px ;
+  }
+}
+
 @media(max-width: 560px) {
   .sprint-container{
     height: 90%;
     width: 90%;
+  }
+  .hint {
+    display: none
   }
   .timer {
     font-size: 38px;
@@ -174,4 +206,13 @@ height: 70%;
   .sprint-nameOfTheGame{
     font-size: 48px;
   }
+  .sprint-startBtn, .sprint-startBtnlearnedWords {
+    width: 80%;
+   
+  }
+  .sprint-startBtnlearnedWords {
+     font-size: 16px;
+  }
 }
+
+

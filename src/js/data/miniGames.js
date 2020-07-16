@@ -56,9 +56,14 @@ const miniGames = [
         const app = new SprintControllerApp(new Words(new Api(BASE_HEROKU)), new SprintView(new ViewMethods()), new ViewMethods())
         app.start()
         const startBtn = document.querySelector('.sprint-startBtn')
+        const startBtnForLearnedWords = document.querySelector('.sprint-startBtnlearnedWords')
         startBtn.onclick = () => {
             document.querySelector('.sprint-container').remove()
             app.play();
+        }
+        startBtnForLearnedWords.onclick = () => {
+            document.querySelector('.sprint-container').remove()
+            app.playLearnedWords()
         }
     }),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))

@@ -29,14 +29,27 @@ class SprintView {
       node: 'button',
       styleName: 'sprint-startBtn',
     });
+    const startBtnForlearnedWords = this.viewMethods.createElement({
+      node: 'button',
+      styleName: 'sprint-startBtnlearnedWords',
+    });
+    const hint = this.viewMethods.createElement({
+      node: 'div',
+      styleName: 'hint',
+    });
+    hint.textContent = 'In the second game mode, only learned words from the main game are used. If there are not enough words, they will be repeated. Have a nice game'
+
     const closeBtn = this.viewMethods.createElement({
       node: 'div',
       styleName: 'sprint-closeBtn',
     });
     startBtn.textContent = 'START';
+    startBtnForlearnedWords.textContent = 'learned Words mode'
     sprintContainer.append(nameOfTheGame);
     sprintContainer.append(description);
     sprintContainer.append(startBtn);
+    sprintContainer.append(startBtnForlearnedWords)
+    sprintContainer.append(hint)
     sprintWrapper.append(closeBtn)
     sprintWrapper.append(sprintContainer);
     this.app.append(sprintWrapper);
@@ -45,6 +58,9 @@ class SprintView {
       root.removeChild(sprintWrapper);
       root.classList.remove('root-active');
     };
+    hint.onclick = () => {
+      hint.style.display = 'none'
+    }
   }
 
   renderGame() {
