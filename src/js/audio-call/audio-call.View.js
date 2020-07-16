@@ -79,7 +79,6 @@ class AudioCallView {
       node: 'div',
       styleName: 'sonar-wave wave',
     });
-    // this.app.append(wrapper);
     audioCallContainer.append(closeBtn);
     audioCallContainer.append(sonarWrapper);
     sonarWrapper.append(sonarEmitter);

@@ -18,7 +18,6 @@ class AudioCallControllerApp {
   start() {
     this.view.render();
     this.getWords();
-    // this.endGame()
   }
 
   getWords() {
