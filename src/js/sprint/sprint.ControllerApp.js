@@ -9,8 +9,8 @@ class SprintControllerApp {
     this.viewMethods = viewMethods;
     this.rightAnswers = [];
     this.wrongAnswers = [];
-    this.round = 0;
     this.points = 0;
+    this.combo = 0;
   }
 
   start() {
@@ -27,7 +27,6 @@ class SprintControllerApp {
   }
 
   nextRound() {
-    this.round++
     this.view.renderGame();
     this.getWords();
     this.view.createPoints(this.points);
@@ -76,26 +75,61 @@ class SprintControllerApp {
     const wrongBtn = this.viewMethods.getElement('.sprint-wrongBtn');
     const wordTranslate = this.viewMethods.getElement('.sprint-ruWord');
     const enWord = this.viewMethods.getElement('.sprint-enWord').textContent;
+    
 
-    rightBtn.onclick = () => {
-      
-      if (wordTranslate.classList.contains('rightAnswer')) {
-
-        this.viewMethods.getElement('.sprint-container').remove();
-        this.points += 10;
+    if (wordTranslate.classList.contains('rightAnswer')) {
+      rightBtn.onclick = () => {
+        console.log('rigth')
+        this.combo += 1;
+        
+        console.log(this.combo)
+        if (this.combo >= 4) {
+          this.points += 20;
+        } else if (this.combo >= 7) {
+          this.points += 40;
+        } else {
+          this.points += 10;
+        }
         this.rightAnswers.push(enWord);
+        this.viewMethods.getElement('.sprint-container').remove();
         this.nextRound();
-      }
-    };
+      };
+      wrongBtn.onclick = () => {
+        console.log('error')
+        
+        this.combo = 0;
 
-    wrongBtn.onclick = () => {
-      
-      if (!wordTranslate.classList.contains('rightAnswer')) {
         this.viewMethods.getElement('.sprint-container').remove();
         this.wrongAnswers.push(enWord);
         this.nextRound();
-      }
-    };
+      };
+    }
+    if (!wordTranslate.classList.contains('rightAnswer')) {
+      rightBtn.onclick = () => {
+        console.log('error')
+
+        this.combo = 0;
+        this.viewMethods.getElement('.sprint-container').remove();
+        this.wrongAnswers.push(enWord);
+        this.nextRound();
+      };
+      wrongBtn.onclick = () => {
+        console.log('rigth')
+        this.combo += 1;
+       
+        console.log(this.combo)
+        if (this.combo >= 4) {
+          this.points += 20;
+        } else if (this.combo >= 7) {
+          this.points += 40;
+        } else {
+          this.points += 10;
+        }
+        this.rightAnswers.push(enWord);
+         this.viewMethods.getElement('.sprint-container').remove();
+        this.nextRound();
+      };
+    }
   }
 }
 
