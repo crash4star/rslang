@@ -20,7 +20,6 @@ const graphColors = ['#c51b20', '#4d89f7'];
 export default class GlobalStatistic  {
     constructor () {
         this.canvasParameters = {};
-        this.init();
     }
 
     calculateAmountOfDaysDescriptions() {

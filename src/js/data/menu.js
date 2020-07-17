@@ -22,7 +22,8 @@ const menu = [
         renderMiniGames();
     }),
     getMenuTemplate ('Statistic', () => {
-        new GlobalStatistic();
+        const statistic = new GlobalStatistic();
+        statistic.init();
     }),
     getMenuTemplate ('Dictionary', () => getErrorMessageTemplate('Dictionary')),
     getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),

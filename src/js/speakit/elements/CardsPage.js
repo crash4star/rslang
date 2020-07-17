@@ -9,6 +9,7 @@ import Api from '../../models/Api';
 import AuthRequest from '../../models/AuthRequest';
 import Words from '../../models/Words';
 
+
 const amountOfRounds = 360;
 
 export default class CardsPage {
@@ -43,11 +44,7 @@ export default class CardsPage {
     this.gameIsStarted = false;
     this.gameButton.innerHTML = 'Press to start';
     this.cards.addEventListener('click', (e) => this.setActiveCard(e));
-    this.gameButton.addEventListener('click', () => {
-      if (this.gameButton.classList.contains('clickable')) {
-        this.startGame();
-      }
-    });
+    this.gameButton.addEventListener('click', this.startGame);
   }
 
   render () {
@@ -62,6 +59,10 @@ export default class CardsPage {
     });
 
     this.restartButton.addEventListener('click', () => {
+      if (this.resultButton.classList.contains('clickable')) {
+        this.resultButton.classList.remove('clickable');
+      }
+      this.gameIsStarted = false;
       this.stopGame();
       this.restart();
     });
@@ -176,6 +177,8 @@ export default class CardsPage {
     recognition.onend = () => {
       if (this.gameIsStarted) {
         recognition.start();
+      } else {
+        recognition.stop();
       }
     }
 
@@ -191,8 +194,7 @@ export default class CardsPage {
         });
       this.checkAnswer(transcript[0], data);
       if (document.getElementsByClassName('cards-card active').length === 10) {
-        recognition.onend = null;
-        recognition.stop();
+        this.gameIsStarted = false;
         this.showStatistic(true);
       };
     });
