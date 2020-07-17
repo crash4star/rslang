@@ -57,13 +57,14 @@ const createUser = async user => {
     }
 };
 
+const checkStatementByUsingRegex = (value, expression) => {
+    return value.match(expression);
+}
+
 const isMatchedRegEpxAndShowMessage = (email, messageNode, options) => {
     const statement = checkStatementByUsingRegex(email, options.regExp);
     messageNode.innerText = (statement) ? '' : options.errorMessage;
     return !!statement;
-}
-const checkStatementByUsingRegex = (value, expression) => {
-    return value.match(expression);
 }
 
 const isValidEmail = (email, messageNode) => {

@@ -10,7 +10,6 @@ export default class StatisicPage {
 
     showStat() {
         // this.content = document.getElementById('statPage');
-        debugger;
         this.statPage.innerHTML = '';
         const uncorrect = addElement('div', this.statPage, 'chapter');
         addElement('div', uncorrect, 'chapter-header uncorrect', null, 'Mistakes');
@@ -19,7 +18,8 @@ export default class StatisicPage {
 
         this.data.forEach((element, index) => {
             const parent = element.isAnswered ? correct : uncorrect;
-            new StatisticElement(element, parent, index);
+            const statElement = new StatisticElement(element, parent, index);
+            statElement.init();
         });
     }
 }

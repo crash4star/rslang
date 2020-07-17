@@ -9,7 +9,6 @@ export default class StatisticElement {
         this.audioURL = data.audio;
         this.isAnswered = data.isAnswered;
         this.id = data.id;
-        this.init();
     }
 
     async init() {

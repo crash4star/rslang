@@ -111,7 +111,8 @@ export default class CardsPage {
 
   renderCards() {
     for (let i = 0; i < this.data.length; i += 1) {
-      new Card(this.data[i], i);
+      const card = new Card(this.data[i], i);
+      card.createCard();
     }
     this.cardNodes = document.querySelectorAll('.cards-card');
   }
@@ -133,7 +134,7 @@ export default class CardsPage {
     this.image.src = url;
   }
 
-  async getTranslation(word) {
+  async getTranslation() {
     const url = `${translateUrl}&text=${this.data[this.activeCard].word}&lang=en-ru`;
     const res = await fetch(url);
     const data = await res.json();
@@ -141,15 +142,17 @@ export default class CardsPage {
   }
 
   async updateTranslation(word) {
-    if (!word) {
-      word = await this.getTranslation(word);
+    let translationWord = word;
+    if (!translationWord) {
+      translationWord = await this.getTranslation(translationWord);
     }
-    this.translation.innerHTML = word;
+    this.translation.innerHTML = translationWord;
   }
 
   playSound(id) {
-    if (id === undefined) id = this.activeCard;
-    const src = this.data[id].audio.substr(6);
+    let soundId = id;
+    if (soundId === undefined) soundId = this.activeCard;
+    const src = this.data[soundId].audio.substr(6);
     this.audio.src = `${gitUrl}${src}`;
     this.audio.play();
   }

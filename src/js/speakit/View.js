@@ -6,8 +6,8 @@ import CardsPage from './elements/CardsPage';
 import { gamesInLevel } from './Model'
 import { showErrorMessage, showSuccessMessage } from '../utils/message';
 import showSpinner from '../utils/spinner';
-const minWordsToStudy = 10;
 
+const minWordsToStudy = 10;
 
 export default class View {
   constructor(model, controller, isNeedToLoadStartPage, isLoadStudiedWords = false) {

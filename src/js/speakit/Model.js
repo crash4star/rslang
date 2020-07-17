@@ -32,11 +32,19 @@ export default class Model {
     getWordsByLevel(data) {
         if (this.round % 2 === 0)
             this.words.wordsByLevel = data.filter((el, index) => {
-                if (index < wordsPerRound) return el;
+                let result = null;
+                if (index < wordsPerRound) {
+                    result = el;
+                }
+                return result;
             });
         else {
             this.words.wordsByLevel = data.filter((el, index) => {
-                if (index >= wordsPerRound) return el;
+                let result = null;
+                if (index >= wordsPerRound) {
+                    result = el;
+                }
+                return result;
             }); 
         }
     }
@@ -45,9 +53,11 @@ export default class Model {
         data.sort((a, b) => {
             const previousRating = a.optional.interval;
             const nextRating = b.optional.interval;
-            if (previousRating < nextRating) return -1;
-            if (previousRating === nextRating) return 0;
-            if (previousRating > nextRating) return 1;
+            let result;
+            if (previousRating < nextRating) result = -1;
+            if (previousRating === nextRating) result = 0;
+            if (previousRating > nextRating) result = 1;
+            return result;
         });
         this.words.wordsToStudy = [];
         let counter = 0;

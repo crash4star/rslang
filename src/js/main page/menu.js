@@ -52,6 +52,6 @@ export default function renderMenu () {
     const ul = addElement('ul', div, 'navbar-nav');
     menu.map((el, index) => {
         addMenuElement(ul, el.name, el.callback, index);
-        
+        return null;
     });
 }

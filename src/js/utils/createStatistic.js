@@ -9,11 +9,12 @@ class Statistic {
   }
 
   addStatisticElement(element, parent) {
-    new StatisticElement(element, parent);
+    const statElement = new StatisticElement(element, parent);
+    statElement.init();
   }
 
   clearRoot(root) {
-    root.innerHTML = '',
+    root.innerHTML = '';
     root.classList.remove('root-active');
   }
 
