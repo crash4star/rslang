@@ -26,6 +26,7 @@ class View {
   }
 
   showStatisticEvent(getStatistic) {
+    window.removeEventListener('resize', this.resize);
     this.statistic = new Statistic( new ViewMethods());
     const statistic = getStatistic();
     this.gamePage.removeElement();
@@ -43,6 +44,7 @@ class View {
   startGameEvent(startGame) {
     this.mainPage.getHtml().addEventListener('click', (event) => {
       if (event.target.className.includes('puzzle__start')) {
+        this.isResultPage = false;
         this.startPage.removeElement();
         this.renderGamePage();
         // this.controlPanelEvents();
@@ -54,21 +56,31 @@ class View {
     });
   }
 
-  resizeEvent(getImageUrl) {
-    window.addEventListener('resize', async () => {
+  resizeEvent(getImageUrl, isBgImage) {
+    this.resize = async () => {
       this.puzzlePanelWidth = this.getWidth();
       this.items = this.phrasePanel.getChildren();
+      this.lineItems = this.puzzlePanel.getAllItems();
+      const allItems = this.items.concat(this.lineItems);
+      console.log('lineItems!!!!!!!!!!!!!!!!!!!: ', this.lineItems);
       console.log('this.items', this.items);
       const imageData = await this.getImageData(getImageUrl());
       console.log('imageData: ', imageData);
-      if (this.items.length) {
-        this.items.forEach((element) => {
+      if (allItems.length) {
+        allItems.forEach((element) => {
           this.phrasePanel.setItemWidth(element, imageData);
         });
       }
+      this.phrasePanel.addPuzzleBackGround(allItems, getImageUrl(), imageData, isBgImage());
       // setItemWidth(item, this.puzzlePanelWidth);
       // this.addPuzzleBackGround(image, sentence, line);
-    });
+      // this.isResultPage
+      console.log('this.isResultPage:resizzzzzzeee ', this.isResultPage);
+      if (this.isResultPage) {
+        this.puzzlePanel.setBackground(getImageUrl(), imageData);
+      }
+    }
+    window.addEventListener('resize', this.resize);
   }
 
   hintsEvents() {
@@ -80,6 +92,31 @@ class View {
     });
   }
 
+  correctAnswerEvent(line) {
+    this.correctAnswer = (event) => {
+      if (event.target.className.includes('puzzle__phrase-block')) {
+        console.log(event.target.className);
+        if (event.target.className.includes('puzzle__incorrect-mark')) {
+          event.target.classList.remove('puzzle__incorrect-mark');
+        } else if (event.target.className.includes('puzzle__correct-mark')) {
+          event.target.classList.remove('puzzle__correct-mark');
+        }
+        const puzzleLine = this.puzzlePanel.getLine(line());
+        const item = puzzleLine.getChild(event.target.id);
+        puzzleLine.removeChild(event.target.id);
+        puzzleLine.getHtml();
+        this.phrasePanel.addItem(item);
+        if (this.phrasePanel.getChild('phrase-wrapper').children.length) {
+          this.phrasePanel.deactivateButton('continue', 'check');
+          this.phrasePanel.activateButton('dont-know');
+        }
+      }
+    }
+    this.currentLine = this.puzzlePanel.getLine(line()).getHtml();
+    console.log('currentLine: ', this.currentLine);
+    this.currentLine.addEventListener('click', this.correctAnswer);
+  }
+
   gameEvents(check, continueGame, line, dontKnowEvent, showResult) {
     this.phrasePanel.getHtml().addEventListener('click', (event) => {
       console.log(event.target);
@@ -89,13 +126,13 @@ class View {
         phraseWrapper.removeChild(event.target.id);
         phraseWrapper.getHtml();
         this.puzzlePanel.addItem(line(), item);
-        // this.puzzlePanel.getHtml();
         console.log('phraseWrapper.children.length: ', phraseWrapper);
         if (!phraseWrapper.children.length) {
           this.phrasePanel.activateButton('check');
         }
       } else if (event.target.className.includes('puzzle__check')) {
         if (check()) {
+          this.currentLine.removeEventListener('click', this.correctAnswer);
           this.phrasePanel.deactivateButton('check', 'dont-know');
           this.phrasePanel.activateButton('continue');
         } else {
@@ -105,13 +142,15 @@ class View {
       } else if (event.target.className.includes('puzzle__continue')) { // ????
         if (continueGame()) {
           this.phrasePanel.deactivateButton('continue');
-          this.phrasePanel.activateButton('check', 'dont-know');
+          this.phrasePanel.activateButton('dont-know');
         } else {
-          showResult();
+          this.isResultPage = showResult();
+          console.log('this.isResultPage: ', this.isResultPage);
         }
       } else if (event.target.className.includes('puzzle__dont-know')) {
         dontKnowEvent();
         if (check()) {
+          this.currentLine.removeEventListener('click', this.correctAnswer);
           this.phrasePanel.deactivateButton('check', 'dont-know');
           this.phrasePanel.activateButton('continue');
         }
@@ -119,7 +158,7 @@ class View {
     });
   }
 
-  controlPanelEvents(changeSettings) {
+  controlPanelEvents(changeSettings, isBgImage, bgUrl) {
     this.controlPanel.getHtml().addEventListener('click', (event) => {
       console.log(event.target.id);
       if (event.target.className.includes('puzzle__close-button')) {
@@ -139,6 +178,7 @@ class View {
           } else if (event.target.className.includes('puzzle__picture-wrapper')) {
             // this.hintsPanel.activateHint('play-wrapper');
             changeSettings('picture-wrapper', false);
+            this.setPuzzleImageState(isBgImage(), bgUrl());
           }
           this.controlPanel.deactivateButton(event.target.id);
         } else {
@@ -154,6 +194,7 @@ class View {
           } else if (event.target.className.includes('puzzle__picture-wrapper')) {
             // this.hintsPanel.activateHint('play-wrapper');
             changeSettings('picture-wrapper', true);
+            this.setPuzzleImageState(isBgImage(), bgUrl());
           }
           this.controlPanel.activateButton(event.target.id);
         }
@@ -161,8 +202,25 @@ class View {
     });
   }
 
+  setPuzzleImageState(isBgImage, imageUrl) {
+    this.items = this.phrasePanel.getChildren();
+    this.lineItems = this.puzzlePanel.getAllItems();
+    const allItems = this.items.concat(this.lineItems);
+    allItems.forEach((element) => {
+      const elementHtml = element.getHtml();
+      if (isBgImage) {
+        elementHtml.style.backgroundImage = `url(${imageUrl})`;
+        elementHtml.style.color = '#fff';
+      } else {
+        elementHtml.style.backgroundImage = ``;
+        elementHtml.style.color = 'rgb(117, 5, 168)';
+      }
+    });
+  }
+
   closeGameEvent(changeLevel) {
     if (event.target.className.includes('puzzle__close-button')) {
+      window.removeEventListener('resize', this.resize);
       this.gamePage.removeElement();
       this.app = document.querySelector('.root');
       this.app.classList.remove('root-active');

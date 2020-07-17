@@ -40,14 +40,13 @@ class PhrasePanel extends Container {
     return items;
   }
 
-  updatePhrasePanel(data, currentIndex, imageData, image) {
-    this.puzzlePanelWidth = imageData.fieldWidth;
+  updatePhrasePanel(data, currentIndex, imageData, image, isBgImage) {
     const items = shuffle(this.generateItems(data, currentIndex, imageData));
     items.forEach((element) => {
       this.getChild('phrase-wrapper').add(element);
       console.log('item: ', items);
     });
-    this.addPuzzleBackGround(items, image, imageData);
+    this.addPuzzleBackGround(items, image, imageData, isBgImage);
   }
 
   generateItems(data, currentIndex, imageData) {
@@ -82,7 +81,7 @@ class PhrasePanel extends Container {
   }
 
   showPaintingInfo(data) {
-    const item = new Paragraph('decription', `${data}`, 'puzzle__phrase-block', {});
+    const item = new Paragraph('decription', `${data}`, 'puzzle__description-block', {});
     // item.getHtml().style.width = '400px';
     this.getChild('phrase-wrapper').add(item);
     this.getChild('phrase-wrapper').getHtml();
@@ -110,7 +109,7 @@ class PhrasePanel extends Container {
   getBackgroundSize(imageData) {
     console.log('imageData: ', imageData);
     if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
-      return `${this.puzzlePanelWidth}px auto`;
+      return `${imageData.fieldWidth}px auto`;
     }
     return 'auto 400px';
   }
@@ -119,7 +118,7 @@ class PhrasePanel extends Container {
     let x;
     let y;
     if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
-      const offsetY = (((this.puzzlePanelWidth / imageData.imgWidth) * imageData.imgHeight)
+      const offsetY = (((imageData.fieldWidth / imageData.imgWidth) * imageData.imgHeight)
         - imageData.definedHeight) / 2;
       y = (offsetY + item.lineIndex * 40) * -1;
       const arrOfWords = item.answerPhrase;
@@ -127,31 +126,36 @@ class PhrasePanel extends Container {
       for (let i = 0; i < item.index; i += 1) {
         wordsLength += arrOfWords[i].length;
       }
-      x = ((this.puzzlePanelWidth / (item.sentenceLength - item.numOfSpaces)) * wordsLength) * -1;
+      x = ((imageData.fieldWidth / (item.sentenceLength - item.numOfSpaces)) * wordsLength) * -1;
     } else {
       const offsetX = (((imageData.definedHeight / imageData.imgHeight) * imageData.imgWidth)
-        - this.puzzlePanelWidth) / 2;
+        - imageData.fieldWidth) / 2;
       y = item.lineIndex * -40;
       const arrOfWords = item.answerPhrase;
       let wordsLength = 0;
       for (let i = 0; i < item.index; i += 1) {
         wordsLength += arrOfWords[i].length;
       }
-      x = ((this.puzzlePanelWidth / (item.sentenceLength - item.numOfSpaces)) * wordsLength + offsetX) * -1;
+      x = ((imageData.fieldWidth / (item.sentenceLength - item.numOfSpaces)) * wordsLength + offsetX) * -1;
     }
     return { x, y };
   }
 
-  addPuzzleBackGround(items, image, imageData) {
+  addPuzzleBackGround(items, image, imageData, isBgImage) {
     console.log('this.getBackgroundSize(): ', this.getBackgroundSize(imageData));
     items.forEach((element, index) => {
       const position = this.getBackgroundPosition(element, imageData);
       const elementHtml = element.getHtml();
-      elementHtml.style.backgroundImage = `url(${image})`;
+      if (isBgImage) {
+        elementHtml.style.backgroundImage = `url(${image})`;
+        elementHtml.style.color = '#fff';
+      } else {
+        elementHtml.style.backgroundImage = ``;
+        elementHtml.style.color = 'rgb(117, 5, 168)';
+      }
       elementHtml.style.backgroundSize = this.getBackgroundSize(imageData);
       elementHtml.style.backgroundRepeat = 'no-repeat';
       elementHtml.style.backgroundPosition = `${position.x}px ${position.y}px `;
-      elementHtml.style.color = '#fff';
     });
   }
 
@@ -161,6 +165,11 @@ class PhrasePanel extends Container {
 
   getChildren() {
     return Array.from(this.getChild('phrase-wrapper').children);
+  }
+
+  addItem(item) {
+    this.getChild('phrase-wrapper').add(item);
+    this.getChild('phrase-wrapper').getHtml();
   }
 }
 

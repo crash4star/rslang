@@ -36,7 +36,32 @@ class PuzzlePanel extends Container {
     return items;
   }
 
+  getLineChildren(line) {
+    const items = Object.values(this.getChild('puzzle-box').getChild(`line-${line}`).children);
+    return items;
+  }
+
+  getAllItems() {
+    const items = [];
+    this.getChild('puzzle-box').children.forEach((element, index) => {
+      const lineItems = this.getLineChildren(index);
+      lineItems.forEach((item) => {
+        items.push(item);
+      });
+    });
+    return items;
+  }
+
+  getLine(line) {
+    const item = this.getChild('puzzle-box').getChild(`line-${line}`);
+    return item;
+  }
+
   getLineData(line) {
+    return Object.values(this.getChild('puzzle-box').getChild(`line-${line}`).children);
+  }
+
+  getLineValues(line) {
     const result = [];
     const items = this.getItems(line);
     items.forEach((element) => {
@@ -49,8 +74,14 @@ class PuzzlePanel extends Container {
     const items = this.getItems(line);
     marks.forEach((element, index) => {
       if (element === true) {
+        if (items[index].className.includes('puzzle__incorrect-mark')) {
+          items[index].classList.remove('puzzle__incorrect-mark');
+        }
         items[index].classList.add('puzzle__correct-mark');
       } else {
+        if (items[index].className.includes('puzzle__correct-mark')) {
+          items[index].classList.remove('puzzle__correct-mark');
+        }
         items[index].classList.add('puzzle__incorrect-mark');
       }
     });
@@ -97,8 +128,6 @@ class PuzzlePanel extends Container {
       y = 0;
     }
     this.box = document.getElementById('puzzle-box');
-    this.box.style.width = `${imageData.fieldWidth}px`;
-    this.box.style.height = '400px';
     this.box.style.backgroundImage = `url('${url}')`;
     this.box.style.backgroundSize = this.getBackgroundSize(imageData);
     this.box.style.backgroundRepeat = 'no-repeat';

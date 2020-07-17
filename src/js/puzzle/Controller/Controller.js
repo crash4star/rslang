@@ -30,8 +30,13 @@ class Controller {
     this.view.gameEvents(this.checkEvent.bind(this), this.continueEvent.bind(this),
       this.getCurrentTurn.bind(this), this.dontKnowEvent.bind(this),
       this.showResultEvent.bind(this));
-    this.view.controlPanelEvents(this.bindChangeSettingsEvent.bind(this));
-    this.view.resizeEvent(this.getCurrentImage.bind(this));
+    this.view.controlPanelEvents(this.bindChangeSettingsEvent.bind(this),
+      this.getIsPuzzleImageSetting.bind(this), this.getCurrentImage.bind(this));
+    this.view.resizeEvent(this.getCurrentImage.bind(this), this.getIsPuzzleImageSetting.bind(this));
+  }
+
+  getIsPuzzleImageSetting() {
+    return this.currentSettings.gameSettings.puzzleImage;
   }
 
   getCurrentImage() {
@@ -42,7 +47,7 @@ class Controller {
     return this.currentTurn;
   }
 
-  async showResultEvent() {
+  showResultEvent() {
     if (this.currentTurn === this.numberOfTurns) {
       this.currentTurn += 1;
       this.view.phrasePanel.removeAllItems();
@@ -54,8 +59,10 @@ class Controller {
           this.currentSettings.levelSettings.page);
       console.log('currentPuzzleInfo: ', currentPuzzleInfo);
       this.view.phrasePanel.showPaintingInfo(currentPuzzleInfo);
+      return true;
     } else {
       this.view.showStatisticEvent(this.bindGetStatistic.bind(this));
+      return false;
     }
   }
 
@@ -75,7 +82,8 @@ class Controller {
   dontKnowEvent() {
     this.view.phrasePanel.removeAllItems();
     this.view.puzzlePanel.removeAllItems(this.currentTurn);
-    this.view.phrasePanel.updatePhrasePanel(this.words, this.currentTurn, this.imgData, this.currentPuzzle);
+    this.view.phrasePanel.updatePhrasePanel(this.words, this.currentTurn, this.imgData,
+      this.currentPuzzle, this.currentSettings.gameSettings.puzzleImage);
     const sortedItems = this.view.phrasePanel.sortItems();
     this.view.puzzlePanel.setElements(this.currentTurn, sortedItems);
     // this.view.puzzlePanel.setElements(this.currentTurn,
@@ -89,15 +97,15 @@ class Controller {
   checkEvent() {
     console.log('checkEvent: ', this);
     const lineData = this.view.puzzlePanel.getLineData(this.currentTurn);
-    const textData = this.words[this.currentTurn].textExample;
-    const textDataArray = this.words[this.currentTurn].textExample.split(' ');
+    console.log('lineData: ', lineData);
     const marks = [];
-    lineData.forEach((element, index) => {
-      marks.push(element === textDataArray[index]);
+    lineData.forEach((element, iterator) => {
+      marks.push(element.index === iterator);
     });
+    console.log('marks: ', marks);
     this.view.puzzlePanel.markCorrectsAndIncorrectsItems(marks, this.currentTurn);
     console.log(lineData);
-    if (lineData.join(' ') === textData) {
+    if (!marks.includes(false)) {
       this.model.statistic.addCorrectValue(this.words[this.currentTurn].word);
       return true;
     }
@@ -109,7 +117,8 @@ class Controller {
     console.log(this.currentTurn);
     this.view.hintsPanel.updateHintsPanel(words[this.currentTurn].textExampleTranslate,
       words[this.currentTurn].audioExample);
-    this.view.phrasePanel.updatePhrasePanel(words, this.currentTurn, this.imgData, this.currentPuzzle);
+    this.view.phrasePanel.updatePhrasePanel(words, this.currentTurn, this.imgData,
+      this.currentPuzzle, this.currentSettings.gameSettings.puzzleImage);
     this.view.puzzlePanel.addLine(this.currentTurn);
     // this.view.setImageOnItems(this.currentPuzzle, words[this.currentTurn].textExample,
     //   this.currentTurn);
@@ -119,6 +128,7 @@ class Controller {
         this.view.hintsPanel.playSound();
       }, 100);
     }
+    this.view.correctAnswerEvent(this.getCurrentTurn.bind(this));
   }
 
   async bindChangeSettingsEvent(optionId, value) {
