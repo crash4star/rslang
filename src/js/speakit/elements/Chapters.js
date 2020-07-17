@@ -5,7 +5,7 @@ export default class Chapters {
     constructor(parent, activeChapter) {
         this.parent = parent;
         this.chaptersNumber = chaptersNumber;
-        this.activeElement = activeChapter;
+        this.activeElement = activeChapter - 1;
     }
 
     render() {

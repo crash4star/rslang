@@ -1,14 +1,15 @@
-import { wordsUrl, gitUrl, translateUrl } from "../data/data";
+import { gitUrl, translateUrl } from "../data/data";
 import Card from './Card';
 import addElement from '../../utils/utils';
 import Statistic from '../../utils/createStatistic';
 import ViewMethods from '../../utils/view-methods';
 import { BASE_HEROKU } from '../../data/miniGames';
 import shuffleArr from '../../utils/shuffleArr';
-import UserWord from '../../utils/UserWord';
 import Api from '../../models/Api';
 import AuthRequest from '../../models/AuthRequest';
 import Words from '../../models/Words';
+
+const amountOfRounds = 360;
 
 export default class CardsPage {
   constructor(parent, caller) {
@@ -42,15 +43,19 @@ export default class CardsPage {
     this.gameIsStarted = false;
     this.gameButton.innerHTML = 'Press to start';
     this.cards.addEventListener('click', (e) => this.setActiveCard(e));
-    this.gameButton.addEventListener('click', this.startGame);
+    this.gameButton.addEventListener('click', () => {
+      if (this.gameButton.classList.contains('clickable')) {
+        this.startGame();
+      }
+    });
   }
 
   render () {
     this.cards = addElement('div', this.parent, 'row cards', 'speakit-cards');
     const buttons = addElement('div', this.parent, 'buttons');
-    this.restartButton = addElement('div', buttons, 'button restart', 'restart', 'Restart');
-    this.gameButton = addElement('div', buttons, 'button speak', 'speak', 'Press to start');
-    this.resultButton = addElement('div', buttons, 'button results', 'results', 'Results');
+    this.restartButton = addElement('div', buttons, 'button restart clickable', 'restart', 'Restart');
+    this.gameButton = addElement('div', buttons, 'button speak clickable', 'speak', 'Press to start');
+    this.resultButton = addElement('div', buttons, 'button results unclickable', 'results', 'Stop');
 
     this.cards.addEventListener('click', (e) => {
       this.setActiveCard(e);
@@ -62,9 +67,12 @@ export default class CardsPage {
     });
 
     this.gameButton.addEventListener('click', () => this.startGame());
+
     this.resultButton.addEventListener('click', () => {
-      this.caller.showMainWindow();
-      this.showStatistic();
+      if (this.resultButton.classList.contains('clickable')) {
+        this.caller.showMainWindow();
+        this.showStatistic();
+      }
     });
   }
 
@@ -74,11 +82,9 @@ export default class CardsPage {
     this.renderCards();
   }
 
-  refresh (chapter) {
-    if (chapter === undefined) chapter = this.chapter;
-    this.chapter = chapter;
-    this.data = [];
-    this.init();
+  refresh () {
+    this.caller.root.innerHTML = '';
+    this.caller.parentController.init(false, this.isTrainStudyingWords)
   }
 
   getCardsToStudy(cards) {
@@ -150,8 +156,12 @@ export default class CardsPage {
   startGame() {
     this.gameIsStarted = true;
     this.gameButton.removeEventListener('click', this.startGame);
+    this.resultButton.classList.remove('unclickable');
+    this.resultButton.classList.add('clickable');
     this.cards.removeEventListener('click', (e) => this.setActiveCard(e));
-    this.gameButton.innerHTML = 'Speak please';
+    this.gameButton.classList.add('unclickable');
+    this.gameButton.innerText = 'Speak please';
+    this.resultButton.innerText = 'Stop';
     this.removeActiveCards();
     this.translation.innerHTML = '';
     let recognition;
@@ -164,7 +174,9 @@ export default class CardsPage {
     recognition.lang = 'en-US';
     recognition.maxAlternatives = 5;
     recognition.onend = () => {
-      recognition.start();
+      if (this.gameIsStarted) {
+        recognition.start();
+      }
     }
 
     const data = this.data;
@@ -207,7 +219,9 @@ export default class CardsPage {
   
   async checkAndUpdateSettings(allWordsIsAnswered) {
     if (allWordsIsAnswered && !this.isTrainStudyingWords) {
-      this.caller.model.settings.optional.speakit.round += 1;
+      let round = this.caller.model.settings.optional.speakit.round;
+      round = round < amountOfRounds ? round + 1 : 0; 
+      this.caller.model.settings.optional.speakit.round = round;
       const updatedSettings = {
         optional: this.caller.model.settings.optional
       }
@@ -260,7 +274,6 @@ export default class CardsPage {
     if (this.isTrainStudyingWords) {
       this.setImportantToStudy(importantAnswer);
     }
-    debugger;
     new Statistic(new ViewMethods(), () => this.caller.parentController.init(false, this.isTrainStudyingWords)).renderStat(rightAnswer, wrongAnswer);
 
     this.caller.gamePage.classList.add('hidden');

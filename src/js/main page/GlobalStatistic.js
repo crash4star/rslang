@@ -71,6 +71,11 @@ export default class GlobalStatistic  {
         this.stepY = (this.axisStartY - graphMargin) / this.getAmountOfWords();
 
     }
+    nothingToShow() {
+        const main = document.querySelector('.main');
+        addElement('h3', main, null, null, `It looks like you don't study any words yet`);
+
+    }
     
     async init () {
         this.api = new Api(BASE_HEROKU);
@@ -82,8 +87,12 @@ export default class GlobalStatistic  {
             return createDateObject(data.optional.linguist.learnedWordsDate);
         })
         .then((data) => {
-            this.data = data;
-            this.drawGraph();
+            if (!!Number(data.options.axisY.max)) {
+                this.data = data;
+                this.drawGraph();
+            } else {
+                this.nothingToShow();
+            }
         });
     }
 

@@ -1,11 +1,11 @@
 import '../../css/speakit/speakit.scss';
 import addElement from '../utils/utils';
-import { defaultCardImage } from './data/data';
+import { defaultCardImage, descriptions } from './data/data';
 import Chapters from './elements/Chapters';
 import CardsPage from './elements/CardsPage';
 import { gamesInLevel } from './Model'
 import { showErrorMessage, showSuccessMessage } from '../utils/message';
-
+import showSpinner from '../utils/spinner';
 const minWordsToStudy = 10;
 
 
@@ -20,7 +20,7 @@ export default class View {
   }
 
   addStartPageDescription(text){
-    addElement('p', this.startPage, 'speakit-startPage--text', this.startPage, text);
+    addElement('p', this.startPage, 'speakit-startPage--text', null, text);
   }
 
   hideStartPage() {
@@ -86,9 +86,10 @@ export default class View {
     if (this.isNeedToLoadStartPage) {
       this.askWhichGamePlay();
       this.startPage = addElement('div', speakit, 'speakit-startPage', 'speakit-startPage');
-      addElement('h1', this.startPage, 'speakit-startPage--title', 'Speakit');
-      this.addStartPageDescription('Click on the words to hear them sound.');
-      this.addStartPageDescription('Click on the button and speak the words into the microphone.');
+      addElement('h1', this.startPage, 'speakit-startPage--title', 'Speakit', 'SpeakIt');
+      descriptions.forEach(element => {
+        this.addStartPageDescription(element);
+      })
       const startPageButton = addElement('div', this.startPage, 'speakit-startPage--button', 'speakit-startPage--button', 'Start');
       
       if (isNeedToShowModal) {
@@ -100,7 +101,7 @@ export default class View {
           showErrorMessage(`It's not enough words to study. Game is loading in play mode`);
         }); 
       }
-
+      showSpinner(false);
     }
   }
 
@@ -119,8 +120,8 @@ export default class View {
     if (e !== undefined) {
         chapter = this.chapters.setActiveElement(e.target);
     }
-    this.updateSettingsInDataBase(chapter);
-    this.cardsPage.refresh(chapter);
+    this.updateSettingsInDataBase(chapter)
+      .then(() => this.cardsPage.refresh(chapter));
   }
 
   renderChapters() {
@@ -179,6 +180,7 @@ export default class View {
     this.renderChapters();
     this.renderCloseButton();
     this.renderContent();
+    showSpinner(false);
   }
 
   returnToGame() {
