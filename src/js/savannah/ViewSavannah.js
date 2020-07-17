@@ -1,5 +1,6 @@
 import getRandomInt from '../utils/getRandomInt';
 import shuffleArr from '../utils/shuffleArr';
+
 class View {
     constructor() {
         this.app = this.getElement('.root');

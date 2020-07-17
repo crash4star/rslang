@@ -9,17 +9,23 @@ class Statistic {
   }
 
   addStatisticElement(element, parent) {
-    new StatisticElement(element, parent);
+    const statElement = new StatisticElement(element, parent);
+    statElement.init();
+  }
+
+  clearRoot(root) {
+    root.innerHTML = '';
+    root.classList.remove('root-active');
   }
 
   addButtonListeners() {
+    const root = document.querySelector('.root');
     this.onMainPageBtn.addEventListener('click', () => {
-      const root = document.querySelector('.root');
-      root.innerHTML = '',
-      root.classList.remove('root-active');
+      this.clearRoot(root);
     });
-    if (!!this.callback) {
+    if (this.callback) {
       this.continueBtn.addEventListener('click', () => {
+        this.clearRoot(root);
         this.callback();
       });
     }
@@ -87,7 +93,7 @@ class Statistic {
         node: 'div',
         styleName: 'right-answer',
       });
-      if (Array.isArray(item)) {
+      if (Array.isArray(rightAnswer)) {
         rightAnswer.textContent = item;
       } else {
           this.addStatisticElement(item, rightAnswer);
@@ -102,7 +108,7 @@ class Statistic {
         styleName: 'wrong-answer',
       });
       
-      if (Array.isArray(item)) {
+      if (Array.isArray(wrongAnswer)) {
         wrongAnswer.textContent = item;
       } else {
         this.addStatisticElement(item, wrongAnswer);

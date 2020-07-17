@@ -1,7 +1,7 @@
-import getData from '../data/statistic';
-import { getMidnight } from '../data/statistic';
-import addElement from '../utils/utils';
-import { getDateInString } from '../utils/utils';
+import getData, { getMidnight } from '../data/statistic';
+
+import addElement, { getDateInString } from '../utils/utils';
+
 import '../../css/statistic.scss';
 
 const dashLength = 10;
@@ -35,7 +35,7 @@ export default class Statistic  {
                     amount = i;
                 }
             }
-            amountOfDescriptions = (amount) ? amount: amountOfDescriptions;
+            amountOfDescriptions = (amount) || amountOfDescriptions;
         }
         return amountOfDescriptions;
     }
@@ -89,8 +89,8 @@ export default class Statistic  {
 
     drawDescriptionAxis(axisIsX, length, amountOfDescriptions, maxValue, minValue) {
         
-        let stepBetweenDescriptions = length / (amountOfDescriptions + 1);
-        let stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
+        const stepBetweenDescriptions = length / (amountOfDescriptions + 1);
+        const stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
         
         for (let i = 0; i <= amountOfDescriptions + 1; i+= 1) {
             this.ctx.beginPath();
@@ -101,7 +101,7 @@ export default class Statistic  {
             const descriptionPositionY = axisIsX ? 
                 this.axisStartY + graphMargin / 2 : 
                 this.axisStartY - stepBetweenDescriptions * coefficient;
-                const descriptionValue = Number(minValue) + Math.round(stepBetweenValues * i);
+                let descriptionValue = Number(minValue) + Math.round(stepBetweenValues * i);
                 if (axisIsX) {
                     descriptionValue = getDateInString(new Date(descriptionValue));
                     this.ctx.moveTo(descriptionPositionX, this.axisStartY - dashLength / 2);
@@ -121,12 +121,13 @@ export default class Statistic  {
     }
 
     drawRectangle (x0, y0, x1, y1) {
-        while (y0 >= y1) {
+        let y = y0;
+        while (y >= y1) {
             this.ctx.beginPath();
-            this.ctx.moveTo(x0, y0);
-            this.ctx.lineTo(x1, y0);
+            this.ctx.moveTo(x0, y);
+            this.ctx.lineTo(x1, y);
             this.ctx.stroke();
-            y0 -= 1;
+            y -= 1;
         }
     }
 
@@ -170,7 +171,6 @@ export default class Statistic  {
     getValueToShow(day, data) {
         let index = data.length - 1;
         while (day < Number(data[index].date)) {
-            console.log(`${day} < ${Number(data[index].date)}`);
             index -= 1;
         }
         return data[index].value;
@@ -197,18 +197,12 @@ export default class Statistic  {
         const stepX = this.stepX;
         const minDate = this.date.options.axisX.min;
         const data = this.date.arrayOfDatesAndValues;
-        
-        document.querySelector('.canvas').addEventListener('click', (e) => {
-            const x = e.pageX - e.target.offsetLeft;
-            const y = e.pageY - e.target.offsetTop;
-            console.log(x, y);
-        });
 
         document.querySelector('.canvas').addEventListener('mousemove', (e) => {
             this.showAlert(e, stepX, minDate, data);
         });
 
-        document.querySelector('.canvas').addEventListener('click', (e) => { //for phones
+        document.querySelector('.canvas').addEventListener('click', (e) => { // for phones
             this.showAlert(e, stepX, minDate, data);
         });
 
