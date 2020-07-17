@@ -1,4 +1,5 @@
 import renderMainPage from '../main page/mainPage';
+
 const mailOptions = {
     regExp: /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/,
     errorMessage: 'Please, check your e-mail',
@@ -56,13 +57,14 @@ const createUser = async user => {
     }
 };
 
+const checkStatementByUsingRegex = (value, expression) => {
+    return value.match(expression);
+}
+
 const isMatchedRegEpxAndShowMessage = (email, messageNode, options) => {
     const statement = checkStatementByUsingRegex(email, options.regExp);
     messageNode.innerText = (statement) ? '' : options.errorMessage;
     return !!statement;
-}
-const checkStatementByUsingRegex = (value, expression) => {
-    return value.match(expression);
 }
 
 const isValidEmail = (email, messageNode) => {

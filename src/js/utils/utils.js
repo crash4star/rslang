@@ -24,7 +24,7 @@ function clearMarkup() {
 }
 
 function addZeroBeforeValue(value) {
-  return value = (value < 10) ? `0${value}` : value;
+  return (value < 10) ? `0${value}` : value;
 }
 
 function getDateInString(date) {

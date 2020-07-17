@@ -1,5 +1,3 @@
-import { getDateInString } from '../utils/utils';
-
 const minDate = new Date (2020, 6, 1);
 const maxDate = new Date ();
 const minWords = 0;
@@ -14,10 +12,10 @@ const getMidnight = (dateInMilliseconds) => {
 const getArray = (isDate, arrayLength, min, max) => {
     const data = [];
     for (let i = 0; i < arrayLength; i+= 1) {
-        const valueIsUnique = false;
-        let counter = 0;
+        let valueIsUnique = false;
+        const counter = 0;
         while (!valueIsUnique) {
-            const value = Math.floor(Math.random() * (max - min)) + min;
+            let value = Math.floor(Math.random() * (max - min)) + min;
             value = isDate ? getMidnight(value) : value;
             if (data.indexOf(value) === -1) {
                 data.push(value);
@@ -27,9 +25,11 @@ const getArray = (isDate, arrayLength, min, max) => {
         }
     }
     return data.sort((a, b) => {
-        if (a > b) return 1;
-        if (a == b) return 0;
-        if (a < b) return -1;
+        let returnedValue;
+        if (a > b) returnedValue =  1;
+        if (a === b) returnedValue = 0;
+        if (a < b) returnedValue = -1;
+        return returnedValue;
     });
 }
 

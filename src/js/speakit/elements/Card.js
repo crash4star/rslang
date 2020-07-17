@@ -6,7 +6,6 @@ export default class Card {
         this.node = document.querySelector('.cards');
         this.data = data;
         this.index = index;
-        this.createCard();
     }
 
     createCard() {

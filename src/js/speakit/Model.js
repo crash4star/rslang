@@ -2,46 +2,68 @@ import Api from '../models/Api';
 import Words from '../models/Words';
 import AuthRequest from '../models/AuthRequest';
 import Settings from '../models/Settings';
-import Statistics from '../models/Statistics';
+
+const gamesInLevel = 60;
+const wordsPerRound = 10;
 
 export default class Model {
     constructor(URL) {
-        debugger;
         this.URL = URL;
         this.round = 0;
     }
 
-    getUserSettings(settings) {
-        debugger;
-        this.userSettings.difficult = settings.optional.settingsProfile.difficult;
-        return this.userSettings.difficult;
+    async getUserSettings(settings) {
+        this.settings = settings;
+        if (!this.settings.optional.speakit) {
+            this.settings.optional.speakit = {
+                round: 0
+            }
+            const updatedSettings = {
+                optional: this.settings.optional
+            }
+            await this.settingsObject.updateSettings(updatedSettings);
+        }
+
+        this.round = this.settings.optional.speakit.round;
+        this.difficult = Math.floor(this.round / gamesInLevel);
+        this.page = Math.floor((this.round % gamesInLevel) / 2);
     }
 
     getWordsByLevel(data) {
         if (this.round % 2 === 0)
             this.words.wordsByLevel = data.filter((el, index) => {
-                if (index < 10) return el;
+                let result = null;
+                if (index < wordsPerRound) {
+                    result = el;
+                }
+                return result;
             });
         else {
             this.words.wordsByLevel = data.filter((el, index) => {
-                if (index >= 10) return el;
+                let result = null;
+                if (index >= wordsPerRound) {
+                    result = el;
+                }
+                return result;
             }); 
         }
     }
 
     getWordsToStudy(data) {
         data.sort((a, b) => {
-            const previousRating = a.optional.rating;
-            const nextRating = b.optional.rating;
-            if (previousRating > nextRating) return -1;
-            if (previousRating === nextRating) return 0;
-            if (previousRating < nextRating) return 1;
+            const previousRating = a.optional.interval;
+            const nextRating = b.optional.interval;
+            let result;
+            if (previousRating < nextRating) result = -1;
+            if (previousRating === nextRating) result = 0;
+            if (previousRating > nextRating) result = 1;
+            return result;
         });
         this.words.wordsToStudy = [];
         let counter = 0;
         let index = 0;
         while (counter < 10 && index < data.length) {
-            if (data[index].optional.rating > 0) {
+            if (data[index].optional.interval > 0) {
                 this.words.wordsToStudy.push(data[index]);
                 counter += 1;
             }
@@ -52,32 +74,21 @@ export default class Model {
     async init () {
         this.api = new Api(this.URL);
         this.authRequest = new AuthRequest(this.api);
-        const settings = new Settings(this.api, this.authRequest);
+        this.settingsObject = new Settings(this.api, this.authRequest);
         const words = new Words(this.api, this.authRequest);
-        const statistics = new Statistics(this.api, this.authRequest);
         this.words = {};
         this.userSettings = {};
-        this.statistics = {};
-        await settings.getUserSettings()
+        await this.settingsObject.getUserSettings()
         .then(settings => {
             this.getUserSettings(settings);
         })
-        .then(() => words.getWords(Number(this.userSettings.difficult), Math.floor(this.round % 2)))
-        .then(result => {
-            this.getWordsByLevel(result);
-        })
         .then(() => words.getUserWords())
         .then((data) => this.getWordsToStudy(data))
-        .then(() => statistics.getUserStatistics())
-        .then(data => {
-            if (data.optional.speakit) {
-                this.statistics = data;
-            } else {
-                this.statistics = {
-                    settings: [],
-                    logs: []
-                }
-            }
+        .then(() => words.getWords(Number(this.difficult), this.page))
+        .then(result => {
+            this.getWordsByLevel(result);
         });
     }
 }
+
+export { gamesInLevel };
