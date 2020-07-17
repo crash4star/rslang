@@ -58,25 +58,26 @@ class View {
 
   resizeEvent(getImageUrl, isBgImage) {
     this.resize = async () => {
-      this.puzzlePanelWidth = this.getWidth();
-      this.items = this.phrasePanel.getChildren();
-      this.lineItems = this.puzzlePanel.getAllItems();
-      const allItems = this.items.concat(this.lineItems);
-      console.log('lineItems!!!!!!!!!!!!!!!!!!!: ', this.lineItems);
-      console.log('this.items', this.items);
       const imageData = await this.getImageData(getImageUrl());
-      console.log('imageData: ', imageData);
-      if (allItems.length) {
-        allItems.forEach((element) => {
-          this.phrasePanel.setItemWidth(element, imageData);
-        });
-      }
-      this.phrasePanel.addPuzzleBackGround(allItems, getImageUrl(), imageData, isBgImage());
-      // setItemWidth(item, this.puzzlePanelWidth);
-      // this.addPuzzleBackGround(image, sentence, line);
-      // this.isResultPage
-      console.log('this.isResultPage:resizzzzzzeee ', this.isResultPage);
-      if (this.isResultPage) {
+      if (!this.isResultPage) {
+        this.puzzlePanelWidth = this.getWidth();
+        this.items = this.phrasePanel.getChildren();
+        this.lineItems = this.puzzlePanel.getAllItems();
+        const allItems = this.items.concat(this.lineItems);
+        console.log('lineItems!!!!!!!!!!!!!!!!!!!: ', this.lineItems);
+        console.log('this.items', this.items);
+        console.log('imageData: ', imageData);
+        if (allItems.length) {
+          allItems.forEach((element) => {
+            this.phrasePanel.setItemWidth(element, imageData);
+          });
+        }
+        this.phrasePanel.addPuzzleBackGround(allItems, getImageUrl(), imageData, isBgImage());
+        // setItemWidth(item, this.puzzlePanelWidth);
+        // this.addPuzzleBackGround(image, sentence, line);
+        // this.isResultPage
+        console.log('this.isResultPage:resizzzzzzeee ', this.isResultPage);
+      } else {
         this.puzzlePanel.setBackground(getImageUrl(), imageData);
       }
     }
@@ -208,12 +209,14 @@ class View {
     const allItems = this.items.concat(this.lineItems);
     allItems.forEach((element) => {
       const elementHtml = element.getHtml();
-      if (isBgImage) {
+      if (isBgImage && !elementHtml.className.includes('puzzle__description-block')) {
         elementHtml.style.backgroundImage = `url(${imageUrl})`;
         elementHtml.style.color = '#fff';
+        elementHtml.style.textShadow = '0 0 5px rgb(0, 0, 0)';
       } else {
         elementHtml.style.backgroundImage = ``;
         elementHtml.style.color = 'rgb(117, 5, 168)';
+        elementHtml.style.textShadow = '0 0 1px rgb(0, 0, 0)';
       }
     });
   }

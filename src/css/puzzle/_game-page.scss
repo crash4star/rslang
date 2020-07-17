@@ -312,9 +312,10 @@
     // text-shadow: 0 0 3px rgb(255, 255, 255);
     // letter-spacing: 0.02em;
     // color: rgb(117, 5, 168);
-    @include font(1.7rem, 1.7rem, 400);
+    @include font(1.3rem, 1.3rem, 400);
     // overflow: hidden;
     // text-align: center;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -328,7 +329,7 @@
     padding: 0px;
     margin: 0px;
     @media (max-width: 600px) {
-      @include font(1.3rem, 1.3rem, 400);
+      @include font(1rem, 1rem, 400);
     }
   }
 

@@ -149,9 +149,11 @@ class PhrasePanel extends Container {
       if (isBgImage) {
         elementHtml.style.backgroundImage = `url(${image})`;
         elementHtml.style.color = '#fff';
+        elementHtml.style.textShadow = '0 0 5px rgb(0, 0, 0)';
       } else {
         elementHtml.style.backgroundImage = ``;
         elementHtml.style.color = 'rgb(117, 5, 168)';
+        elementHtml.style.textShadow = '0 0 1px rgb(0, 0, 0)';
       }
       elementHtml.style.backgroundSize = this.getBackgroundSize(imageData);
       elementHtml.style.backgroundRepeat = 'no-repeat';

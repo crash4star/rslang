@@ -1,8 +1,8 @@
 import UIComposite from './UIComposite';
 
 class Container extends UIComposite {
-  constructor(id, styles) {
-    super('div', id, '', '', styles);
+  constructor(id, styles, attributes) {
+    super('div', id, '', attributes, styles);
   }
 }
 

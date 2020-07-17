@@ -16,7 +16,9 @@ class HintsPanel extends Container {
   }
 
   renderWordPanel() {
-    const soundButton = new Container('play-wrapper', 'puzzle__play-wrapper');
+    const soundButton = new Container('play-wrapper', 'puzzle__play-wrapper', {
+      title: 'play text example audio',
+    });
     const audio = new Audio('audio', {
       src: '',
     });

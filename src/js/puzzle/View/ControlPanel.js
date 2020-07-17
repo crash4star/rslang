@@ -16,13 +16,23 @@ class ControlPanel extends Container {
 
   renderControlPanel() {
     const gameControls = new Container('game-controls', 'puzzle__game-controls');
-    const closeButton = new Button('close-button', '', {}, 'puzzle__close-button');
+    const closeButton = new Container('close-button', 'puzzle__close-button', {
+      title: 'close game',
+    });
     gameControls.add(closeButton);
     const gameOptions = new Container('game-options', 'puzzle__game-options');
-    const autoSound = new Container('auto-wrapper', 'puzzle__auto-wrapper');
-    const translation = new Container('translation-wrapper', 'puzzle__translation-wrapper');
-    const sound = new Container('sound-wrapper', 'puzzle__sound-wrapper');
-    const picture = new Container('picture-wrapper', 'puzzle__picture-wrapper');
+    const autoSound = new Container('auto-wrapper', 'puzzle__auto-wrapper', {
+      title: 'on/off auto audio hint',
+    });
+    const translation = new Container('translation-wrapper', 'puzzle__translation-wrapper', {
+      title: 'on/off translation hint',
+    });
+    const sound = new Container('sound-wrapper', 'puzzle__sound-wrapper', {
+      title: 'on/off audio hint',
+    });
+    const picture = new Container('picture-wrapper', 'puzzle__picture-wrapper', {
+      title: 'on/off puzzle pieces image',
+    });
     gameOptions.add(autoSound, translation, sound, picture);
     this.add(gameControls, gameOptions);
   }
