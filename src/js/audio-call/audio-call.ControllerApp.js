@@ -2,9 +2,6 @@ import CreateWords from './components/createWords';
 import notificationStart from './components/audio';
 import Statistic from '../utils/createStatistic';
 import getRandomInt from '../utils/getRandomInt'
-import Api from '../models/Api';
-import AuthRequest from '../models/AuthRequest';
-import Words from '../models/Words';
 import shuffleArr from '../utils/shuffleArr'
 
 class AudioCallControllerApp {
@@ -17,7 +14,6 @@ class AudioCallControllerApp {
     this.round = 0;
     this.difficult = 0;
     this.page = getRandomInt(30)
-    // this.getWordsForLearnedWords()
     this.gameMode = true;
   }
 
@@ -33,17 +29,14 @@ class AudioCallControllerApp {
 
   getWordsForLearnedWords() {
     this.gameMode = false;
- const api = new Api('https://afternoon-falls-25894.herokuapp.com');
-    const authRequest = new AuthRequest(api);
-    const words = new Words(api, authRequest);
     const wordsForRound = {};
     const ruRandomWords = []
-    words.getUserWords()
+    this.model.getUserWords()
     .then((data) => {
      const indexForRightAns = getRandomInt(data.length)
       wordsForRound.word = data[indexForRightAns].optional.word
       wordsForRound.translate = data[indexForRightAns].optional.wordTranslate
-      
+      wordsForRound.id = data[indexForRightAns].id
       ruRandomWords.push(data[indexForRightAns].optional.wordTranslate)
     })
     .then(() => {
@@ -54,7 +47,6 @@ class AudioCallControllerApp {
          ruRandomWords.push(item.wordTranslate)
         })
         wordsForRound.randomWords = shuffleArr(ruRandomWords.splice(0, 5))
-
       })
       .then(() => {
         const sonar = this.viewMethods.getElement('.wave');

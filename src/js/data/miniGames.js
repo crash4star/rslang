@@ -1,6 +1,7 @@
 import { showErrorMessage } from '../utils/message';
 import Api from '../models/Api';
 import Words from '../models/Words';
+import AuthRequest from '../models/AuthRequest'
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
 import AudioCallControllerApp from '../audio-call/audio-call.ControllerApp'
@@ -11,7 +12,6 @@ import SpeakitController from '../speakit/SpeakitController';
 
 
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
-
 
 const getMiniGamesTemplate = (title, description, img, callback) => { //callback must run game
     return {
@@ -38,7 +38,7 @@ const miniGames = [
     getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
-        const app = new AudioCallControllerApp(new Words(new Api(BASE_HEROKU)), new AudioCallView(new ViewMethods()), new ViewMethods())
+        const app = new AudioCallControllerApp(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new AudioCallView(new ViewMethods()), new ViewMethods())
         new AudioCallView(new ViewMethods()).createStartPage()
         const startBtn = document.querySelector('.startBtn')
         const startBtnLearnedWordsMode = document.querySelector('.startBtnlearnedWords')
