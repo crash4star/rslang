@@ -2,7 +2,10 @@ import CreateWords from './components/createWords';
 import notificationStart from './components/audio';
 import Statistic from '../utils/createStatistic';
 import getRandomInt from '../utils/getRandomInt'
-
+import Api from '../models/Api';
+import AuthRequest from '../models/AuthRequest';
+import Words from '../models/Words';
+import shuffleArr from '../utils/shuffleArr'
 
 class AudioCallControllerApp {
   constructor(model, view, viewMethods) {
@@ -12,18 +15,62 @@ class AudioCallControllerApp {
     this.wrongAnswers = [];
     this.rightAnswers = [];
     this.round = 0;
+    this.difficult = 0;
     this.page = getRandomInt(30)
+    // this.getWordsForLearnedWords()
+    this.gameMode = true;
   }
 
   start() {
     this.view.render();
-    this.getWords();
+   this.getWordsForLearnedWords()
+  }
+
+  startLearnedWordsMode() {
+    this.view.render();
+    this.getWordsForLearnedWords()
+  }
+
+  getWordsForLearnedWords() {
+    this.gameMode = false;
+ const api = new Api('https://afternoon-falls-25894.herokuapp.com');
+    const authRequest = new AuthRequest(api);
+    const words = new Words(api, authRequest);
+    const wordsForRound = {};
+    const ruRandomWords = []
+    words.getUserWords()
+    .then((data) => {
+     const indexForRightAns = getRandomInt(data.length)
+      wordsForRound.word = data[indexForRightAns].optional.word
+      wordsForRound.translate = data[indexForRightAns].optional.wordTranslate
+      
+      ruRandomWords.push(data[indexForRightAns].optional.wordTranslate)
+    })
+    .then(() => {
+      this.model
+      .getWords(this.difficult, this.page)
+      .then((data) => {
+        data.forEach(item => {
+         ruRandomWords.push(item.wordTranslate)
+        })
+        wordsForRound.randomWords = shuffleArr(ruRandomWords.splice(0, 5))
+
+      })
+      .then(() => {
+        const sonar = this.viewMethods.getElement('.wave');
+        if (!sonar.classList.contains('sonar-wave')) {
+          sonar.classList.add('sonar-wave');
+        }
+        this.view.createRuWords(wordsForRound.randomWords, wordsForRound.translate)
+        this.game(wordsForRound.word);
+        notificationStart(wordsForRound.word);
+      })
+    })
   }
 
   getWords() {
-    const difficult = 0;
     this.model
-      .getWords(difficult, this.page)
+      .getWords(this.difficult, this.page)
       .then((data) => {
         const words = [];
         data.forEach((item) => {
@@ -118,7 +165,12 @@ class AudioCallControllerApp {
       if (this.round === 10) {
         this.endGame();
       } else {
-        this.getWords();
+        if(this.gameMode === false) {
+          this.getWordsForLearnedWords()
+        } else {
+          this.getWords();
+        }
+        
       }
     };
   }

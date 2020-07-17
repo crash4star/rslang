@@ -41,9 +41,15 @@ const miniGames = [
         const app = new AudioCallControllerApp(new Words(new Api(BASE_HEROKU)), new AudioCallView(new ViewMethods()), new ViewMethods())
         new AudioCallView(new ViewMethods()).createStartPage()
         const startBtn = document.querySelector('.startBtn')
+        const startBtnLearnedWordsMode = document.querySelector('.startBtnlearnedWords')
+        
         startBtn.onclick = () => {
             document.querySelector('.wrapperForStartPage').remove()
             app.start();
+        }
+        startBtnLearnedWordsMode.onclick = () => {
+            document.querySelector('.wrapperForStartPage').remove()
+            app.startLearnedWordsMode();
         }
     }),
 

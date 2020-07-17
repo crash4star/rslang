@@ -34,7 +34,16 @@
   background-color: green;
   color: white;
 }
-.startBtn:hover {
+.startBtnlearnedWords {
+  width: 40%;
+  border: 2px solid white;
+  border-radius: 5px;
+  height: 50px;
+  background-color: green;
+  color: white;
+  font-size: 24px;
+}
+.startBtn:hover, .startBtnlearnedWords:hover {
   transform: scale(1.1);
 }
 .closeBtn {
@@ -144,6 +153,14 @@
   transform: scale(1.1);
   cursor: pointer;
 }
+
+@media (max-width: 1100px) {
+  .startBtnlearnedWords {
+    width: 50%;
+    font-size: 18px;
+  }
+}
+
 @media (max-width: 780px) {
   .next-round {
     width: 50%;
@@ -160,6 +177,10 @@
   }
   .startBtn {
     width: 60%;
+  }
+  .startBtnlearnedWords {
+    width: 60%;
+    height: 10%;
   }
   .wrapperForStartPage {
     height: 90%;
@@ -187,5 +208,10 @@
   .ruContainer {
     flex-direction: column;
     align-items: center;
+  }
+}
+@media (max-width: 340px) {
+  .startBtnlearnedWords {
+    height: 15%;
   }
 }

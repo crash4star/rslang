@@ -27,6 +27,11 @@ class AudioCallView {
       node: 'button',
       styleName: 'startBtn',
     });
+    const startBtnForlearnedWords = this.viewMethods.createElement({
+      node: 'button',
+      styleName: 'startBtnlearnedWords',
+    });
+    startBtnForlearnedWords.textContent = 'learned Words mode'
     startBtn.textContent = 'START';
     const description = this.viewMethods.createElement({
       node: 'div',
@@ -38,7 +43,7 @@ class AudioCallView {
     wrapperForStartPage.append(nameOfGame);
     wrapperForStartPage.append(description);
     wrapperForStartPage.append(startBtn);
-
+    wrapperForStartPage.append(startBtnForlearnedWords)
     wrapper.append(wrapperForStartPage);
     this.app.append(wrapper);
     const root = this.viewMethods.getElement('#root');
