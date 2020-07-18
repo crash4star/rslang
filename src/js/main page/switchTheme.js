@@ -49,7 +49,7 @@ function switchThemeMode() {
                     updateThemeDb(settingsProfile, apiUrl, 'light');
                 }
             });
-        }, 1500);
+        }, 500);
     });
 }
 

@@ -36,6 +36,12 @@ class ControllerApp {
         });
     }
 
+    continueCallBack() {
+        this.view.getElement('#savannah').remove();
+        this.view.getElement('#root').classList.remove('root-active');
+        this.start();
+    }
+
     checkUserAnswers() {
         const btns = this.view.getAllElements('.savannah__answer-btn');
         const question = this.view.getElement('#game-question-word');
@@ -62,7 +68,7 @@ class ControllerApp {
                     });
                     statistic.renderStat(correct, incorrect);
 
-                    
+
                     resultSavannah.forEach(sendWord => {
                         savannahWords.forEach(toDbWord => {
                             if (sendWord.id === toDbWord.id) {
@@ -76,18 +82,6 @@ class ControllerApp {
                                 wordSend.upsertUserWord(setWord.id, formatedWord);
                             }
                         });
-                    });
-
-                    this.view.getElement('.continueBtn').addEventListener('click', () => {
-                        this.view.getElement('#savannah').remove();
-                        this.view.getElement('#root').innerHTML = '';
-                        this.start();
-                    });
-
-                    this.view.getElement('.onMainPageBtn ').addEventListener('click', () => {
-                        this.view.getElement('#savannah').remove();
-                        this.view.getElement('#root').innerHTML = '';
-                        this.view.getElement('#root').classList.remove('root-active');
                     });
                 }
 
