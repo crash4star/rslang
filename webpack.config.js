@@ -39,7 +39,8 @@ const config = {
         use: [{
           loader: 'html-loader',
           options: {
-            minimize: false
+            minimize: false,
+            blacklist: ["useStrict"]
           }
         }]
       },
@@ -48,7 +49,7 @@ const config = {
         use: ['babel-loader'/* , 'eslint-loader' */],
         exclude: [
           /node_modules/
-        ]
+        ],
       },
       {
         test: /\.css$/,

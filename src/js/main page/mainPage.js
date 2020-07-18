@@ -4,12 +4,10 @@ import renderMenu from './menu';
 
 import switchThemeMode from './switchTheme';
 import setDifficult from './setDiffcult';
-import renderSettings from './settings';
 import addElement from '../utils/utils';
 import { clearMarkup } from '../utils/utils';
 
 import GlobalSettings from './GlobalSettings';
-import addElement, { clearMarkup } from '../utils/utils';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
 import Settings from '../models/Settings';

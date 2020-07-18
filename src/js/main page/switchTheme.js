@@ -2,7 +2,7 @@ import Settings from '../models/Settings';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
 
-function updateThemeDb(settingsProfile, apiUrl,theme) {
+function updateThemeDb(settingsProfile, apiUrl, theme) {
     settingsProfile.getUserSettings().then(data => {
         const setUserSettings = data;
         const req = new AuthRequest(new Api(apiUrl));
@@ -23,32 +23,33 @@ function updateThemeDb(settingsProfile, apiUrl,theme) {
 
 function switchThemeMode() {
     window.addEventListener('load', () => {
-        const apiUrl = 'https://afternoon-falls-25894.herokuapp.com';
-        const settingsProfile = new Settings(new Api(apiUrl), new AuthRequest(new Api(apiUrl)));
-        const switchThemeBtn = document.querySelector('.toggle');
-        const bodyBlock = document.querySelector('body');
-        const checkBox = document.querySelector('#toggle-event');
-        
-        settingsProfile.getUserSettings().then(data => {
-            switchThemeBtn.classList.remove('btn-light');
-            switchThemeBtn.classList.remove('btn-dark');
-            switchThemeBtn.classList.add(`btn-${data.optional.settingsProfile.theme}`);
-            switchThemeBtn.classList.add('off');
+        setTimeout(() => {
+            const apiUrl = 'https://afternoon-falls-25894.herokuapp.com';
+            const settingsProfile = new Settings(new Api(apiUrl), new AuthRequest(new Api(apiUrl)));
+            const switchThemeBtn = document.querySelector('.toggle');
+            const bodyBlock = document.querySelector('body');
 
-            if (data.optional.settingsProfile.theme === 'dark') {
-                bodyBlock.classList.add('dark-theme');
-            } else {
-                switchThemeBtn.classList.remove('off');
-            }
-        });
+            settingsProfile.getUserSettings().then(data => {
+                switchThemeBtn.classList.remove('btn-light');
+                switchThemeBtn.classList.remove('btn-dark');
+                switchThemeBtn.classList.add(`btn-${data.optional.settingsProfile.theme}`);
+                switchThemeBtn.classList.add('off');
 
-        switchThemeBtn.addEventListener('click', () => {
-            if (switchThemeBtn.classList.contains('btn-light')) {
-                updateThemeDb(settingsProfile, apiUrl, 'dark');
-            } else {
-                updateThemeDb(settingsProfile, apiUrl, 'light');
-            }
-        });
+                if (data.optional.settingsProfile.theme === 'dark') {
+                    bodyBlock.classList.add('dark-theme');
+                } else {
+                    switchThemeBtn.classList.remove('off');
+                }
+            });
+
+            switchThemeBtn.addEventListener('click', () => {
+                if (switchThemeBtn.classList.contains('btn-light')) {
+                    updateThemeDb(settingsProfile, apiUrl, 'dark');
+                } else {
+                    updateThemeDb(settingsProfile, apiUrl, 'light');
+                }
+            });
+        }, 1500);
     });
 }
 
