@@ -186,7 +186,7 @@ export default class CardsPage {
     }
 
     const data = this.data;
-    recognition.addEventListener('result', (e) => {
+    recognition.onresult = (e) => {
       const transcript = Array.from(e.results)
         .map(result => {
           const recognitionWords = [];
@@ -200,7 +200,7 @@ export default class CardsPage {
         this.gameIsStarted = false;
         this.showStatistic(true);
       };
-    });
+    };
     recognition.start();
   }
 
@@ -251,9 +251,6 @@ export default class CardsPage {
   
   showStatistic(allWordsIsAnswered = false) {
     this.checkAndUpdateSettings(allWordsIsAnswered);
-    if (!this.gameIsStarted) {
-      this.removeActiveCards();
-    }
     this.stopGame();
     const rightAnswer = [];
     const wrongAnswer = [];
