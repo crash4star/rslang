@@ -6,7 +6,8 @@ import Button from './components/Button';
 // import Svg from './components/Svg';
 // import InputField from './components/InputField';
 // import Paragraph from './components/Paragraph';
-import Select from './components/Select';
+// import Select from './components/Select';
+import LabeledRange from './components/LabeledRange';
 
 class ControlPanel extends Container {
   constructor(id = 'control-panel', styles = 'puzzle__control-panel') {
@@ -19,7 +20,12 @@ class ControlPanel extends Container {
     const closeButton = new Container('close-button', 'puzzle__close-button', {
       title: 'close game',
     });
-    gameControls.add(closeButton);
+    const changeButton = new Button('change-button', 'GO', {}, 'puzzle__change-button');
+    const rangeWrapper = new Container('range-wrapper', 'puzzle__range-wrapper');
+    const levelRange = new LabeledRange('level', 'puzzle__range-container', 'Level', '1', '6', '1', 'puzzle__level', 'puzzle__label');
+    const roundRange = new LabeledRange('round', 'puzzle__range-container', 'Round', '1', '10', '1', 'puzzle__round', 'puzzle__label');
+    rangeWrapper.add(levelRange, roundRange)
+    gameControls.add(closeButton, rangeWrapper, changeButton);
     const gameOptions = new Container('game-options', 'puzzle__game-options');
     const autoSound = new Container('auto-wrapper', 'puzzle__auto-wrapper', {
       title: 'on/off auto audio hint',
@@ -59,6 +65,14 @@ class ControlPanel extends Container {
 
   updateControlPanel(currentSettings) {
     console.log('levelDataAAAAAAAAAAAAA: ', currentSettings);
+    const toStartFromOne = 1;
+    const levelSettings = currentSettings.levelSettings;
+    const level = this.getChild('game-controls').getChild('range-wrapper').getChild('level');
+    const round = this.getChild('game-controls').getChild('range-wrapper').getChild('round');
+    level.setRangeValue(`${levelSettings.level + toStartFromOne}`);
+    level.setLabelValue(`Level: ${levelSettings.level + toStartFromOne}`);
+    round.setRangeValue(`${levelSettings.page + toStartFromOne}`);
+    round.setLabelValue(`Round: ${levelSettings.page + toStartFromOne}`);
     const buttonsID = ['auto-wrapper', 'translation-wrapper', 'sound-wrapper', 'picture-wrapper'];
     console.log('currentSettings: ', currentSettings);
     const optionsArray = Object.keys(currentSettings.gameSettings);

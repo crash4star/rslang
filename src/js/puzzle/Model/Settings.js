@@ -16,27 +16,35 @@ class Settings {
     localStorage.setItem('levelSettings', this.levelSettings);
   }
 
+  async getUserSettings() {
+    this.backendSettings = await this.serverSettings.getUserSettings();
+    if (!this.backendSettings.optional.puzzle) {
+      this.backendSettings.optional.puzzle = {
+        level: 0,
+        page: 0,
+      }
+      const updatedSettings = {
+        optional: this.backendSettings.optional
+      }
+      await this.serverSettings.updateSettings(updatedSettings);
+    }
+    this.backendSettings = await this.serverSettings.getUserSettings();
+    console.log('this.backendSettings: ', this.backendSettings);
+    return this.backendSettings.optional.puzzle;
+  }
+
+  async setUserSettings(option, value) {
+    this.backendSettings.optional.puzzle[option] = value;
+    const updatedSettings = {
+      optional: this.backendSettings.optional
+    }
+    await this.serverSettings.updateSettings(updatedSettings);
+    this.backendSettings = await this.serverSettings.getUserSettings();
+    console.log('this.backendSettings: ', this.backendSettings);
+    return this.backendSettings.optional.puzzle;
+  }
+
   async getGameSettings() {
-    this.backendSettings = await this.serverSettings.getUserSettings();
-    console.log('USER SETTINGS', this.backendSettings);
-    // if (!this.backendSettings.optional.puzzle) {
-    //   console.log('its ok');
-    //   const settings = {
-    //     puzzle: {
-    //       autoListen: true,
-    //       translation: true,
-    //       listenSentence: true,
-    //       puzzleImage: true,
-    //     }
-    //   }
-    //   const backendSettings = {
-    //     optional: settings
-    //   };
-    //   console.log('USER SETTINGS', this.backendSettings);
-    //   await this.serverSettings.updateSettings(backendSettings);
-    // }
-    this.backendSettings = await this.serverSettings.getUserSettings();
-    console.log('USER SETTINGS', this.backendSettings);
     if (!localStorage.getItem('gameSettings')) {
       localStorage.setItem('gameSettings', JSON.stringify({
         autoListen: true,

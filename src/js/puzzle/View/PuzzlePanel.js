@@ -95,7 +95,10 @@ class PuzzlePanel extends Container {
   }
 
   removeAllLines() {
-    this.getChild('puzzle-box').removeChildren();
+    Object.values(this.getChild('puzzle-box').children).forEach((element, index) => {
+      element.removeChildren();
+      this.getChild('puzzle-box').removeChild(element.getHtml().id);
+    });
     // this.getHtml();
     // console.log('element: ', this.getChild('phrase-wrapper').children);
     // this.getChild('phrase-wrapper').getHtml();

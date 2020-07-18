@@ -3,6 +3,7 @@
 import Container from './components/Container';
 import Statistic from '../../utils/createStatistic';
 import ViewMethods from '../../utils/view-methods';
+import NewGame from '../initApp';
 // import Paragraph from './Paragraph';
 
 class View {
@@ -18,9 +19,9 @@ class View {
     this.app = document.querySelector('.root');
     this.app.classList.add('root-active');
     this.appHead.append(this.favicon.getHtml());
-    this.startPage = new Container('game-wrapper', 'puzzle__game-wrapper');
-    this.startPage.add(this.mainPage);
-    this.app.append(this.startPage.getHtml());
+    this.page = new Container('game-wrapper', 'puzzle__game-wrapper');
+    this.page.add(this.mainPage);
+    this.app.append(this.page.getHtml());
     // this.currentLevelData = {};
     // console.log(this);
   }
@@ -29,23 +30,23 @@ class View {
     window.removeEventListener('resize', this.resize);
     this.statistic = new Statistic( new ViewMethods());
     const statistic = getStatistic();
-    this.gamePage.removeElement();
+    this.page.removeElement();
     this.statistic.renderStat(statistic.correct, statistic.incorrect);
     console.log('statistic: ', statistic);
   }
 
   renderGamePage() {
-    this.gamePage = new Container('game-wrapper', 'puzzle__game-wrapper');
-    this.gamePage.add(this.controlPanel, this.hintsPanel,
+    this.page = new Container('game-wrapper', 'puzzle__game-wrapper');
+    this.page.add(this.controlPanel, this.hintsPanel,
       this.puzzlePanel, this.phrasePanel);
-    this.app.append(this.gamePage.getHtml());
+    this.app.append(this.page.getHtml());
   }
 
   startGameEvent(startGame) {
     this.mainPage.getHtml().addEventListener('click', (event) => {
       if (event.target.className.includes('puzzle__start')) {
         this.isResultPage = false;
-        this.startPage.removeElement();
+        this.page.removeElement();
         this.renderGamePage();
         // this.controlPanelEvents();
         this.hintsEvents();
@@ -54,6 +55,14 @@ class View {
         startGame();
       }
     });
+  }
+
+  newGameEvent(startGame) {
+    window.removeEventListener('resize', this.resize);
+    this.page.removeElement();
+    this.app = document.querySelector('.root');
+    this.app.classList.remove('root-active');
+    NewGame();
   }
 
   resizeEvent(getImageUrl, isBgImage) {
@@ -159,11 +168,26 @@ class View {
     });
   }
 
-  controlPanelEvents(changeSettings, isBgImage, bgUrl) {
+  controlPanelEvents(changeSettings, isBgImage, bgUrl, changeServerSettings, startGame) {
+    this.controlPanel.getHtml().addEventListener('input', (event) => {
+      console.log('event.target.className: ', event.target.className);
+      const toCountFromZerro = 1;
+      if (event.target.className.includes('puzzle__level')) {
+        const level = this.controlPanel.getChild('game-controls').getChild('range-wrapper').getChild('level');
+        level.setLabelValue(`Level: ${event.target.value}`);
+        changeServerSettings('level', event.target.value - toCountFromZerro);
+      } else if (event.target.className.includes('puzzle__round')) {
+        const round = this.controlPanel.getChild('game-controls').getChild('range-wrapper').getChild('round');
+        round.setLabelValue(`Round: ${event.target.value}`);
+        changeServerSettings('page', event.target.value - toCountFromZerro);
+      }
+    });
     this.controlPanel.getHtml().addEventListener('click', (event) => {
       console.log(event.target.id);
       if (event.target.className.includes('puzzle__close-button')) {
         this.closeGameEvent();
+      } else if (event.target.className.includes('puzzle__change-button')) {
+        this.newGameEvent();
       } else if (event.target.className.includes('puzzle__auto-wrapper') || event.target.className.includes('puzzle__translation-wrapper')
         || event.target.className.includes('puzzle__picture-wrapper') || event.target.className.includes('puzzle__sound-wrapper')) {
         if (event.target.className.includes('puzzle__hint-active')) {
@@ -221,10 +245,10 @@ class View {
     });
   }
 
-  closeGameEvent(changeLevel) {
+  closeGameEvent() {
     if (event.target.className.includes('puzzle__close-button')) {
       window.removeEventListener('resize', this.resize);
-      this.gamePage.removeElement();
+      this.page.removeElement();
       this.app = document.querySelector('.root');
       this.app.classList.remove('root-active');
     }

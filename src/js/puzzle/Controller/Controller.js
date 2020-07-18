@@ -31,8 +31,13 @@ class Controller {
       this.getCurrentTurn.bind(this), this.dontKnowEvent.bind(this),
       this.showResultEvent.bind(this));
     this.view.controlPanelEvents(this.bindChangeSettingsEvent.bind(this),
-      this.getIsPuzzleImageSetting.bind(this), this.getCurrentImage.bind(this));
+      this.getIsPuzzleImageSetting.bind(this), this.getCurrentImage.bind(this),
+      this.changeUserSettings.bind(this), this.bindStartGame.bind(this));
     this.view.resizeEvent(this.getCurrentImage.bind(this), this.getIsPuzzleImageSetting.bind(this));
+  }
+
+  changeUserSettings(option, value) {
+    this.currentSettings.levelSettings = this.model.options.setUserSettings(option, value);
   }
 
   getIsPuzzleImageSetting() {
@@ -157,7 +162,7 @@ class Controller {
 
   async getCurrentSettings() {
     const gameSettings = await this.model.options.getGameSettings();
-    const levelSettings = await this.model.options.getLevelSettings();
+    const levelSettings = await this.model.options.getUserSettings();
     return { levelSettings, gameSettings };
   }
 }
