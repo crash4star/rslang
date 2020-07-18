@@ -55,12 +55,6 @@ const miniGames = [
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
-<<<<<<< HEAD
-//
-export default miniGames;
-export { getErrorMessageTemplate, BASE_HEROKU };
-=======
 
 export default miniGames;
 export { getErrorMessageTemplate,  BASE_HEROKU  };
->>>>>>> cd4d1ebc224e34b7b8db348a4beffbee0a1b798d
