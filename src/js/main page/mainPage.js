@@ -1,6 +1,8 @@
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
 import renderMenu from './menu';
+import switchThemeMode from './switchTheme';
+import setDifficult from './setDiffcult';
 import renderSettings from './settings';
 import addElement from '../utils/utils';
 import { clearMarkup } from '../utils/utils';
@@ -34,6 +36,8 @@ export default function renderMainPage() {
     renderMainPart();
     renderFooter();
     renderSettings();
+    switchThemeMode();
+    setDifficult();
 }
 
-export { removeContent }
+export { removeContent };

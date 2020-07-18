@@ -1,3 +1,5 @@
+import {getDateInString} from '../../utils/utils'
+
 class DictionaryView {
     constructor() {
         this.app = this.getElement('.main .container');
@@ -9,24 +11,25 @@ class DictionaryView {
         const btnHard = this.createlement({ node: 'button', styleName: 'dictionary-word-filter-btn', id: 'interval' });
         const btnRemoved = this.createlement({ node: 'button', styleName: 'dictionary-word-filter-btn', id: 'deleted' });
         const btnSpecial = this.createlement({ node: 'button', styleName: 'dictionary-word-filter-btn', id: 'special' });
+        const btnPlay = this.createlement({ node: 'button', styleName: 'dictionary-word-filter-play-btn', id: 'play' });
 
         btnStudied.textContent = 'Studied';
         btnHard.textContent = 'Hard';
         btnRemoved.textContent = 'Removed';
         btnSpecial.textContent = 'Special';
 
-        wrapper.append(btnStudied, btnHard, btnRemoved, btnSpecial);
+        wrapper.append(btnStudied, btnHard, btnRemoved, btnSpecial, btnPlay);
         this.app.append(wrapper);
         this.getAllElements(`.dictionary-word-filter-btn`)[0].classList.add('dictionary-word-filter-btn--active');
     }
 
-    renderCards(data) {
+    renderCards(data, setId) {
         this.getElement('#dictionary-word-wrapper-card').classList.add('dictionary-wrapper');
 
         const card = this.createlement({ node: 'div', styleName: 'dictionary-word-card' });
         const topBlock = this.createlement({ node: 'div', styleName: 'dictionary-top-block' });
         const wordWithAudioBlock = this.createlement({ node: 'div', styleName: 'dictionary-word-audio-block' });
-        const word = this.createlement({ node: 'p', styleName: 'dictionary-word' });
+        const word = this.createlement({ node: 'p', styleName: 'dictionary-word', id: setId});
         word.textContent = data.word;
         const wordAudioBtn = this.createlement({ node: 'button', styleName: 'dictionary-word-audio-btn', id: data.wordId });
 
@@ -42,7 +45,7 @@ class DictionaryView {
         wordTranslateTranscriptionBlock.append(wordTranslate);
         wordTranslateTranscriptionBlock.append(wordTranscription);
 
-        const restoreBtn = this.createlement({ node: 'button', styleName: 'dictionary-restore-btn', id: data.wordId });
+        const restoreBtn = this.createlement({ node: 'button', styleName: 'dictionary-restore-btn', id: setId });
         restoreBtn.textContent = 'Restore';
 
         topBlock.append(restoreBtn);
@@ -62,9 +65,9 @@ class DictionaryView {
         const statisticRepeated = this.createlement({ node: 'div', styleName: 'dictionary-repeated' });
         statisticRepeated.textContent = data.total;
         const statisticLastRepeat = this.createlement({ node: 'div', styleName: 'dictionary-last-repeat' });
-        statisticLastRepeat.textContent = data.date;
+        statisticLastRepeat.textContent = getDateInString(new Date(data.date));
         const statisticNextRepeat = this.createlement({ node: 'div', styleName: 'dictionary-next-repeat' });
-        statisticNextRepeat.textContent = data.dateInterval;
+        statisticNextRepeat.textContent = getDateInString(new Date(data.dateInterval));
 
         statisticWordBlock.append(statisticRepeated);
         statisticWordBlock.append(statisticLastRepeat);

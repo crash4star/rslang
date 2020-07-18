@@ -1,4 +1,4 @@
-import createProgressBar from './progressBar'
+import createProgressBar from './progressBar';
 
 class Statistic {
   constructor(view) {

@@ -55,8 +55,12 @@ export default function renderSettings() {
         ['data-off', 'Dark'],
         isChecked,
     );
+    
+    
 
-    switcher.addEventListener('click', (event) => changeToggler(event, 'theme'));
+    switcher.addEventListener('click', (event) => {
+        changeToggler(event, 'theme');
+    });
 
     const formGroup = addElement('div', form, 'form-group');
     addElement('label', formGroup, null, null, "Difficult:", ['for', 'difficultLevel']);

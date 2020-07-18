@@ -30,15 +30,10 @@ const menu = [
     getMenuTemplate ('Statistic', () => getErrorMessageTemplate('Statistic')),
     getMenuTemplate ('Dictionary', () => {
         const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
-        // const dictionary = new DictionaryController(new Words(new Api(BASE_HEROKU), new ViewDictionary()));
         const dictionary = new DictionaryController(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new DictionaryView());
-        // dictionary.render({word: 'Test', wordId: 'test-12312312313', wordTranslate: 'Тэст', transcription: '[ wɜːd ]', textExample: 'Test is another way', textMeaning: 'Test mean test something', total: 132, date: '22.06.2020', dateInterval: '22.07.2020'});
-        // dictionary.render({word: 'Test', wordId: 'test-12312312313', wordTranslate: 'Тэст', transcription: '[ wɜːd ]', textExample: 'Test is another way', textMeaning: 'Test mean test something', total: 132, date: '22.06.2020', dateInterval: '22.07.2020'});
-        // dictionary.render({word: 'Test', wordId: 'test-12312312313', wordTranslate: 'Тэст', transcription: '[ wɜːd ]', textExample: 'Test is another way', textMeaning: 'Test mean test something', total: 132, date: '22.06.2020', dateInterval: '22.07.2020'});
-
     }),
-    getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),
-    getMenuTemplate ('About us', () => getErrorMessageTemplate('About us')),
+    // getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),
+    // getMenuTemplate ('About us', () => getErrorMessageTemplate('About us')),
 ];
 
 

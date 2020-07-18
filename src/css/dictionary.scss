@@ -2,7 +2,7 @@
 
 .dictionary {
     &-wrapper {
-        @media (min-width: 768px) {
+        @media (min-width: 0px) {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
@@ -11,16 +11,15 @@
 
     &-word-card {
         @media (min-width: 0px) {
+            width: 100%;
             margin-bottom: 1.5rem;
             background-color: $base-white;
             border-radius: 5px;
-            border: 1px solid #d4d4d4;
             transition: all 0.4s ease;
 
             &:hover {
                 transform: translateY(-3px);
                 box-shadow: 0 3px 15px 3px rgba(0, 0, 0, 0.1);
-                border-color: transparent;
             }
         }
 
@@ -57,6 +56,7 @@
     }
 
     &-word-audio-btn {
+        display: none;
         width: 1.3rem;
         height: 1.3rem;
         border: none;
@@ -191,6 +191,10 @@
         }
     }
 
+    &-next-repeat {
+        display: none;
+    }
+
     &-last-repeat {
         &::before {
             content: 'Last repeat';
@@ -204,6 +208,7 @@
     }
 
     &-word-filter {
+        position: relative;
         display: flex;
         width: 100%;
     }
@@ -253,6 +258,17 @@
             animation-iteration-count: infinite;
             z-index: 60;
         }
+    }
+
+    &-word-filter-play-btn {
+        display: none;
+        height: 2.4rem;
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: none;
+        background-color: #31c563;
+        color: $base-white;
+        font-size: 14px;
     }
 }
 
