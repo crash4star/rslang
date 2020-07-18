@@ -1,7 +1,7 @@
-import createDateObject from './globalStatisticData';
-import { getMidnight } from './globalStatisticData';
-import addElement from '../utils/utils';
-import { getDateInString } from '../utils/utils';
+import createDateObject, { getMidnight } from './globalStatisticData';
+
+import addElement, { getDateInString } from '../utils/utils';
+
 import { BASE_HEROKU } from '../data/miniGames';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
@@ -20,7 +20,6 @@ const graphColors = ['#c51b20', '#4d89f7'];
 export default class GlobalStatistic  {
     constructor () {
         this.canvasParameters = {};
-        this.init();
     }
 
     calculateAmountOfDaysDescriptions() {
@@ -38,7 +37,7 @@ export default class GlobalStatistic  {
                     amount = i;
                 }
             }
-            amountOfDescriptions = (amount) ? amount: amountOfDescriptions;
+            amountOfDescriptions = (amount) || amountOfDescriptions;
         }
         return amountOfDescriptions;
     }
@@ -55,6 +54,7 @@ export default class GlobalStatistic  {
         const main = document.querySelector('.main');
         const container = main.querySelector('.container');
         const wrapper = addElement('div', container, 'wrapper');
+        addElement('h2', wrapper, null, null, 'Total words learned');
         this.canvas = addElement('canvas', wrapper, 'canvas');
         this.ctx = this.canvas.getContext('2d');
         this.alert = addElement('div', wrapper, 'statisticAlert statisticAlert-hidden', 'statisticAlert');
@@ -70,6 +70,12 @@ export default class GlobalStatistic  {
         this.stepY = (this.axisStartY - graphMargin) / this.getAmountOfWords();
 
     }
+
+    nothingToShow() {
+        const main = document.querySelector('.main');
+        addElement('h3', main, null, null, `It looks like you don't study any words yet`);
+
+    }
     
     async init () {
         this.api = new Api(BASE_HEROKU);
@@ -81,8 +87,12 @@ export default class GlobalStatistic  {
             return createDateObject(data.optional.linguist.learnedWordsDate);
         })
         .then((data) => {
-            this.data = data;
-            this.drawGraph();
+            if (!Number(data.options.axisY.max)) {
+                this.nothingToShow();
+            } else {
+                this.data = data;
+                this.drawGraph();
+            }
         });
     }
 
@@ -105,12 +115,27 @@ export default class GlobalStatistic  {
         this.ctx.stroke();
     }
 
+    calculateAmountOfDescriptions(maxValue, minValue) {
+        let amountOfDescriptions = maxValue - minValue;
+        let index = 2;
+        while (index < Math.sqrt(maxValue - minValue)) {
+            if ((maxValue - minValue) % index === 0) {
+                amountOfDescriptions = index;
+            }
+            index += 1;
+        }
+        return amountOfDescriptions - 1;
+    }
+
     drawDescriptionAxis(axisIsX, length, amountOfDescriptions, maxValue, minValue) {
+        let amount = amountOfDescriptions;
+        if (!axisIsX && (maxValue - minValue) % amount !== 0) {
+            amount = this.calculateAmountOfDescriptions(maxValue, minValue);
+        }
+        const stepBetweenDescriptions = length / (amount + 1);
+        const stepBetweenValues = (maxValue - minValue) / (amount + 1);
         
-        let stepBetweenDescriptions = length / (amountOfDescriptions + 1);
-        let stepBetweenValues = (maxValue - minValue) / (amountOfDescriptions + 1);
-        
-        for (let i = 0; i <= amountOfDescriptions + 1; i+= 1) {
+        for (let i = 0; i <= amount + 1; i+= 1) {
             this.ctx.beginPath();
             const coefficient = axisIsX ? i : i;
             const descriptionPositionX = axisIsX ? 
@@ -119,7 +144,7 @@ export default class GlobalStatistic  {
             const descriptionPositionY = axisIsX ? 
                 this.axisStartY + graphMargin / 2 : 
                 this.axisStartY - stepBetweenDescriptions * coefficient;
-                const descriptionValue = Number(minValue) + Math.round(stepBetweenValues * i);
+                let descriptionValue = Number(minValue) + Math.round(stepBetweenValues * i * 10) / 10;
                 if (axisIsX) {
                     descriptionValue = getDateInString(new Date(descriptionValue));
                     this.ctx.moveTo(descriptionPositionX, this.axisStartY - dashLength / 2);
@@ -139,12 +164,13 @@ export default class GlobalStatistic  {
     }
 
     drawRectangle (x0, y0, x1, y1) {
-        while (y0 >= y1) {
+        let y = y0;
+        while (y >= y1) {
             this.ctx.beginPath();
-            this.ctx.moveTo(x0, y0);
-            this.ctx.lineTo(x1, y0);
+            this.ctx.moveTo(x0, y);
+            this.ctx.lineTo(x1, y);
             this.ctx.stroke();
-            y0 -= 1;
+            y -= 1;
         }
     }
 
@@ -216,8 +242,6 @@ export default class GlobalStatistic  {
         const data = this.data.arrayOfDatesAndValues;
         
         document.querySelector('.canvas').addEventListener('click', (e) => {
-            const x = e.pageX - e.target.offsetLeft;
-            const y = e.pageY - e.target.offsetTop;
             this.showAlert(e, stepX, minDate, data);
         });
 
@@ -225,7 +249,7 @@ export default class GlobalStatistic  {
             this.showAlert(e, stepX, minDate, data);
         });
 
-        document.querySelector('.canvas').addEventListener('click', (e) => { //for phones
+        document.querySelector('.canvas').addEventListener('click', (e) => { // for phones
             this.showAlert(e, stepX, minDate, data);
         });
 

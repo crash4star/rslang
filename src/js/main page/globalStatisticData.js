@@ -6,27 +6,28 @@ const getMidnight = (dateInMilliseconds) => {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 }
 
-const getArray = (isDate, arrayLength, min, max) => {
-    const data = [];
-    for (let i = 0; i < arrayLength; i+= 1) {
-        const valueIsUnique = false;
-        let counter = 0;
-        while (!valueIsUnique) {
-            const value = Math.floor(Math.random() * (max - min)) + min;
-            value = isDate ? getMidnight(value) : value;
-            if (data.indexOf(value) === -1) {
-                data.push(value);
-                valueIsUnique = true;
-            }
-            if (counter > 10000) throw new Error('It is impossible to create unique data. Check period');
-        }
-    }
-    return data.sort((a, b) => {
-        if (a > b) return 1;
-        if (a == b) return 0;
-        if (a < b) return -1;
-    });
-}
+//! getArray is creating random data;
+// const getArray = (isDate, arrayLength, min, max) => {
+//     const data = [];
+//     for (let i = 0; i < arrayLength; i+= 1) {
+//         const valueIsUnique = false;
+//         const counter = 0;
+//         while (!valueIsUnique) {
+//             const value = Math.floor(Math.random() * (max - min)) + min;
+//             value = isDate ? getMidnight(value) : value;
+//             if (data.indexOf(value) === -1) {
+//                 data.push(value);
+//                 valueIsUnique = true;
+//             }
+//             if (counter > 10000) throw new Error('It is impossible to create unique data. Check period');
+//         }
+//     }
+//     return data.sort((a, b) => {
+//         if (a > b) return 1;
+//         if (a == b) return 0;
+//         if (a < b) return -1;
+//     });
+// }
 
 const getDatesWithValues = (dateInMilliseconds, valuesArray) => {
     return {
@@ -45,7 +46,7 @@ const createArrayOfDatesAndValues = (datesArray, valuesArray) => {
 
 const getData = (data) => {
     const dates = Object.keys(data).map(el => new Date(el).getTime());
-    let values = Object.values(data);
+    const values = Object.values(data);
     let accumulator = 0;
     for (let i = 0; i < values.length; i += 1) {
         accumulator += values[i];

@@ -1,5 +1,5 @@
 import addElement from "../../utils/utils";
-import { soundImageUrl, translateUrl, gitUrl } from './../data/data';
+import { soundImageUrl, translateUrl, gitUrl } from "../data/data";
 
 export default class StatisticElement {
     constructor (data, parent) {
@@ -9,17 +9,16 @@ export default class StatisticElement {
         this.audioURL = data.audio;
         this.isAnswered = data.isAnswered;
         this.id = data.id;
-        this.init();
     }
 
     async init() {
         this.audio = new Audio();
         const element = addElement('div', this.parent, 'minigame-statistic', this.id);
-        addElement('img', element, 'card-sound', null, null, ['src', soundImageUrl]);
-        addElement('div', element, 'word', null, this.word);
-        addElement('div', element, 'transcription', null, this.transcription);
+        addElement('img', element, 'minigame-statistic--card-sound', null, null, ['src', soundImageUrl]);
+        addElement('div', element, 'minigame-statistic--word', null, this.word);
+        addElement('div', element, 'minigame-statistic--transcription', null, this.transcription);
         const translation = await(this.getTranslation(this.word));
-        addElement('div', element, 'translation', null, translation);
+        addElement('div', element, 'minigame-statistic--translation', null, translation);
 
         const audioFile = this.audioURL;
         element.addEventListener('click', () => {

@@ -27,7 +27,7 @@ function createProgressBar(container, rightAnswers, allRounds) {
     step: (state, shape) => {
       shape.path.setAttribute('stroke', state.color);
       shape.path.setAttribute('stroke-width', state.width);
-      shape.setText(Math.round(shape.value() * 100) + ' %');
+      shape.setText(`${Math.round(shape.value() * 100)  } %`);
     },
   });
   const percent = Math.trunc(rightAnswers * 100 / allRounds) / 100
