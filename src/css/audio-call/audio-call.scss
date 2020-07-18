@@ -1,0 +1,217 @@
+.audio-call-container {
+  background-color: #f977ce;
+  background-image: linear-gradient(180deg, #804eb9 0%, #c073a6 90%);
+  width: 70%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5px;
+}
+
+.audio-call-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-size: 28px;
+}
+
+.description {
+  font-size: 24px;
+  text-align: center;
+  width: 40%;
+}
+
+.startBtn {
+  width: 30%;
+  border: 2px solid white;
+  border-radius: 5px;
+  height: 50px;
+  background-color: green;
+  color: white;
+}
+.startBtnlearnedWords {
+  width: 40%;
+  border: 2px solid white;
+  border-radius: 5px;
+  height: 50px;
+  background-color: green;
+  color: white;
+  font-size: 24px;
+}
+.startBtn:hover, .startBtnlearnedWords:hover {
+  transform: scale(1.1);
+}
+.closeBtn {
+  position: absolute;
+  top: 15%;
+  right: 20%;
+  background-image: url(../img/img-audio-call/icons8-close50.png);
+  width: 50px;
+  height: 50px;
+}
+.closeBtn:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.wrapperForStartPage {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 70%;
+  align-items: center;
+  border-radius: 5px;
+  justify-content: space-evenly;
+  background-color: #f977ce;
+  background-image: linear-gradient(180deg, #804eb9 0%, #c073a6 90%);
+}
+
+.nameOfGame {
+  font-size: 64px;
+}
+
+.ruWord {
+  margin-left: 30px;
+  border: 1px solid white;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.ruWord:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.ruContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sonar-wrapper {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  padding: 3rem 0;
+  width: 350px;
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sonar-emitter {
+  position: relative;
+
+  width: 200px;
+  height: 200px;
+  border-radius: 9999px;
+  background: url(../img/img-audio-call/speaker-icon-18-ffffff-128.png)
+    no-repeat center rgba(255, 245, 215, 0.1);
+}
+
+.sonar-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 9999px;
+  background: rgba(255, 245, 215, 0.3);
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.sonar-wave {
+  animation: sonarWave 2s linear infinite;
+}
+
+@keyframes sonarWave {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.next-round {
+  background: url(../img/img-audio-call/icons8-right-arrow-48.png) no-repeat
+    center rgba(255, 245, 215, 0.1);
+  margin-top: 60px;
+  border: 1px solid white;
+  border-radius: 5px;
+  width: 30%;
+  height: 60px;
+}
+
+.next-round:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+  .startBtnlearnedWords {
+    width: 50%;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 780px) {
+  .next-round {
+    width: 50%;
+  }
+  .audio-call-container {
+    height: 80%;
+    width: 70%;
+  }
+}
+@media (max-width: 640px) {
+  .nameOfGame {
+    font-size: 32px;
+    margin-top: 30px;
+  }
+  .startBtn {
+    width: 60%;
+  }
+  .startBtnlearnedWords {
+    width: 60%;
+    height: 10%;
+  }
+  .wrapperForStartPage {
+    height: 90%;
+    width: 60%;
+  }
+  .closeBtn {
+    top: 5%;
+    right: 20%;
+  }
+  .description {
+    font-size: 18px;
+  }
+  .audio-call-container {
+    height: 90%;
+    width: 80%;
+  }
+  .next-round {
+    width: 90%;
+  }
+  .sonar-wrapper {
+    flex-direction: column;
+  }
+}
+@media (max-width: 570px) {
+  .ruContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 340px) {
+  .startBtnlearnedWords {
+    height: 15%;
+  }
+}
