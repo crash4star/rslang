@@ -65,7 +65,13 @@ class DictionaryView {
         const statisticRepeated = this.createlement({ node: 'div', styleName: 'dictionary-repeated' });
         statisticRepeated.textContent = data.total;
         const statisticLastRepeat = this.createlement({ node: 'div', styleName: 'dictionary-last-repeat' });
-        statisticLastRepeat.textContent = getDateInString(new Date(data.date));
+        const formatedDate = getDateInString(new Date(data.date));
+        if (formatedDate === '01.01.1970') {
+            statisticLastRepeat.textContent = 'no repeat';
+        } else {
+            statisticLastRepeat.textContent = formatedDate;
+        }
+        
         const statisticNextRepeat = this.createlement({ node: 'div', styleName: 'dictionary-next-repeat' });
         statisticNextRepeat.textContent = getDateInString(new Date(data.dateInterval));
 

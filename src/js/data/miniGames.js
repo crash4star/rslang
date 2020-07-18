@@ -28,7 +28,7 @@ const getErrorMessageTemplate = (gameName) => {
 const miniGames = [
     getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => new SpeakitController(BASE_HEROKU, true)),
     getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => PuzzleGame()),
-    getMiniGamesTemplate('Savannah', 'Description', 'minigame.png', () => {
+    getMiniGamesTemplate('Savannah', 'Hurry up to guess the word until the crystal disappears', 'crystal.svg', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
         const app = new ControllerApp(new Words(new Api(BASE_HEROKU)), new ViewSavannah());
