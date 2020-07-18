@@ -26,5 +26,4 @@ export default function renderMiniGames() {
         const button = addElement('button', item, 'btn btn-primary', null, 'Start');
         button.addEventListener('click', element.callback);
     });
-
 }

@@ -61,7 +61,8 @@ class Words {
             return this.api.getRequest(`/words?group=${difficult}&wordsPerExampleSentenceLTE=20&wordsPerPage=${number}`);
   
         } catch (e) {
-            console.log(e);
+            showErrorMessage(e);
+
         }
   
         return [];

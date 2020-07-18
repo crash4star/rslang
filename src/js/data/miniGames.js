@@ -11,9 +11,6 @@ import SprintControllerApp from '../sprint/sprint.ControllerApp';
 import SprintView from '../sprint/sprint.View'
 import SpeakitController from '../speakit/SpeakitController';
 
-
-
-
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
 const getMiniGamesTemplate = (title, description, img, callback) => { // callback must run game

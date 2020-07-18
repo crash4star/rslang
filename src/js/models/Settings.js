@@ -81,5 +81,5 @@ class Settings {
       }
 }
 
-export default Settings;
 
+export default Settings;

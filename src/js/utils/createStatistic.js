@@ -2,6 +2,7 @@ import createProgressBar from './progressBar'
 import StatisticElement from '../speakit/elements/StatisticElement';
 import '../../css/miniGameStatistic.scss';
 
+
 class Statistic {
   constructor(view, callback) {
     this.view = view;

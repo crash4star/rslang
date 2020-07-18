@@ -234,7 +234,7 @@ class ControllerLinguist {
       const repeatArray = [];
       const zeroArray = [];
       wordsArray.forEach((item) => {
-          if (item.optional.interval === 1) {
+          if (item.optional.interval === 1 || item.optional.important === true) {
               importantArray.push(item);
           } else if(item.optional.interval > 1 && item.optional.interval < 6) { 
                 repeatArray.push(item);   
