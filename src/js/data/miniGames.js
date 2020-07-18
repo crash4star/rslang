@@ -59,7 +59,7 @@ const miniGames = [
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
-        const app = new SprintControllerApp(new Words(new Api(BASE_HEROKU)), new SprintView(new ViewMethods()), new ViewMethods())
+        const app = new SprintControllerApp(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new SprintView(new ViewMethods()), new ViewMethods())
         app.start()
         const startBtn = document.querySelector('.sprint-startBtn')
         const startBtnForLearnedWords = document.querySelector('.sprint-startBtnlearnedWords')

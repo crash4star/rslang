@@ -3,7 +3,9 @@ import randomInteger from './components/getRandomIntForRound';
 import checkEndGame from './components/timer';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
-import Words from '../models/Words';
+import Settings from '../models/Settings';
+import UserWord from '../utils/UserWord';
+
 class SprintControllerApp {
   constructor(model, view, viewMethods) {
     this.model = model;
@@ -11,13 +13,37 @@ class SprintControllerApp {
     this.viewMethods = viewMethods;
     this.rightAnswers = [];
     this.wrongAnswers = [];
+    this.word = {};
     this.points = 0;
     this.combo = 0;
     this.gameMode = true;
+    this.page = getRandomInt(30);
+    this.url = 'https://afternoon-falls-25894.herokuapp.com';
+    this.api = new Api(this.url);
+    this.request = new AuthRequest(this.api);
+    this.difficult = new Settings(this.api, this.request);
+    this.diff = 0;
+    this.previousIndex = [];
+    this.checkUserWordsCount();
+  }
+
+  checkUserWordsCount() {
+    this.model.getUserWords().then((data) => {
+      if (data.length < 40) {
+        this.viewMethods.getElement(
+          '.sprint-startBtnlearnedWords'
+        ).onclick = () => {
+          alert('Слишком мало изученных слов для данного режима');
+        };
+      }
+    });
   }
 
   start() {
     this.view.renderStartPage();
+    this.difficult.getUserSettings().then((data) => {
+      this.diff = data.optional.settingsProfile.difficult - 1;
+    });
   }
 
   play() {
@@ -38,8 +64,8 @@ class SprintControllerApp {
 
   nextRound() {
     this.view.renderGame();
-    if(this.gameMode === false) {
-      this.getWordsForlearnedWords()
+    if (this.gameMode === false) {
+      this.getWordsForlearnedWords();
     } else {
       this.getWords();
     }
@@ -48,53 +74,53 @@ class SprintControllerApp {
 
   getWordsForlearnedWords() {
     this.gameMode = false;
-    const api = new Api('https://afternoon-falls-25894.herokuapp.com');
-    const authRequest = new AuthRequest(api);
-    const words = new Words(api, authRequest);
     const wordsForRound = {};
-    words
+    this.model
       .getUserWords()
       .then((data) => {
         const indexForRightTranslate = getRandomInt(data.length);
+        if (this.previousIndex.includes(indexForRightTranslate)) {
+          indexForRightTranslate = getRandomInt(data.length);
+        }
+        
+        this.previousIndex.push(indexForRightTranslate);
         wordsForRound.word = data[indexForRightTranslate].optional.word;
         wordsForRound.rightTranslate =
           data[indexForRightTranslate].optional.wordTranslate;
+        this.word = data[indexForRightTranslate];
       })
       .then(() => {
-        const difficult = 0;
-        const page = getRandomInt(30);
-        this.model.getWords(difficult, page).then((data) => {
-          const indexForWrongTraslate = getRandomInt(20);
-          wordsForRound.wrongTranslate =
-            data[indexForWrongTraslate].wordTranslate;
-        })
-  
-      
-      .then(() => {
-        const randomInt = randomInteger(0, 2);
-        if (randomInt === 0 || randomInt === 2) {
-          this.view.createWords(
-            wordsForRound.word,
-            wordsForRound.rightTranslate,
-            'right'
-          );
-        } else {
-          this.view.createWords(
-            wordsForRound.word,
-            wordsForRound.wrongTranslate,
-            'wrong'
-          );
-        }
-        this.game();
-      })
-      })
+        this.model
+          .getWords(this.diff, this.page)
+          .then((data) => {
+            const indexForWrongTraslate = getRandomInt(20);
+            wordsForRound.wrongTranslate =
+              data[indexForWrongTraslate].wordTranslate;
+          })
+
+          .then(() => {
+            const randomInt = randomInteger(0, 2);
+            if (randomInt === 0 || randomInt === 2) {
+              this.view.createWords(
+                wordsForRound.word,
+                wordsForRound.rightTranslate,
+                'right'
+              );
+            } else {
+              this.view.createWords(
+                wordsForRound.word,
+                wordsForRound.wrongTranslate,
+                'wrong'
+              );
+            }
+            this.game();
+          });
+      });
   }
 
   getWords() {
-    const difficult = 0;
-    const page = getRandomInt(30);
     this.model
-      .getWords(difficult, page)
+      .getWords(this.diff, this.page)
       .then((data) => {
         const wordsForRound = {};
         const indexForRightTranslate = getRandomInt(20);
@@ -136,10 +162,8 @@ class SprintControllerApp {
 
     if (wordTranslate.classList.contains('rightAnswer')) {
       rightBtn.onclick = () => {
-        console.log('rigth');
         this.combo += 1;
 
-        console.log(this.combo);
         if (this.combo >= 4 && this.combo < 7) {
           this.points += 20;
         } else if (this.combo >= 7) {
@@ -152,10 +176,10 @@ class SprintControllerApp {
         this.nextRound();
       };
       wrongBtn.onclick = () => {
-        console.log('error');
-
+        const newWord = new UserWord(this.word, false);
+        newWord.setImportant();
+        this.model.upsertUserWord(newWord.id, newWord.getUserWord());
         this.combo = 0;
-
         this.viewMethods.getElement('.sprint-container').remove();
         this.wrongAnswers.push(enWord);
         this.nextRound();
@@ -163,7 +187,9 @@ class SprintControllerApp {
     }
     if (!wordTranslate.classList.contains('rightAnswer')) {
       rightBtn.onclick = () => {
-        console.log('error');
+        const newWord = new UserWord(this.word, false);
+        newWord.setImportant();
+        this.model.upsertUserWord(newWord.id, newWord.getUserWord());
 
         this.combo = 0;
         this.viewMethods.getElement('.sprint-container').remove();
@@ -171,10 +197,8 @@ class SprintControllerApp {
         this.nextRound();
       };
       wrongBtn.onclick = () => {
-        console.log('rigth');
         this.combo += 1;
 
-        console.log(this.combo);
         if (this.combo >= 4 && this.combo < 7) {
           this.points += 20;
         } else if (this.combo >= 7) {
