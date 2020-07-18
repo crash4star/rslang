@@ -20,8 +20,9 @@ class HintsPanel extends Container {
   }
 
   updateHintsPanel(text, audio) {
+    const link = 'https://raw.githubusercontent.com/ptatarsk/rslang-data/master/';
     this.getChild('translation').setText(text);
-    this.getChild('audio').setSrc(audio);
+    this.getChild('audio').setSrc(link + audio);
   }
 
   deactivateHint(id) {
