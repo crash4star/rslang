@@ -1,12 +1,5 @@
-// import UIComposite from './components/UIComposite';
-// import Link from './components/Link';
 import Container from './components/Container';
 import Button from './components/Button';
-// import Image from './components/Image';
-// import Svg from './components/Svg';
-// import InputField from './components/InputField';
-// import Paragraph from './components/Paragraph';
-// import Select from './components/Select';
 import LabeledRange from './components/LabeledRange';
 
 class ControlPanel extends Container {
@@ -45,7 +38,6 @@ class ControlPanel extends Container {
 
   activateButton(...id) {
     id.forEach((element) => {
-      console.log('element: ', element);
       const button = this.getChild('game-options').getChild(element).getHtml();
       if (!button.className.includes('puzzle__hint-active')) {
         button.classList.add('puzzle__hint-active');
@@ -55,7 +47,6 @@ class ControlPanel extends Container {
 
   deactivateButton(...id) {
     id.forEach((element) => {
-      console.log('element: ', element);
       const button = this.getChild('game-options').getChild(element).getHtml();
       if (button.className.includes('puzzle__hint-active')) {
         button.classList.remove('puzzle__hint-active');
@@ -64,7 +55,6 @@ class ControlPanel extends Container {
   }
 
   updateControlPanel(currentSettings) {
-    console.log('levelDataAAAAAAAAAAAAA: ', currentSettings);
     const toStartFromOne = 1;
     const levelSettings = currentSettings.levelSettings;
     const level = this.getChild('game-controls').getChild('range-wrapper').getChild('level');
@@ -74,7 +64,6 @@ class ControlPanel extends Container {
     round.setRangeValue(`${levelSettings.page + toStartFromOne}`);
     round.setLabelValue(`Round: ${levelSettings.page + toStartFromOne}`);
     const buttonsID = ['auto-wrapper', 'translation-wrapper', 'sound-wrapper', 'picture-wrapper'];
-    console.log('currentSettings: ', currentSettings);
     const optionsArray = Object.keys(currentSettings.gameSettings);
     optionsArray.forEach((element, index) => {
       if (currentSettings.gameSettings[element] === true) {

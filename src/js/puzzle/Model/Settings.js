@@ -29,7 +29,6 @@ class Settings {
       await this.serverSettings.updateSettings(updatedSettings);
     }
     this.backendSettings = await this.serverSettings.getUserSettings();
-    console.log('this.backendSettings: ', this.backendSettings);
     return this.backendSettings.optional.puzzle;
   }
 
@@ -40,7 +39,6 @@ class Settings {
     }
     await this.serverSettings.updateSettings(updatedSettings);
     this.backendSettings = await this.serverSettings.getUserSettings();
-    console.log('this.backendSettings: ', this.backendSettings);
     return this.backendSettings.optional.puzzle;
   }
 

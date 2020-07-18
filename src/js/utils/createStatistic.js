@@ -86,29 +86,29 @@ class Statistic {
     statContainer.append(statBtnsContainer);
     rightAnswersContainer.append(rightAnswersContainerHeading);
     wrongAnswersContainer.append(wrongAnswersContainerHeading);
-    
+
     rightAnswers.forEach((item) => {
       let rightAnswer = item;
       rightAnswer = this.view.createElement({
         node: 'div',
         styleName: 'right-answer',
       });
-      if (Array.isArray(rightAnswer)) {
+      if (Array.isArray(rightAnswers)) {
         rightAnswer.textContent = item;
       } else {
           this.addStatisticElement(item, rightAnswer);
       }
       rightAnswersContainer.append(rightAnswer);
     });
-    
+
     wrongAnswers.forEach((item) => {
       let wrongAnswer = item;
       wrongAnswer = this.view.createElement({
         node: 'div',
         styleName: 'wrong-answer',
       });
-      
-      if (Array.isArray(wrongAnswer)) {
+
+      if (Array.isArray(wrongAnswers)) {
         wrongAnswer.textContent = item;
       } else {
         this.addStatisticElement(item, wrongAnswer);

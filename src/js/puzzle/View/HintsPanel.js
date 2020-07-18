@@ -1,13 +1,6 @@
-// import UIComposite from './components/UIComposite';
-// import Link from './components/Link';
 import Container from './components/Container';
-// import Button from './components/Button';
-// import Image from './components/Image';
-// import Svg from './components/Svg';
-// import InputField from './components/InputField';
 import Paragraph from './components/Paragraph';
 import Audio from './components/Audio';
-// import Select from './components/Select';
 
 class HintsPanel extends Container {
   constructor(id = 'hints-panel', styles = 'puzzle__hints-panel') {

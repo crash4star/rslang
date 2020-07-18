@@ -20,10 +20,8 @@ class PuzzlePanel extends Container {
   }
 
   addLine(index) {
-    console.log('ssss');
     this.getChild('puzzle-box').add(new Container(`line-${index}`, 'puzzle__line'));
     this.getChild('puzzle-box').getHtml();
-    console.log(this);
   }
 
   addItem(line, item) {
@@ -89,9 +87,6 @@ class PuzzlePanel extends Container {
 
   removeAllItems(line) {
     this.getChild('puzzle-box').getChild(`line-${line}`).removeChildren();
-    // this.getHtml();
-    // console.log('element: ', this.getChild('phrase-wrapper').children);
-    // this.getChild('phrase-wrapper').getHtml();
   }
 
   removeAllLines() {
@@ -99,20 +94,15 @@ class PuzzlePanel extends Container {
       element.removeChildren();
       this.getChild('puzzle-box').removeChild(element.getHtml().id);
     });
-    // this.getHtml();
-    // console.log('element: ', this.getChild('phrase-wrapper').children);
-    // this.getChild('phrase-wrapper').getHtml();
   }
 
   setElements(line, data) {
     data.forEach((element) => {
       this.getChild('puzzle-box').getChild(`line-${line}`).add(element);
-      // this.getChild('puzzle-box').getChild(`line-${line}`).getHtml();
     });
   }
 
   getBackgroundSize(imageData) {
-    console.log('imageData: ', imageData);
     if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
       return `${imageData.fieldWidth}px auto`;
     }

@@ -14,7 +14,6 @@ class View {
     this.hintsPanel = hintsPanel;
     this.puzzlePanel = puzzlePanel;
     this.phrasePanel = phrasePanel;
-    console.log('controlPanel: ', controlPanel);
     this.appHead = document.head;
     this.app = document.querySelector('.root');
     this.app.classList.add('root-active');
@@ -22,17 +21,15 @@ class View {
     this.page = new Container('game-wrapper', 'puzzle__game-wrapper');
     this.page.add(this.mainPage);
     this.app.append(this.page.getHtml());
-    // this.currentLevelData = {};
-    // console.log(this);
   }
 
-  showStatisticEvent(getStatistic) {
+  showStatisticEvent(getStatistic, continueGameEvent, updateDB) {
+    updateDB();
     window.removeEventListener('resize', this.resize);
-    this.statistic = new Statistic( new ViewMethods());
+    this.statistic = new Statistic(new ViewMethods(), () => { this.continueEvent(continueGameEvent) });
     const statistic = getStatistic();
     this.page.removeElement();
     this.statistic.renderStat(statistic.correct, statistic.incorrect);
-    console.log('statistic: ', statistic);
   }
 
   renderGamePage() {
@@ -48,16 +45,18 @@ class View {
         this.isResultPage = false;
         this.page.removeElement();
         this.renderGamePage();
-        // this.controlPanelEvents();
         this.hintsEvents();
-        // puzzlePanelEvents
-        //this.resizeEvent();
         startGame();
       }
     });
   }
 
-  newGameEvent(startGame) {
+  continueEvent(continueGameEvent) {
+    continueGameEvent();
+    this.newGameEvent();
+  }
+
+  newGameEvent() {
     window.removeEventListener('resize', this.resize);
     this.page.removeElement();
     this.app = document.querySelector('.root');
@@ -73,19 +72,12 @@ class View {
         this.items = this.phrasePanel.getChildren();
         this.lineItems = this.puzzlePanel.getAllItems();
         const allItems = this.items.concat(this.lineItems);
-        console.log('lineItems!!!!!!!!!!!!!!!!!!!: ', this.lineItems);
-        console.log('this.items', this.items);
-        console.log('imageData: ', imageData);
         if (allItems.length) {
           allItems.forEach((element) => {
             this.phrasePanel.setItemWidth(element, imageData);
           });
         }
         this.phrasePanel.addPuzzleBackGround(allItems, getImageUrl(), imageData, isBgImage());
-        // setItemWidth(item, this.puzzlePanelWidth);
-        // this.addPuzzleBackGround(image, sentence, line);
-        // this.isResultPage
-        console.log('this.isResultPage:resizzzzzzeee ', this.isResultPage);
       } else {
         this.puzzlePanel.setBackground(getImageUrl(), imageData);
       }
@@ -95,7 +87,6 @@ class View {
 
   hintsEvents() {
     this.hintsPanel.getHtml().addEventListener('click', (event) => {
-      console.log(event.target);
       if (event.target.className.includes('puzzle__play-wrapper')) {
         this.hintsPanel.playSound();
       }
@@ -105,7 +96,6 @@ class View {
   correctAnswerEvent(line) {
     this.correctAnswer = (event) => {
       if (event.target.className.includes('puzzle__phrase-block')) {
-        console.log(event.target.className);
         if (event.target.className.includes('puzzle__incorrect-mark')) {
           event.target.classList.remove('puzzle__incorrect-mark');
         } else if (event.target.className.includes('puzzle__correct-mark')) {
@@ -123,20 +113,17 @@ class View {
       }
     }
     this.currentLine = this.puzzlePanel.getLine(line()).getHtml();
-    console.log('currentLine: ', this.currentLine);
     this.currentLine.addEventListener('click', this.correctAnswer);
   }
 
   gameEvents(check, continueGame, line, dontKnowEvent, showResult) {
     this.phrasePanel.getHtml().addEventListener('click', (event) => {
-      console.log(event.target);
       if (event.target.className.includes('puzzle__phrase-block')) {
         const phraseWrapper = this.phrasePanel.getChild('phrase-wrapper');
         const item = phraseWrapper.getChild(event.target.id);
         phraseWrapper.removeChild(event.target.id);
         phraseWrapper.getHtml();
         this.puzzlePanel.addItem(line(), item);
-        console.log('phraseWrapper.children.length: ', phraseWrapper);
         if (!phraseWrapper.children.length) {
           this.phrasePanel.activateButton('check');
         }
@@ -149,13 +136,12 @@ class View {
           this.phrasePanel.deactivateButton('continue');
           this.phrasePanel.activateButton('check', 'dont-know');
         }
-      } else if (event.target.className.includes('puzzle__continue')) { // ????
+      } else if (event.target.className.includes('puzzle__continue')) {
         if (continueGame()) {
           this.phrasePanel.deactivateButton('continue');
           this.phrasePanel.activateButton('dont-know');
         } else {
           this.isResultPage = showResult();
-          console.log('this.isResultPage: ', this.isResultPage);
         }
       } else if (event.target.className.includes('puzzle__dont-know')) {
         dontKnowEvent();
@@ -170,7 +156,6 @@ class View {
 
   controlPanelEvents(changeSettings, isBgImage, bgUrl, changeServerSettings, startGame) {
     this.controlPanel.getHtml().addEventListener('input', (event) => {
-      console.log('event.target.className: ', event.target.className);
       const toCountFromZerro = 1;
       if (event.target.className.includes('puzzle__level')) {
         const level = this.controlPanel.getChild('game-controls').getChild('range-wrapper').getChild('level');
@@ -183,7 +168,6 @@ class View {
       }
     });
     this.controlPanel.getHtml().addEventListener('click', (event) => {
-      console.log(event.target.id);
       if (event.target.className.includes('puzzle__close-button')) {
         this.closeGameEvent();
       } else if (event.target.className.includes('puzzle__change-button')) {
@@ -198,10 +182,8 @@ class View {
             this.hintsPanel.deactivateHint('play-wrapper');
             changeSettings('sound-wrapper', false);
           } else if (event.target.className.includes('puzzle__auto-wrapper')) {
-            // this.hintsPanel.activateHint('play-wrapper');
             changeSettings('auto-wrapper', false);
           } else if (event.target.className.includes('puzzle__picture-wrapper')) {
-            // this.hintsPanel.activateHint('play-wrapper');
             changeSettings('picture-wrapper', false);
             this.setPuzzleImageState(isBgImage(), bgUrl());
           }
@@ -214,10 +196,8 @@ class View {
             this.hintsPanel.activateHint('play-wrapper');
             changeSettings('sound-wrapper', true);
           } else if (event.target.className.includes('puzzle__auto-wrapper')) {
-            // this.hintsPanel.activateHint('play-wrapper');
             changeSettings('auto-wrapper', true);
           } else if (event.target.className.includes('puzzle__picture-wrapper')) {
-            // this.hintsPanel.activateHint('play-wrapper');
             changeSettings('picture-wrapper', true);
             this.setPuzzleImageState(isBgImage(), bgUrl());
           }
@@ -280,7 +260,6 @@ class View {
   getWidth() {
     const size = window.getComputedStyle(document.querySelector('.puzzle__puzzle-box'))
       .width.split('px');
-    console.log('getComputedStyle: ', window.getComputedStyle(document.querySelector('.puzzle__puzzle-box')).width.split('px')[0]);
     this.size = size;
     return size[0];
   }

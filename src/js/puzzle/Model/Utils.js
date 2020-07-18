@@ -10,6 +10,17 @@ class Utils {
     }
     return 'error';
   }
+
+  static sortArrayOfObjects(array) {
+    array.sort((first, second) => {
+      const firstRating = first.optional.interval;
+      const secondRating = second.optional.interval;
+      if (firstRating < secondRating) return -1;
+      if (firstRating === secondRating) return 0;
+      if (firstRating > secondRating) return 1;
+    });
+    return array;
+  }
 }
 
 export default Utils;

@@ -1,12 +1,6 @@
-// import UIComposite from './components/UIComposite';
-// import Link from './components/Link';
 import Container from './components/Container';
 import Button from './components/Button';
-import Image from './components/Image';
-// import Svg from './components/Svg';
-// import InputField from './components/InputField';
 import Paragraph from './components/Paragraph';
-// import Select from './components/Select';
 import shuffle from '../../utils/shuffleArr';
 
 class PhrasePanel extends Container {
@@ -25,10 +19,6 @@ class PhrasePanel extends Container {
     this.add(phrase, buttonContainer);
   }
 
-  // computeItemsSize() {
-  //   const widthToOneChar = this.state.width / this.state.numOfChars
-  //   const curWidth = item.content.length * widthToOneChar
-  // }
   sortItems() {
     const items = [];
     this.getChild('phrase-wrapper').children.forEach((el, index) => {
@@ -44,18 +34,14 @@ class PhrasePanel extends Container {
     const items = shuffle(this.generateItems(data, currentIndex, imageData));
     items.forEach((element) => {
       this.getChild('phrase-wrapper').add(element);
-      console.log('item: ', items);
     });
     this.addPuzzleBackGround(items, image, imageData, isBgImage);
   }
 
   generateItems(data, currentIndex, imageData) {
     const items = [];
-    console.log('imageData: ', imageData);
-    console.log('data: ', data);
     data[currentIndex].answerPhrase.forEach((el, index) => {
       const item = new Paragraph(`block-${index}`, el, 'puzzle__phrase-block', {});
-      // item.getHtml().style.width = '400px';
       const withoutLastWord = 1;
       item.numOfSpaces = data[currentIndex].answerPhrase.length - withoutLastWord;
       item.sentence = data[currentIndex].textExample;
@@ -67,7 +53,6 @@ class PhrasePanel extends Container {
       item.answerPhrase = data[currentIndex].answerPhrase;
       this.setItemWidth(item, imageData);
       items.push(item);
-      console.log('item: ', item);
     });
     return items;
   }
@@ -76,20 +61,17 @@ class PhrasePanel extends Container {
     const itemHtml = item.getHtml();
     const widthToOneChar = imageData.fieldWidth / (item.sentenceLength - item.numOfSpaces);
     const currentWidth = item.wordLength * widthToOneChar;
-    console.log('item.wordLength: ', item.wordLength);
     itemHtml.style.width = `${currentWidth}px`;
   }
 
   showPaintingInfo(data) {
     const item = new Paragraph('decription', `${data}`, 'puzzle__description-block', {});
-    // item.getHtml().style.width = '400px';
     this.getChild('phrase-wrapper').add(item);
     this.getChild('phrase-wrapper').getHtml();
   }
 
   activateButton(...id) {
     id.forEach((element) => {
-      console.log('this: ', this);
       const button = this.getChild('button-container').getChild(element).getHtml();
       if (!button.className.includes('puzzle__active')) {
         button.classList.add('puzzle__active');
@@ -107,14 +89,13 @@ class PhrasePanel extends Container {
   }
 
   getBackgroundSize(imageData) {
-    console.log('imageData: ', imageData);
     if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
       return `${imageData.fieldWidth}px auto`;
     }
     return 'auto 400px';
   }
 
-  getBackgroundPosition(item, imageData) { // element.textContent, element.sentence, index, element.lineIndex
+  getBackgroundPosition(item, imageData) {
     let x;
     let y;
     if (imageData.imgCoefficient <= imageData.fieldCoefficient) {
@@ -142,7 +123,6 @@ class PhrasePanel extends Container {
   }
 
   addPuzzleBackGround(items, image, imageData, isBgImage) {
-    console.log('this.getBackgroundSize(): ', this.getBackgroundSize(imageData));
     items.forEach((element, index) => {
       const position = this.getBackgroundPosition(element, imageData);
       const elementHtml = element.getHtml();

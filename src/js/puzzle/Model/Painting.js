@@ -6,7 +6,7 @@ class Painting {
   }
 
   getPainting(group, page) {
-    return this.paintings[group][page].imageSrc; // cut
+    return this.paintings[group][page].imageSrc;
   }
 
   getPaintingDescription(group, page) {

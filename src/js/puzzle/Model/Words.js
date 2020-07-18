@@ -1,4 +1,3 @@
-import Api from './Api';
 import Utils from './Utils';
 
 class Words {
@@ -27,10 +26,24 @@ class Words {
         break;
       }
     }
-    console.log('GAMEWORDS', gameWords);
     const preparedGameWords = Utils.prepareDataForGame(gameWords);
-    console.log('modifiedData: ', preparedGameWords);
     return preparedGameWords;
+  }
+
+  async getUserWordSet() {
+    const maxNumOfWords = 10;
+    const userWords = await this.words.getUserWords();
+    const sortedWords = Utils.sortArrayOfObjects(userWords);
+    const setOfWords = [];
+    sortedWords.forEach((element, index) => {
+      if (setOfWords.length < maxNumOfWords || index < sortedWords.length) {
+        if (element.optional.interval > 0) {
+          setOfWords.push(element);
+        }
+      }
+    });
+    console.log(setOfWords);
+    return setOfWords;
   }
 }
 
