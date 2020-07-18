@@ -1,6 +1,6 @@
 import ProgressBar from '../../../node_modules/progressbar.js/dist/progressbar';
 
-function createProgressBar(container, rightAnswers, count) {
+function createProgressBar(container, rightAnswers, allRounds) {
 
 
   const circleBar = new ProgressBar.Circle(container, {
@@ -27,11 +27,11 @@ function createProgressBar(container, rightAnswers, count) {
     step: (state, shape) => {
       shape.path.setAttribute('stroke', state.color);
       shape.path.setAttribute('stroke-width', state.width);
-      shape.setText(Math.round(shape.value() * 100) + ' %');
+      shape.setText(`${Math.round(shape.value() * 100)  } %`);
     },
   });
-
-  circleBar.animate(rightAnswers * count, {
+  const percent = Math.trunc(rightAnswers * 100 / allRounds) / 100
+  circleBar.animate(percent, {
     duration: 1500,
   });
   return circleBar;

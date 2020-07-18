@@ -62,6 +62,7 @@ class Words {
   
         } catch (e) {
             showErrorMessage(e);
+
         }
   
         return [];

@@ -1,0 +1,126 @@
+.swiper-container {
+    width: 800px;
+    height: 100%;
+    background-color: transparent;  
+}
+
+.swiper-wrapper {
+    height: 100%; 
+}
+
+.faceSide {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 40px;
+}
+
+.transcription {
+    margin: 15px 0;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px $base-black;
+    height: 650px!important;
+    background-color: $base-white;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 35px 35px;
+}
+
+.image-container {
+   width: 40%;
+}
+
+.image-container img {
+    object-fit: cover;
+    width: 100%;
+    object-position: center;
+}
+
+.word-input-container {
+    width: 30%;  
+}
+
+.check-container {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 20px;
+    align-items: flex-end;
+}
+
+.swiper-slide > div {
+    width: 100%;
+}
+ 
+#knowBtn, #noKnowBtn {
+    margin: 10px;
+}
+
+#wrapperIntervalBtns > button {
+    margin: 10px;
+}
+
+#specialBtn {
+    margin-left: 15px;
+}
+
+#repeatAudio {
+    margin: 10px;
+}
+
+@media screen and (max-width: 992px) {
+    .swiper-container {
+        width: 100%;   
+    }
+    .swiper-slide {
+        height: 750px!important;
+    }
+    .faceSide {
+        flex-wrap: wrap;
+    }
+    .image-container {
+        width: 50%;
+    }
+    .word-input-container {
+        width: 50%;
+    }
+    .check-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .swiper-slide {
+        height: 900px!important;
+    }
+    .faceSide {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .swiper-slide {
+        height: 1000px!important;
+    }
+
+}

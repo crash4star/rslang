@@ -1,5 +1,5 @@
 import '../../css/mini_games.scss';
-import miniGames from '../data/minigames';
+import miniGames from '../data/miniGames';
 import addElement from '../utils/utils';
 
 export default function renderMiniGames() {

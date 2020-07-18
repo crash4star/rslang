@@ -82,7 +82,6 @@ function renderAbout() {
     addElement('h3', container, null, null, 'About us');
     addElement('p', container, null, null, aboutUs);
     const row = addElement('div', container, 'row');
-    
     const shuffledTeam = (function shuffle(array) {
         const shuffledArray = [];
         while (array.length > 0) {
@@ -90,7 +89,6 @@ function renderAbout() {
         }
         return shuffledArray;
     })(command);
-
     shuffledTeam.forEach(element => {
         const col = addElement('div', row, 'col-xl-4 col-md-6 col-12 progressive-item');
         const user = addElement('div', col, 'user card');

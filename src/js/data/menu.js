@@ -5,11 +5,13 @@ import DictionaryController from '../main page/Dictionary/dictionaryController';
 import Words from '../models/Words';
 import AuthRequest from '../models/AuthRequest';
 import Api from '../models/Api';
+import mainGame from '../main-game/startLinguist';
+import GlobalStatistic from '../main page/GlobalStatistic';
 
 const getMenuTemplate = (name, callback) => {
     return {
         name: `${name}`,
-        callback: callback,
+        callback
     }
 }
 
@@ -17,18 +19,17 @@ const getErrorMessageTemplate = (section) => {
     showErrorMessage(`To show ${section} add callback in '/data/menu.js'`);
 }
 
-const getSuccessMessageTemplate = (section) => {
-    showSuccessMessage(`Section ${section} is loaded`);
-}
-
 const menu = [
-    getMenuTemplate ('Main game', () => getErrorMessageTemplate('Main game')),
+    getMenuTemplate('Main game', () => mainGame()),
     getMenuTemplate('Mini games', () => {
         renderMiniGames();
-        getSuccessMessageTemplate('Mini games');
     }),
-    getMenuTemplate ('Statistic', () => getErrorMessageTemplate('Statistic')),
-    getMenuTemplate ('Dictionary', () => {
+
+    getMenuTemplate('Statistic', () => {
+        const statistic = new GlobalStatistic();
+        statistic.init();
+    }),
+    getMenuTemplate('Dictionary', () => {
         const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
         const dictionary = new DictionaryController(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new DictionaryView());
     }),
