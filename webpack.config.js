@@ -39,7 +39,8 @@ const config = {
         use: [{
           loader: 'html-loader',
           options: {
-            minimize: false
+            minimize: false,
+            blacklist: ["useStrict"]
           }
         }]
       },
@@ -48,7 +49,7 @@ const config = {
         use: ['babel-loader'/* , 'eslint-loader' */],
         exclude: [
           /node_modules/
-        ]
+        ],
       },
       {
         test: /\.css$/,
@@ -154,7 +155,7 @@ const config = {
       filename: './index.html'
     }),
     new CopyWebpackPlugin([
-      // {from: './src/static', to: './'},
+      {from: './src/static', to: './'},
       {from: './src/img', to: './img/'},
       {from: './src/files', to: './files/'},
     ]),

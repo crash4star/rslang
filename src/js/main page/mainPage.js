@@ -1,8 +1,13 @@
 import renderHeader from '../components/header';
 import renderFooter from '../components/footer';
 import renderMenu from './menu';
+
+import switchThemeMode from './switchTheme';
+import setDifficult from './setDiffcult';
+import addElement from '../utils/utils';
+import { clearMarkup } from '../utils/utils';
+
 import GlobalSettings from './GlobalSettings';
-import addElement, { clearMarkup } from '../utils/utils';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
 import Settings from '../models/Settings';
@@ -53,7 +58,9 @@ export default function renderMainPage() {
     renderMainPart();
     renderFooter();
     renderSettings();
+    switchThemeMode();
+    setDifficult();
     renderMainGame();
 }
 
-export { removeContent }
+export { removeContent };

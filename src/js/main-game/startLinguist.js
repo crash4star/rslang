@@ -26,7 +26,7 @@ const words = new Words(api, request);
 const settings = new Settings(api, request);
 
 function mainGame(wordForTrain) {
-    alert("Просим вас проверить нашу работу как можно позже. У нас выбыл один участник и нам нужно немного времени, чтобы запустить наше приложение в работу. Спасибо за понимание. Желаем вам удачи!");
+     alert("Просим вас проверить нашу работу как можно позже. У нас выбыл один участник и нам нужно немного времени, чтобы запустить наше приложение в работу. Спасибо за понимание. Желаем вам удачи!");
     return new ControllerLinguist(new ViewLinguist(mainSettingsForm, mainSettingsBtn, cardSettingsForm, cardSettingsBtn, endModal, endBtn), new ModelLinguist(learning, words, settings), wordForTrain, shuffleArr);
 }
 

@@ -1,13 +1,16 @@
 import { showErrorMessage } from '../utils/message';
 import Api from '../models/Api';
 import Words from '../models/Words';
+import AuthRequest from '../models/AuthRequest'
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
 import PuzzleGame from '../puzzle/initApp';
+import AudioCallControllerApp from '../audio-call/audio-call.ControllerApp'
+import AudioCallView from '../audio-call/audio-call.View'
+import ViewMethods from '../utils/view-methods'
 import SpeakitController from '../speakit/SpeakitController';
 
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
-
 
 const getMiniGamesTemplate = (title, description, img, callback) => { // callback must run game
     return {
@@ -31,11 +34,33 @@ const miniGames = [
         const app = new ControllerApp(new Words(new Api(BASE_HEROKU)), new ViewSavannah());
         app.start();
     }),
-    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => getErrorMessageTemplate('Audio Call')),
+    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => {
+        const rootBlock = document.querySelector('.root');
+        rootBlock.classList.add('root-active');
+        const app = new AudioCallControllerApp(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new AudioCallView(new ViewMethods()), new ViewMethods())
+        new AudioCallView(new ViewMethods()).createStartPage()
+        const startBtn = document.querySelector('.startBtn')
+        const startBtnLearnedWordsMode = document.querySelector('.startBtnlearnedWords')
+
+        startBtn.onclick = () => {
+            document.querySelector('.wrapperForStartPage').remove()
+            app.start();
+        }
+        startBtnLearnedWordsMode.onclick = () => {
+            document.querySelector('.wrapperForStartPage').remove()
+            app.startLearnedWordsMode();
+        }
+    }),
 
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
 ];
+<<<<<<< HEAD
 //
 export default miniGames;
 export { getErrorMessageTemplate, BASE_HEROKU };
+=======
+
+export default miniGames;
+export { getErrorMessageTemplate,  BASE_HEROKU  };
+>>>>>>> cd4d1ebc224e34b7b8db348a4beffbee0a1b798d

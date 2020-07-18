@@ -2,6 +2,7 @@ import createProgressBar from './progressBar'
 import StatisticElement from '../speakit/elements/StatisticElement';
 import '../../css/miniGameStatistic.scss';
 
+
 class Statistic {
   constructor(view, callback) {
     this.view = view;
@@ -108,6 +109,7 @@ class Statistic {
         styleName: 'wrong-answer',
       });
 
+
       if (Array.isArray(wrongAnswers)) {
         wrongAnswer.textContent = item;
       } else {
@@ -123,7 +125,8 @@ class Statistic {
     statisticWrapper.append(statContainer);
     this.view.getElement('.root').append(statisticWrapper)
     const right = rightAnswers.length;
-    createProgressBar(containerForProgressBar, right, 0.1);
+    const round = rightAnswers.length + wrongAnswers.length
+    createProgressBar(containerForProgressBar, right, round);
 
     this.addButtonListeners();
   }
