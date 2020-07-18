@@ -218,8 +218,10 @@ class UserWord {
         if (this.isStudy) {
             return 'none';
         }
+        if (UserWord.isNew(obj)) {
+            return 'none';
+        }
         return obj.difficulty;
-  
     }
 
     increaseTries() {
