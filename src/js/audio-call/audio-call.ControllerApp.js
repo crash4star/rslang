@@ -15,6 +15,9 @@ class AudioCallControllerApp {
     this.difficult = 0;
     this.page = getRandomInt(30)
     this.gameMode = true;
+    this.wordsForRound = {};
+    this.wrongAnswersObj = {}
+    this.previousIndex = [];
   }
 
   start() {
@@ -29,33 +32,40 @@ class AudioCallControllerApp {
 
   getWordsForLearnedWords() {
     this.gameMode = false;
-    const wordsForRound = {};
     const ruRandomWords = []
     this.model.getUserWords()
     .then((data) => {
-     const indexForRightAns = getRandomInt(data.length)
-      wordsForRound.word = data[indexForRightAns].optional.word
-      wordsForRound.translate = data[indexForRightAns].optional.wordTranslate
-      wordsForRound.id = data[indexForRightAns].id
+      
+     let indexForRightAns = getRandomInt(data.length)
+     if(this.previousIndex.includes(indexForRightAns)) {
+      indexForRightAns = getRandomInt(data.length)
+     }
+     this.previousIndex.push(indexForRightAns)
+     this.wordsForRound.id = data[indexForRightAns].wordId
+     this.wordsForRound.word = data[indexForRightAns].optional.word
+     this.wordsForRound.translate = data[indexForRightAns].optional.wordTranslate
+     this.wrongAnswersObj.difficulty = data[indexForRightAns].difficulty
+     this.wrongAnswersObj.optional = data[indexForRightAns].optional
       ruRandomWords.push(data[indexForRightAns].optional.wordTranslate)
     })
     .then(() => {
       this.model
       .getWords(this.difficult, this.page)
       .then((data) => {
+        
         data.forEach(item => {
          ruRandomWords.push(item.wordTranslate)
         })
-        wordsForRound.randomWords = shuffleArr(ruRandomWords.splice(0, 5))
+        this.wordsForRound.randomWords = shuffleArr(ruRandomWords.splice(0, 5))
       })
       .then(() => {
         const sonar = this.viewMethods.getElement('.wave');
         if (!sonar.classList.contains('sonar-wave')) {
           sonar.classList.add('sonar-wave');
         }
-        this.view.createRuWords(wordsForRound.randomWords, wordsForRound.translate)
-        this.game(wordsForRound.word);
-        notificationStart(wordsForRound.word);
+        this.view.createRuWords(this.wordsForRound.randomWords, this.wordsForRound.translate)
+        this.game(this.wordsForRound.word);
+        notificationStart(this.wordsForRound.word);
       })
     })
   }
@@ -143,6 +153,8 @@ class AudioCallControllerApp {
       item.style.pointerEvents = 'none';
       if (!item.classList.contains('answer')) {
         item.style.opacity = '0.5';
+        this.wrongAnswersObj.optional.important = true;
+        this.model.upsertUserWord(this.wordsForRound.id, this.wrongAnswersObj);
       }
     });
 
