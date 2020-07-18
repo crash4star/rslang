@@ -33,6 +33,9 @@ class AudioCallControllerApp {
   start() {
     this.view.render();
     this.getWords();
+    this.difficult.getUserSettings().then((data) => {
+      this.diff = data.optional.settingsProfile.difficult - 1;
+    });
   }
 
   startLearnedWordsMode() {
@@ -53,15 +56,13 @@ class AudioCallControllerApp {
   }
 
   getWordsForLearnedWords() {
-    this.difficult.getUserSettings().then((data) => {
-      this.diff = data.optional.settingsProfile.difficult - 1;
-    });
+    
     this.gameMode = false;
     const ruRandomWords = [];
     this.model
       .getUserWords()
       .then((data) => {
-        // console.log(data)
+
         let indexForRightAns = getRandomInt(data.length);
         if (this.previousIndex.includes(indexForRightAns)) {
           indexForRightAns = getRandomInt(data.length);
