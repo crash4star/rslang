@@ -82,7 +82,6 @@ function renderAbout() {
     addElement('h3', container, null, null, 'About us');
     addElement('p', container, null, null, aboutUs);
     const row = addElement('div', container, 'row');
-    debugger;
     const shuffledTeam = (function shuffle(array) {
         const shuffledArray = [];
         while (array.length > 0) {

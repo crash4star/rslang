@@ -1,8 +1,12 @@
 import CreateWords from './components/createWords';
 import notificationStart from './components/audio';
 import Statistic from '../utils/createStatistic';
-import getRandomInt from '../utils/getRandomInt'
-
+import getRandomInt from '../utils/getRandomInt';
+import shuffleArr from '../utils/shuffleArr';
+import Settings from '../models/Settings';
+import Api from '../models/Api';
+import AuthRequest from '../models/AuthRequest';
+import UserWord from '../utils/UserWord';
 
 class AudioCallControllerApp {
   constructor(model, view, viewMethods) {
@@ -12,7 +16,18 @@ class AudioCallControllerApp {
     this.wrongAnswers = [];
     this.rightAnswers = [];
     this.round = 0;
-    this.page = getRandomInt(30)
+    this.url = 'https://afternoon-falls-25894.herokuapp.com';
+    this.api = new Api(this.url);
+    this.request = new AuthRequest(this.api);
+    this.difficult = new Settings(this.api, this.request);
+    this.page = getRandomInt(30);
+    this.word = {};
+    this.gameMode = true;
+    this.wordsForRound = {};
+    this.wrongAnswersObj = {};
+    this.previousIndex = [];
+    this.diff = 0;
+    this.checkUserWordsCount()
   }
 
   start() {
@@ -20,10 +35,76 @@ class AudioCallControllerApp {
     this.getWords();
   }
 
-  getWords() {
-    const difficult = 0;
+  startLearnedWordsMode() {
+    this.view.render();
+    this.getWordsForLearnedWords();
+  }
+
+  checkUserWordsCount() {
     this.model
-      .getWords(difficult, this.page)
+      .getUserWords()
+      .then((data) => {
+        if(data.length < 10) {
+          this.viewMethods.getElement('.startBtnlearnedWords').onclick = () => {
+            alert('Слишком мало изученных слов для данного режима')
+          }
+        }
+      })
+  }
+
+  getWordsForLearnedWords() {
+    this.difficult.getUserSettings().then((data) => {
+      this.diff = data.optional.settingsProfile.difficult - 1;
+    });
+    this.gameMode = false;
+    const ruRandomWords = [];
+    this.model
+      .getUserWords()
+      .then((data) => {
+        // console.log(data)
+        let indexForRightAns = getRandomInt(data.length);
+        if (this.previousIndex.includes(indexForRightAns)) {
+          indexForRightAns = getRandomInt(data.length);
+        }
+        this.previousIndex.push(indexForRightAns);
+        this.wordsForRound.id = data[indexForRightAns].wordId;
+        this.wordsForRound.word = data[indexForRightAns].optional.word;
+        this.wordsForRound.translate =
+          data[indexForRightAns].optional.wordTranslate;
+        this.wrongAnswersObj.difficulty = data[indexForRightAns].difficulty;
+        this.wrongAnswersObj.optional = data[indexForRightAns].optional;
+        ruRandomWords.push(data[indexForRightAns].optional.wordTranslate);
+        this.word = data[indexForRightAns];
+      })
+      .then(() => {
+        this.model
+          .getWords(this.diff, this.page)
+          .then((data) => {
+            data.forEach((item) => {
+              ruRandomWords.push(item.wordTranslate);
+            });
+            this.wordsForRound.randomWords = shuffleArr(
+              ruRandomWords.splice(0, 5)
+            );
+          })
+          .then(() => {
+            const sonar = this.viewMethods.getElement('.wave');
+            if (!sonar.classList.contains('sonar-wave')) {
+              sonar.classList.add('sonar-wave');
+            }
+            this.view.createRuWords(
+              this.wordsForRound.randomWords,
+              this.wordsForRound.translate
+            );
+            this.game(this.wordsForRound.word);
+            notificationStart(this.wordsForRound.word);
+          });
+      });
+  }
+
+  getWords() {
+    this.model
+      .getWords(this.diff, this.page)
       .then((data) => {
         const words = [];
         data.forEach((item) => {
@@ -55,7 +136,6 @@ class AudioCallControllerApp {
 
     words.forEach((item) => {
       const word = item;
-
       word.onclick = () => {
         document.querySelector('.wave').classList.remove('sonar-wave');
         this.page = getRandomInt(30);
@@ -107,6 +187,9 @@ class AudioCallControllerApp {
       }
     });
 
+    const newWord = new UserWord(this.word, false);
+    newWord.setImportant();
+    this.model.upsertUserWord(newWord.id, newWord.getUserWord());
     this.view.createBtnForNextWords();
     this.nextRound();
   }
@@ -118,14 +201,21 @@ class AudioCallControllerApp {
       if (this.round === 10) {
         this.endGame();
       } else {
-        this.getWords();
+        if (this.gameMode === false) {
+          this.getWordsForLearnedWords();
+        } else {
+          this.getWords();
+        }
       }
     };
   }
 
   endGame() {
     this.viewMethods.getElement('.root').innerHTML = '';
-    new Statistic(this.viewMethods).renderStat(this.rightAnswers, this.wrongAnswers);
+    new Statistic(this.viewMethods).renderStat(
+      this.rightAnswers,
+      this.wrongAnswers
+    );
   }
 }
 

@@ -110,10 +110,17 @@
 
 @media screen and (max-width: 768px) {
     .swiper-slide {
-        height: 850px!important;
+        height: 900px!important;
     }
     .faceSide {
         flex-direction: column;
         align-items: center;
     }
+}
+
+@media screen and (max-width: 576px) {
+    .swiper-slide {
+        height: 1000px!important;
+    }
+
 }

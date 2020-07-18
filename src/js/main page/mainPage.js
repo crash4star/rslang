@@ -18,7 +18,9 @@ function renderNotificationBlock() {
     const alert = addElement('div', body, 'alert hidden');
     addElement('div', alert, 'container', 'message');
 }
-
+function renderSpinner() { 
+    addElement('div', body, 'spinner');
+}
 function renderMainPart () {
     const main = addElement('div', body, 'main'); // Section description block
     addElement('div', main, 'container');
@@ -45,6 +47,7 @@ function renderMainGame() {
 export default function renderMainPage() {
     clearMarkup();
     renderNotificationBlock();
+    renderSpinner();
     renderHeader();
     renderMenu();
     renderMainPart();
