@@ -94,7 +94,7 @@ class Statistic {
         node: 'div',
         styleName: 'right-answer',
       });
-      if (Array.isArray(rightAnswers)) {
+      if (typeof (item) === "string") {
         rightAnswer.textContent = item;
       } else {
           this.addStatisticElement(item, rightAnswer);
@@ -110,7 +110,7 @@ class Statistic {
       });
 
 
-      if (Array.isArray(wrongAnswers)) {
+      if (typeof (item) === "string") {
         wrongAnswer.textContent = item;
       } else {
         this.addStatisticElement(item, wrongAnswer);
