@@ -17,12 +17,13 @@ class OwnGameView {
         node: 'button',
         styleName: 'ownGame-startBtn',
       })
+      startBtn.textContent = 'START'
       const description = this.viewMethods.createElement({
         node: 'div',
         styleName: 'ownGame-gameDescription',
       });
       description.textContent =
-        'Game: the player is given a word in English and a translation of the word, you need to specify whether this translation belongs to this word';
+        'Game: the player is given a sentence with a missing word and 5 answer options. Choose the correct option';
         const nameOfTheGame = this.viewMethods.createElement({
             node: 'h1',
             styleName: 'ownGame-nameOfTheGame',
