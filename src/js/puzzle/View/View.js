@@ -13,7 +13,6 @@ class View {
     this.appHead = document.head;
     this.app = document.querySelector('.root');
     this.app.classList.add('root-active');
-    this.appHead.append(this.favicon.getHtml());
     this.page = new Container('game-wrapper', 'puzzle__game-wrapper');
     this.page.add(this.mainPage);
     this.app.append(this.page.getHtml());
