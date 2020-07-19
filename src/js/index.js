@@ -15,10 +15,18 @@ export default async function renderPage() {
     }
 }
 
+if (JSON.parse(localStorage.getItem('reload')) === null) {
+    window.location.reload();
+    JSON.stringify(localStorage.setItem('reload', false));
+} else {
+    localStorage.removeItem('reload');
+}
+
 setInterval(async () => {
     if (!await refreshToken()) {
         renderStartPage();
     }
 }, updateTokenPeriod);
+
 
 renderPage();

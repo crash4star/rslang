@@ -1,0 +1,62 @@
+.about-us-card {
+    @media (min-width: 0px) {
+        position: relative;
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 1.5rem;
+        padding-top: 5rem;
+        border-radius: 10px;
+        min-height: 4rem;
+        background-color: #ffffff;
+        box-shadow: 0 3px 15px 3px rgba(0,0,0,0.1);
+        z-index: 1000000;
+
+        &:before {
+            content: "";
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+    }
+
+    @media (min-width: 992px) {
+        width: 47%;
+        min-height: 4rem;
+        margin-bottom: 1rem;
+        z-index: 1000000;
+    }
+
+    &:nth-child(1)::before {
+        background-image: url('../img/startPage/elit1.5metra.jpg');
+    }
+
+    &:nth-child(2)::before {
+        background-image: url('../img/startPage/gimzhevsky.jpg');
+    }
+
+    &:nth-child(3)::before {
+        background-image: url('../img/startPage/nikitok36.jpg');
+    }
+
+    &:nth-child(4)::before {
+        background-image: url('../img/startPage/pasha.tatarsky.jpg');
+    }
+
+    &:nth-child(5)::before {
+        background-image: url('../img/startPage/edhar13.jpg');
+    }
+}
+
+.about-root {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    padding: 3rem;
+}

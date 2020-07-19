@@ -30,15 +30,15 @@ const getErrorMessageTemplate = (gameName) => {
 }
 
 const miniGames = [
-    getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => new SpeakitController(BASE_HEROKU, true)),
-    getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => PuzzleGame()),
+    getMiniGamesTemplate('Speak It', 'Train your speach', 'speak.svg', () => new SpeakitController(BASE_HEROKU, true)),
+    getMiniGamesTemplate('English Puzzle', 'Click on words, make phrases, collect the puzzle', 'puzzle-icon.svg', () => PuzzleGame()),
     getMiniGamesTemplate('Savannah', 'Hurry up to guess the word until the crystal disappears', 'crystal.svg', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
         const app = new ControllerApp(new Words(new Api(BASE_HEROKU)), new ViewSavannah());
         app.start();
     }),
-    getMiniGamesTemplate('Audio Call', 'Description', 'minigame.png', () => {
+    getMiniGamesTemplate('Audio Call', 'Train your speech recognition', 'audio.svg', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
         const app = new AudioCallControllerApp(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new AudioCallView(new ViewMethods()), new ViewMethods())
@@ -57,7 +57,7 @@ const miniGames = [
     }),
 
 
-    getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => {
+    getMiniGamesTemplate('Own Game', 'Trains you to choose the right words in a sentence', 'crown.svg', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
         const app = new OwnGameControllerApp(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new OwnGameView(new ViewMethods()), new ViewMethods())
@@ -69,7 +69,7 @@ const miniGames = [
         }
     }),
 
-    getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => {
+    getMiniGamesTemplate('Sprint', 'train your speed of translation of the words', 'sprint.svg', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
         const app = new SprintControllerApp(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new SprintView(new ViewMethods()), new ViewMethods())

@@ -7,6 +7,7 @@ import AuthRequest from '../models/AuthRequest';
 import Api from '../models/Api';
 import mainGame from '../main-game/startLinguist';
 import GlobalStatistic from '../main page/GlobalStatistic';
+import aboutUs from '../main page/About/About';
 
 const getMenuTemplate = (name, callback) => {
     return {
@@ -34,7 +35,7 @@ const menu = [
         const dictionary = new DictionaryController(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new DictionaryView());
     }),
     // getMenuTemplate ('Promo', () => getErrorMessageTemplate('Promo')),
-    // getMenuTemplate ('About us', () => getErrorMessageTemplate('About us')),
+    getMenuTemplate ('About us', () => aboutUs())
 ];
 
 
