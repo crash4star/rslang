@@ -176,9 +176,11 @@ class SprintControllerApp {
         this.nextRound();
       };
       wrongBtn.onclick = () => {
+        if(this.gameMode === false) {
         const newWord = new UserWord(this.word, false);
         newWord.setImportant();
         this.model.upsertUserWord(newWord.id, newWord.getUserWord());
+        }
         this.combo = 0;
         this.viewMethods.getElement('.sprint-container').remove();
         this.wrongAnswers.push(enWord);
@@ -187,10 +189,11 @@ class SprintControllerApp {
     }
     if (!wordTranslate.classList.contains('rightAnswer')) {
       rightBtn.onclick = () => {
+        if(this.gameMode === false) {
         const newWord = new UserWord(this.word, false);
         newWord.setImportant();
         this.model.upsertUserWord(newWord.id, newWord.getUserWord());
-
+        }
         this.combo = 0;
         this.viewMethods.getElement('.sprint-container').remove();
         this.wrongAnswers.push(enWord);
