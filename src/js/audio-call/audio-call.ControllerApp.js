@@ -185,10 +185,11 @@ class AudioCallControllerApp {
         item.style.opacity = '0.5';
       }
     });
-
+    if(this.gameMode === false) {
     const newWord = new UserWord(this.word, false);
     newWord.setImportant();
     this.model.upsertUserWord(newWord.id, newWord.getUserWord());
+    }
     this.view.createBtnForNextWords();
     this.nextRound();
   }
