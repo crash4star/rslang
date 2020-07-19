@@ -11,6 +11,8 @@ import ViewMethods from '../utils/view-methods'
 import SprintControllerApp from '../sprint/sprint.ControllerApp';
 import SprintView from '../sprint/sprint.View'
 import SpeakitController from '../speakit/SpeakitController';
+import OwnGameControllerApp from '../own-game/own-game.ControllerApp'
+import OwnGameView from '../own-game/own-game.View'
 
 const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
 
@@ -54,6 +56,19 @@ const miniGames = [
         }
     }),
 
+
+    getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => {
+        const rootBlock = document.querySelector('.root');
+        rootBlock.classList.add('root-active');
+        const app = new OwnGameControllerApp(new Words(new Api(BASE_HEROKU), new AuthRequest(new Api(BASE_HEROKU))), new OwnGameView(new ViewMethods()), new ViewMethods())
+        app.renderStartPage()
+        const startBtn = document.querySelector('.ownGame-startBtn')
+        startBtn.onclick = () => {
+            document.querySelector('.ownGame-startPage-container').remove()
+            app.start();
+        }
+    }),
+
     getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
@@ -70,7 +85,7 @@ const miniGames = [
             app.playLearnedWords()
         }
     }),
-    getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => getErrorMessageTemplate('Own Game'))
+
 ];
 
 export default miniGames;
