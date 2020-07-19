@@ -57,7 +57,6 @@ const miniGames = [
     }),
 
 
-    getMiniGamesTemplate('Sprint', 'Description', 'minigame.png', () => getErrorMessageTemplate('Sprint')),
     getMiniGamesTemplate('Own Game', 'Description', 'minigame.png', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
