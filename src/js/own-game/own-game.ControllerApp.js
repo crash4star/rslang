@@ -4,7 +4,7 @@ import AuthRequest from '../models/AuthRequest';
 import Settings from '../models/Settings';
 import shuffleArr from '../utils/shuffleArr';
 import Statistic from '../utils/createStatistic'
-
+import createCallbackOwnGame from './components/createCallbackOwnGame'
 
 class OwnGameControllerApp {
   constructor(model, view, viewMethods) {
@@ -121,7 +121,7 @@ class OwnGameControllerApp {
 
   endGame() {
     this.viewMethods.getElement('.root').innerHTML = '';
-    new Statistic(this.viewMethods).renderStat(
+    new Statistic(this.viewMethods, createCallbackOwnGame).renderStat(
         this.rightAnswers,
         this.wrongAnswers
       );
