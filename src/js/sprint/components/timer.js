@@ -1,5 +1,6 @@
 import Statistic from '../../utils/createStatistic'
 import ViewMethods from '../../utils/view-methods'
+import createCallbackSprint from './createCallbackSprint'
 
 let sec;
 function tick() {
@@ -14,7 +15,7 @@ sec = 60
 const root = document.querySelector('#root')
 const sprintWrapper = document.querySelector('.sprint-wrapper')
 const timerId = setInterval(tick, 1000);
-const timeOutId = setTimeout(() => { clearInterval(timerId); document.querySelector('.root').innerHTML = ''; new Statistic(new ViewMethods()).renderStat(rightAnswers, wrongAnswers); }, 60000);
+const timeOutId = setTimeout(() => { clearInterval(timerId); document.querySelector('.root').innerHTML = ''; new Statistic(new ViewMethods(), createCallbackSprint).renderStat(rightAnswers, wrongAnswers); }, 5000);
 document.querySelector('.sprint-closeBtn').onclick = () => {
   clearInterval(timerId)
   clearTimeout(timeOutId)
