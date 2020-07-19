@@ -1,3 +1,4 @@
+
 import '../css/style.scss';
 import renderStartPage from './start page/startPage';
 import renderMainPage from './main page/mainPage';

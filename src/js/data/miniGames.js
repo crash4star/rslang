@@ -4,6 +4,7 @@ import Words from '../models/Words';
 import AuthRequest from '../models/AuthRequest'
 import ControllerApp from '../savannah/ControllerApp';
 import ViewSavannah from '../savannah/ViewSavannah';
+import PuzzleGame from '../puzzle/initApp';
 import AudioCallControllerApp from '../audio-call/audio-call.ControllerApp'
 import AudioCallView from '../audio-call/audio-call.View'
 import ViewMethods from '../utils/view-methods'
@@ -26,7 +27,7 @@ const getErrorMessageTemplate = (gameName) => {
 
 const miniGames = [
     getMiniGamesTemplate('Speak It', 'Train your speach', 'speakit.jpg', () => new SpeakitController(BASE_HEROKU, true)),
-    getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => getErrorMessageTemplate('English Puzzle')),
+    getMiniGamesTemplate('English Puzzle', 'Description', 'minigame.png', () => PuzzleGame()),
     getMiniGamesTemplate('Savannah', 'Hurry up to guess the word until the crystal disappears', 'crystal.svg', () => {
         const rootBlock = document.querySelector('.root');
         rootBlock.classList.add('root-active');
@@ -40,7 +41,7 @@ const miniGames = [
         new AudioCallView(new ViewMethods()).createStartPage()
         const startBtn = document.querySelector('.startBtn')
         const startBtnLearnedWordsMode = document.querySelector('.startBtnlearnedWords')
-        
+
         startBtn.onclick = () => {
             document.querySelector('.wrapperForStartPage').remove()
             app.start();
