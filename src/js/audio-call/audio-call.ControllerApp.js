@@ -7,7 +7,7 @@ import Settings from '../models/Settings';
 import Api from '../models/Api';
 import AuthRequest from '../models/AuthRequest';
 import UserWord from '../utils/UserWord';
-
+import createCallback from './components/createCallbackForStat'
 class AudioCallControllerApp {
   constructor(model, view, viewMethods) {
     this.model = model;
@@ -212,7 +212,7 @@ class AudioCallControllerApp {
 
   endGame() {
     this.viewMethods.getElement('.root').innerHTML = '';
-    new Statistic(this.viewMethods).renderStat(
+    new Statistic(this.viewMethods, createCallback).renderStat(
       this.rightAnswers,
       this.wrongAnswers
     );
