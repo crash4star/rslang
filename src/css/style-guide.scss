@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+// Base colors
+$base-white: #ffffff;
+$base-gray: #ECECEC;
+$base-red: #D82C32;
+$base-black: #2F281E;
+$base-purple: #7752BE;
+$base-yellow: #FAB005;
+$base-blue: #4DADF7;
+$base-pink: #FF5872;
+
+
+// Hover
+$hover-white: #f0f0f0;
+$hover-gray: #e2e2e2;
+$hover-red: #c51b20;
+$hover-black: #544837;
+$hover-purple: #6a44b1;
+$hover-yellow: #fa9805;
+$hover-blue: #4d89f7;
+$hover-pink: #e6465e;
+$hover-green: #00c49d;
+
+//answers
+$answer-right: #00c49d1f;
+$answer-wrong: #c51b201f;
+
+
+// Focus
+$focus-white: #e6e6e6;
+$focus-gray: #d4d4d4;
+$focus-red: #bb181d;
+$focus-black: #4b4032;
+$focus-purple: #603ba5;
+$focus-yellow: #eb8d01;
+$focus-blue: #3d7bec;
+$focus-pink: #d33a51;
+
+//spinner
+$spinner-gray: #d2d2d2;
+
+
+// Fonts
+$font-open-sans: 'Open Sans', sans-serif;
+$font-roboto: 'Roboto', sans-serif;
+
+// Mixins
+@mixin wrapper {
+    padding-left: 120px;
+    padding-right: 120px;
+    
+    @media screen and (max-width: 992px) {
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+  
+    @media screen and (max-width: 768px) {
+      padding-left: 45px;
+      padding-right: 45px;
+    }
+  
+    @media screen and (max-width: 576px) {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  
+    @media screen and (max-width: 375px) {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }

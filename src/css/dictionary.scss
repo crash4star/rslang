@@ -1,0 +1,287 @@
+@import './style-guide.scss';
+
+.dictionary {
+    &-wrapper {
+        @media (min-width: 0px) {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+    }
+
+    &-word-card {
+        @media (min-width: 0px) {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            background-color: $base-white;
+            border-radius: 5px;
+            transition: all 0.4s ease;
+
+            &:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 3px 15px 3px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @media (min-width: 768px) {
+            width: 48.5%;
+        }
+
+        @media (min-width: 1260px) {
+            width: 31.5%;
+        }
+    }
+
+    &-top-block {
+        position: relative;
+        padding: 1rem;
+        border-radius: 5px 5px 0 0;
+        background-color: #8a8a8a;
+    }
+
+    &-restore-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 4.5rem;
+        border: none;
+        border-radius: 5px;
+        background-color: $base-white;
+        font-size: 12px;
+    }
+
+    &-word-audio-block {
+        display: flex;
+        align-items: center;
+    }
+
+    &-word-audio-btn {
+        display: none;
+        width: 1.3rem;
+        height: 1.3rem;
+        border: none;
+        background-color: transparent;
+        background-image: url('../img/speaker.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+    }
+
+    &-word {
+        margin: 0;
+        margin-left: 0.5rem;
+        font-size: 18px;
+        font-weight: 600;
+        color: $base-white;
+    }
+
+    &-translate-transcription-block {
+        display: flex;
+        align-items: center;
+    }
+
+    &-translate {
+        position: relative;
+        margin-top: 0.3rem;
+        margin-right: 1rem;
+        padding-left: 1.1rem;
+        font-size: 12px;
+        color: $base-white;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(0%, -50%);
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-image: url('../img/russia.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+    }
+
+    &-transcription {
+        position: relative;
+        padding-top: 0.3rem;
+        padding-left: 2.2rem;
+        font-size: 12px;
+        color: $base-white;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 60%;
+            left: 0;
+            transform: translate(0%, -50%);
+            width: 2.2rem;
+            height: 1.2rem;
+            background-image: url('../img/transcription.png');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+    }
+
+    &-down-block {
+        @media (min-width: 0px) {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+    }
+
+    &-example,
+    &-meaning {
+        position: relative;
+        margin-bottom: 2rem;
+        font-size: 14px;
+
+        &::before {
+            content: 'Example';
+            position: absolute;
+            top: -1.2rem;
+            left: 0;
+            font-size: 12px;
+            color: $base-red;
+        }
+
+        &:first-child {
+            margin-top: 1rem;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+
+            &::before {
+                content: 'Meaning';
+            }
+        }
+    }
+
+    &-statistic-block {
+        @media (min-width: 0px) {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+        }
+
+        @media (min-width: 577px) {
+            width: 20rem;
+        }
+    }
+
+    &-repeated,
+    &-last-repeat,
+    &-next-repeat {
+        position: relative;
+        font-size: 14px;
+        font-weight: 700;
+
+        &::before {
+            content: 'Repeat';
+            position: absolute;
+            top: -1rem;
+            left: 0;
+            font-size: 10px;
+            font-weight: 400;
+        }
+    }
+
+    &-next-repeat {
+        display: none;
+    }
+
+    &-last-repeat {
+        &::before {
+            content: 'Last repeat';
+        }
+    }
+
+    &-next-repeat {
+        &::before {
+            content: 'Next repeat';
+        }
+    }
+
+    &-word-filter {
+        position: relative;
+        display: flex;
+        width: 100%;
+    }
+
+    &-word-filter-btn {
+        margin-right: 1rem;
+        margin-bottom: 2rem;
+        padding: 0.5rem;
+        border: none;
+        border-radius: 5px;
+        background-color: $base-white;
+        font-size: 14px;
+
+        &--active {
+            background-color: $base-red;
+            color: $base-white;
+        }
+    }
+
+    &-load {
+
+        &::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #e0e0e0a8;
+            z-index: 50;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%) scale(0.5);
+            width: 5rem;
+            height: 5rem;
+            border: 16px solid $base-gray;
+            border-radius: 50%;
+            border-top: 16px solid $base-blue;
+            animation: spinner;
+            animation-duration: 0.8s;
+            animation-fill-mode: forwards;
+            animation-iteration-count: infinite;
+            z-index: 60;
+        }
+    }
+
+    &-word-filter-play-btn {
+        display: none;
+        height: 2.4rem;
+        padding: 0.5rem;
+        border-radius: 5px;
+        border: none;
+        background-color: #31c563;
+        color: $base-white;
+        font-size: 14px;
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(0.5);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) scale(0.5);
+    }
+}
+
+.description {
+    width: 2rem !important;
+}

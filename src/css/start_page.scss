@@ -1,0 +1,247 @@
+@import './style-guide.scss';
+
+body {
+  background-color: $base-gray;
+  width: 100%;
+  font-family: $font-open-sans;
+}
+
+.navbar {
+  padding: 20px 0;
+  @include wrapper;
+}
+
+.hero {
+  @include wrapper;
+  display: flex;
+  flex-direction: column;
+  padding-top: 115px;
+  background-color: $base-gray;
+  overflow: hidden;
+  font-family: $font-roboto;
+  
+  .container {
+    position: relative;
+    height: 415px;
+  }
+
+  h2 {
+    font-weight: bold;
+    color: $base-black;
+    width: 407px;
+    font-size: 55px;
+    line-height: 54px;
+    margin-bottom: 17px;
+    position: relative;
+    z-index: 1;
+
+    @media screen and (max-width: 375px) {
+      width: 334px;
+      font-size: 48px;
+    }
+  }
+
+  p {
+    width: 305px;
+    margin-bottom: 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  button {
+    font-family: $font-open-sans;
+    font-weight: bold;
+    width: 174px;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 992px) {
+    padding-top: 80px;
+    height: 420px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-top: 65px;
+  }
+
+  @media screen and (max-width: 576px) {
+    padding-top: 50px;
+  }
+  
+  @media screen and (max-width: 375px) {
+    padding-top: 40px;
+    height: 395px;
+  }
+
+  &-description {
+    z-index: 1;
+  }
+
+  &-image {
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    width: 516px;
+    height: 397px;
+    
+    @media screen and (max-width: 992px) {
+      right: -55px;
+      width: 421px;
+      height: 324px;
+    }
+
+    @media screen and (max-width: 768px) {
+      right: -55px;
+      width: 337px;
+      height: 260px;
+    }
+
+    @media screen and (max-width: 576px) {
+      right: -45px;
+      width: 269px;
+      height: 207px;
+    } 
+    
+    @media screen and (max-width: 375px) {
+      right: -45px;
+      width: 269px;
+      height: 207px;
+    } 
+  }
+}
+
+.progressive {
+  @include wrapper();
+  padding-top: 105px;
+  background-color: $base-white;
+  font-family: $font-roboto;
+  
+  @media screen and (max-width: 992px) {
+    padding-top: 100px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-top: 90px;
+  }
+
+  @media screen and (max-width: 576px) {
+    padding-top: 75px;
+  } 
+  
+  @media screen and (max-width: 375px) {
+    padding-top: 50px;
+  } 
+
+  h3 {
+    font-weight: bold;
+    font-size: 34px;
+    line-height: 40px;
+    color: $base-black;
+    text-align: center;
+  }
+
+  &-item {
+    margin-top: 60px;
+    margin-bottom: 112px;
+
+    img {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    P {
+      width: 230px;
+      font-size: 16px;
+    }
+  }
+}
+
+.about {
+
+  @include wrapper();
+  background-color: $base-gray;
+  padding-top: 100px;
+  padding-bottom: 100px;
+
+  @media screen and (max-width: 992px) {
+    padding-top: 100px;
+  }
+
+  @media screen and (max-width: 768px) {
+    padding-top: 70px;
+  }
+
+  @media screen and (max-width: 576px) {
+    padding-top: 50px;
+  } 
+  
+  @media screen and (max-width: 375px) {
+    padding-top: 40px;
+  } 
+  
+  h3 {
+    color: $base-black;
+    font-weight: bold;
+    font-size: 34px;
+    line-height: 46px;
+  }
+
+  p {
+    color: $hover-black;
+    font-size: 16px;
+    line-height: 26px;
+  }
+}
+
+.card {
+  position: relative;
+  width: 85%;
+  height: 130px;
+  padding: 23px;
+  border-radius: 10px;
+
+  h4 {
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 26px;
+    padding-left: 12px;
+  }
+
+  .contact {
+    display: flex;
+    height: 35px;
+    align-items: center;
+    font-size: 14px;
+
+    .skype {
+      width: 23px;
+      height: 23px;
+      background-image: url('./../img/startPage/icon-skype.png') ;
+    }
+
+    .gmail {
+      width: 22px;
+      height: 18px;
+      background-image: url('./../img/startPage/icon-gmail.png') ;
+    }
+    
+    a {
+      margin-left: 10px;
+    }
+  }
+  
+  img {
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    width: 107px;
+    height: 107px;
+    border-radius: 50%;
+    transform: translate(50%, -50%);
+  }
+}

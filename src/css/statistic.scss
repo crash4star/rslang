@@ -1,0 +1,39 @@
+@import './style-guide.scss';
+
+.main .wrapper { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-style: $font-open-sans;
+    margin-bottom: 30px;
+    
+    h2 {
+        font-size: 36px;
+    }
+}
+
+.canvas {
+    width: 500px;
+    height: 500px;
+    border: 1px solid $base-black;
+    background-color: $base-white;
+
+    @media screen and (max-width: 525px) {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+.statisticAlert {
+    position: fixed;
+    display: block;
+    top: 100px;
+    background-color: $base-gray;
+    padding: 10px;
+    border: 1px solid $base-black;
+    border-radius: 10px;
+}
+
+.statisticAlert-hidden {
+    display: none;
+}

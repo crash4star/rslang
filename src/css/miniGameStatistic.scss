@@ -1,0 +1,39 @@
+@import './style-guide.scss';
+
+.minigame-statistic {
+    padding: 3px;
+    display: flex;
+    width: 300px;
+    font-size: 14px;
+    border: 1px solid transparent;
+    overflow-x: hidden;
+
+    &:hover {
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    & > *{
+        margin-right: 10px;
+    }
+
+    img {
+        width: 20px;
+    }
+}
+
+.wrong-answer {
+    .minigame-statistic {
+        &:hover {
+            background-color: $answer-wrong;
+        }
+    }
+}
+
+.right-answer {
+    .minigame-statistic {
+        &:hover {
+            background-color: $answer-right;
+        }
+    }
+}

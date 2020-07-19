@@ -1,0 +1,399 @@
+* {
+    box-sizing: border-box;
+}
+
+.modal-backdrop {
+    z-index: 0;
+}
+
+.root-speakit {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+}
+
+.main.speakit {
+    display: none;
+}
+
+.speakit{
+    position: absolute;
+    background-color: white;
+    z-index: 1;
+    //top: 0;
+    width: 100vw;
+    
+    &-startPage {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        background-image: url('../../img/speakit/bg.png');
+        object-fit: cover;
+        z-index: 1;
+        padding: 20px;
+
+        
+        &--title {
+            font-size: 48px;
+            color: #6cffde;
+            text-transform: uppercase;
+            letter-spacing: 13px;
+            opacity: 0.3;
+            margin-bottom: 20px;
+
+            @media screen and (max-width: 425px) {
+                font-size: 36px;
+            }
+        }
+
+        p {
+            margin: 8px 10px;
+            width: 100%;
+        }
+        
+        &--text {
+            font-size: 14px;
+            color: #ffffff;
+            letter-spacing: 1px;
+            opacity: .8;
+
+            @media screen and (max-width: 425px) {
+                font-size: 10px;
+            }
+        }
+        
+        &--button {
+            margin-top: 20px;
+            border: 1px solid #00c49d;
+            padding: 20px 70px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.5;
+            border-radius: 7px;
+            @media screen and (max-width: 425px) {
+                padding: 10px 35px;
+            }
+            
+            &:hover {
+                opacity: 1;
+                cursor: pointer;
+                background-color: #00c49d;
+            }
+        }
+        
+        &.hidden {
+            display: none;
+        }
+    }
+
+        &-startPage {
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        &-gamePage {
+            position: relative;
+
+            ul {
+                height: 20px;
+                display: flex;
+                margin-top: 20px;
+                margin-bottom: 5px;
+                width: 100%;
+            }
+            
+            li {
+                display: block;
+                position: relative;
+                width: 20px;
+                height: 20px;
+                padding: 10px;
+                margin-top: -10px;
+                border-radius: 50%;
+                background-color: #00c49d;
+                background: radial-gradient(#00c49d 0%, #00c49d 50%, #ffffff 50%, #ffffff 100%);
+                margin-right: 10px;
+                box-shadow: 0 0 0 2px #ffffff;
+                cursor: pointer;
+                transition: .5s;
+                @media screen and (max-width: 425px) {
+                    width: 15px;
+                    height: 15px;
+                    padding: 7px;
+                }
+                
+                &:not(:first-child) {
+                    &::before {
+                        content: "";
+                        width: 30px;
+                        height: 2px;
+                        position: absolute;
+                        top: 9px;
+                        right: 5px;
+                        background-color: #00c49d;
+                        @media screen and (max-width: 425px) {
+                            top: 7px;
+                        }
+                }
+            }
+            
+            &.active {
+                box-shadow: 0 0 0 2px #00c49d, inset 0 0 0 2px #ffffff, inset 0 0 0 3px #00c49d;
+            }
+        }
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        
+        .image {
+            width: 270px;
+            height: 200px;
+            object-fit: cover;
+            @media screen and (max-width: 425px) {
+                width: 220px;
+                height: 160px;
+            }
+        }
+
+        .action {
+            width: 300px;
+            height: 50px;
+            padding-right: 10px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+
+            @media screen and (max-width: 768px) {
+                height: 15px;
+            }
+            
+            .mic {
+                width: 30px;
+                height: 38px;
+                background-image: url('../../img/speakit/mic.png');
+                
+                &.hidden {
+                    display: none;
+                }
+            }
+            
+            .translate {
+                font-size: 24px;
+                color: #adadad;
+                margin-left: 10px;
+                width: 100%;
+                text-align: center;
+            }
+        }
+        
+        
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        
+            &-card {
+                display: flex;
+                align-items: center;
+                border: 1px solid #adadad;
+                width: 140px;
+                height: 80px;
+                padding: 5px;
+                margin: 10px;
+                border-radius: 5px;
+                margin: 10px;
+                @media screen and (max-width: 768px) {
+                    height: 50px;
+                    margin: 5px;
+                }
+
+                @media screen and (max-width: 425px) {
+                    font-size: 12px;
+                }
+                
+                &:hover {
+                    cursor: pointer;
+                    border: 1px solid #00c49d;
+                    background-color: rgba(0, 196, 157, 0.1);
+                }
+                
+                &.active {
+                    cursor: pointer;
+                    border: 1px solid #00c49d;
+                    background-color: rgba(0, 196, 157, 0.3);
+                }
+                
+                .card-sound {
+                    height: 30px;
+                    margin-right: 10px;
+                    object-fit: cover;
+                    @media screen and (max-width: 425px) {
+                        height: 20px;
+                    }
+                }
+                
+                &-text {
+                    display: flex;
+                    margin-left: 10px;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    
+                    &--word {
+                        font-size: 24px;
+                    }
+                    
+                    &--transcription {
+                        font-size: 20px;
+                        color: #adadad
+                    }
+                }
+            }
+        }
+    }
+
+    .buttons {
+        display: flex;
+        width: 100%;
+        font-size: 30px;
+        justify-content: space-evenly;
+        align-items: center;
+        color: #ffffff;
+        
+        .button {
+            background-color: rgba(0, 196, 157, 0.5);
+            height: 80px;
+            line-height: 80px;
+            padding: 0 10px;
+            margin: 10px;
+            text-align: center;
+            border-radius: 10px;
+            @media screen and (max-width: 768px) {
+                height: 50px;
+                line-height: 50px;
+                font-size: 14px;
+            }
+            
+            &.unclickable {
+                &:hover {
+                    cursor: default;
+                }
+            }
+
+            &.clickable {
+                &:hover {
+                    cursor: pointer;
+                    background-color: rgba(0, 196, 157, 0.8);
+                }
+            }
+
+            &.restart, &.results {
+                min-width: 80px;
+            }
+
+        }
+
+        .speak {
+            width: 60%;
+        }
+
+    }
+    
+
+    &-statPage {
+        margin: 30px;
+    }
+
+    &-statistic {
+        display: flex;
+        margin: 15px auto;
+        font-size: 24px;
+        color: #000000;
+        
+        &:hover {
+            cursor: pointer;
+            background-color: rgba(108, 255, 222, 0.4);
+        }
+        
+        .word {
+            margin-left: 10px;
+            width: 30%;  
+        }
+        
+        .transcription {
+            width: 30%;  
+            color: #adadad;
+        }
+    }
+
+    &-chapters {
+        font-size: 30px;
+        
+        &-header{
+            text-align: center;
+        }
+        
+    }
+
+    &-close {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #00c49d;
+        border-radius: 50%;
+        background-color: rgba(0, 196, 157, 0.5);
+        top: -15px;
+        right: 0;
+        position: absolute;
+
+        @media screen and (max-width: 768px) {
+            right: 25px;
+        }
+
+        &:hover {
+            cursor: pointer;
+        background-color: rgba(0, 196, 157, 0.8);
+        }
+
+        &::after {
+            position: absolute;
+            content: "";
+            width: 2px;
+            height: 22px;
+            background-color: #fff;
+            transform: rotate(45deg) translate(10px, -6px);
+        }
+
+        &::before {
+            position: absolute;
+            content: "";
+            width: 2px;
+            height: 22px;
+            background-color: #fff;
+            transform: rotate(-45deg) translate(6px, 10px);
+        }
+    }
+
+    .correct {
+        color: #6cffde;
+    }
+
+    .uncorrect {
+        color: #f3642b;
+    }
+
+    .return, .newGame {
+        width: 30%;
+    }
+
+    .hidden {
+        display: none;
+    }
+}

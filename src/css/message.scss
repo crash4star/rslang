@@ -1,0 +1,46 @@
+@import './style-guide.scss';
+
+.alert {
+    width: 90%;
+    padding: 0;
+    margin: 0px;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 1000;
+    //background-color: rgba($base-gray, 1);
+    color: black;
+    text-shadow: none;
+    opacity: 0.95;
+    border-radius: 10px;
+    .container {
+        max-width: none;
+    }
+
+    &-message {
+        border-radius: 10px;    
+        padding: 10px 20px;
+        margin-top: 1px;
+    }
+}
+
+.alert.hidden {
+    display: none;
+}
+
+.messageHide{
+    animation: hide 1s linear 1 forwards;
+}
+
+@keyframes hide {
+    from {
+        opacity: 0.95;
+        bottom: 0;
+    }
+
+    to {
+        opacity: 0;
+        bottom: -30px;
+    };
+}
