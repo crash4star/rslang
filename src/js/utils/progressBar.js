@@ -1,8 +1,6 @@
 import ProgressBar from '../../../node_modules/progressbar.js/dist/progressbar';
 
 function createProgressBar(container, rightAnswers, allRounds) {
-
-
   const circleBar = new ProgressBar.Circle(container, {
     color: 'white',
     strokeWidth: 1,
@@ -17,7 +15,7 @@ function createProgressBar(container, rightAnswers, allRounds) {
       style: {
         color: 'black',
         position: 'absolute',
-        top: '160%',
+        top: '100%',
         left: '50%',
         padding: 0,
         margin: 0,

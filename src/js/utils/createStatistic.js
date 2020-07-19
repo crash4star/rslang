@@ -129,6 +129,7 @@ class Statistic {
     createProgressBar(containerForProgressBar, right, round);
 
     this.addButtonListeners();
+
   }
 }
 export default Statistic

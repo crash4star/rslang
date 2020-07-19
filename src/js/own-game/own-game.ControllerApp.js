@@ -65,7 +65,6 @@ class OwnGameControllerApp {
       });
       answers.splice(0, 15);
       answers.push(this.word);
-      console.log(ansWord);
       this.view.createBtnsAns(shuffleArr(answers), this.word);
       this.game();
     });
