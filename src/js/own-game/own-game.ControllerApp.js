@@ -75,14 +75,20 @@ class OwnGameControllerApp {
     const btns = this.viewMethods.getAllElements('.word-answ');
     btns.forEach((item) => {
       item.onclick = () => {
+         this.answer()
         if (item.classList.contains('own-game-answer-word')) {
           this.viewMethods.getElement(
             '.sentence-container'
           ).innerHTML = this.text;
+          this.viewMethods.getElement('.own-game-answer-word').style.background = 'green'
           this.rightAnswers.push(this.word)
           this.view.createBtnForNextRound();
           this.nextRound()
         } else {
+            
+            this.viewMethods.getElement('.own-game-answer-word').style.background = 'green'
+            
+            item.style.textDecoration = 'line-through';
             this.wrongAnswers.push(this.word)
             this.view.createBtnForNextRound();
             this.nextRound()
@@ -90,6 +96,13 @@ class OwnGameControllerApp {
       };
     });
     
+  }
+
+  answer() {
+    const btns = this.viewMethods.getAllElements('.word-answ');
+    btns.forEach(item => {
+        item.style.pointerEvents = 'none';
+    })
   }
 
   nextRound() {

@@ -19,6 +19,19 @@
     border: 3px solid darkgreen;
     border-radius: 5px;
   }
+  .ownGame-closeBtn {
+    position: absolute;
+    top: 15%;
+    right: 20%;
+    background-image: url(../img/img-audio-call/icons8-close50.png);
+    width: 50px;
+    height: 50px;
+  }
+  .ownGame-closeBtn:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+
   .ownGame-startPage-container{
     background: rgb(34,193,195);
     background: linear-gradient(180deg, rgba(34,193,195,1) 0%, rgba(115,242,134,1) 100%);

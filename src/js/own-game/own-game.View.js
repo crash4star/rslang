@@ -9,6 +9,10 @@ class OwnGameView {
         node: 'div',
         styleName: 'ownGame-wrapper',
       });
+      const closeBtn = this.viewMethods.createElement({
+        node: 'div',
+        styleName: 'ownGame-closeBtn',
+      });
     const startPageContainer = this.viewMethods.createElement({
         node: 'div',
         styleName: 'ownGame-startPage-container',
@@ -32,8 +36,14 @@ class OwnGameView {
           startPageContainer.append(nameOfTheGame)
         startPageContainer.append(description)
       startPageContainer.append(startBtn)
+      ownGameWrapper.append(closeBtn)
     ownGameWrapper.append(startPageContainer)
     this.app.append(ownGameWrapper)
+    const root = this.viewMethods.getElement('#root');
+    closeBtn.onclick = () => {
+      root.removeChild(ownGameWrapper);
+      root.classList.remove('root-active');
+    };
   }
 
   renderGame() {
