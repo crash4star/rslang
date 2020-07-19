@@ -5,7 +5,7 @@ import AudioCallControllerApp from '../audio-call.ControllerApp';
 import AudioCallView from '../audio-call.View';
 import ViewMethods from '../../utils/view-methods';
 
-function createCallback() {
+function createCallbackAudioCall() {
   const rootBlock = document.querySelector('.root');
   rootBlock.classList.add('root-active');
   const BASE_HEROKU = 'https://afternoon-falls-25894.herokuapp.com';
@@ -30,4 +30,4 @@ function createCallback() {
   };
 }
 
-export default createCallback;
+export default createCallbackAudioCall;
