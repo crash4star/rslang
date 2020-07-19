@@ -3,6 +3,11 @@
 @import '../css/main-game/linguist.scss';
 @import './style-guide.scss';
 @import '../css/audio-call/statistic-mini-games.scss';
+@import './puzzle/mixins';
+@import './puzzle/placeholders';
+@import './puzzle/normalize';
+@import './puzzle/game-page';
+@import './puzzle/main-page';
 @import '../css/audio-call/audio-call.scss';
 @import '../css//own-game/own-game.scss';
 
@@ -16,11 +21,11 @@ $border-blue: #BCD0E5;
 header, footer {
     background-color: $base-white;
 }
-  
+
 .btn {
     font-weight: 600;
 }
-  
+
 .btn-red {
     color: $base-white;
     background-color: $base-red;
@@ -30,7 +35,7 @@ header, footer {
         background-color: $hover-red;
     }
 }
-  
+
 .btn-gray {
     border-color: $border-blue;
     margin-left: 15px;
@@ -60,7 +65,7 @@ header {
         text-align: center;
     }
 
-    .logOut { 
+    .logOut {
         img {
             width: 23px;
             height: 23px;
@@ -173,7 +178,6 @@ header {
     }
 }
 
-
 .spinner {
     position: relative;
 
@@ -182,7 +186,7 @@ header {
         top: 50%;
         left: 50%;
         z-index: 1000;
-        
+
         &::before {
             content: "";
             position: absolute;
@@ -195,7 +199,7 @@ header {
             transition: all 0.4s ease;
             z-index: 60;
         }
-    
+
         &::after {
             content: "";
             position: absolute;

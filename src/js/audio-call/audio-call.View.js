@@ -35,7 +35,7 @@ class AudioCallView {
     startBtn.textContent = 'START';
     const description = this.viewMethods.createElement({
       node: 'div',
-      styleName: 'description',
+      styleName: '.audio-call-description',
     });
     description.textContent =
       'Game: the word is pronounced and you have to choose the correct translation from 5 suggested words';
