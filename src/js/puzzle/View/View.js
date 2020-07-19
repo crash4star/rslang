@@ -1,14 +1,10 @@
-// import Utils from './Utils';
-// import ImageComponent from './components/Image';
 import Container from './components/Container';
 import Statistic from '../../utils/createStatistic';
 import ViewMethods from '../../utils/view-methods';
 import NewGame from '../initApp';
-// import Paragraph from './Paragraph';
 
 class View {
-  constructor(favicon, mainPage, controlPanel, hintsPanel, puzzlePanel, phrasePanel) {
-    this.favicon = favicon;
+  constructor(mainPage, controlPanel, hintsPanel, puzzlePanel, phrasePanel) {
     this.mainPage = mainPage;
     this.controlPanel = controlPanel;
     this.hintsPanel = hintsPanel;
@@ -154,7 +150,7 @@ class View {
     });
   }
 
-  controlPanelEvents(changeSettings, isBgImage, bgUrl, changeServerSettings, startGame) {
+  controlPanelEvents(changeSettings, isBgImage, bgUrl, changeServerSettings) {
     this.controlPanel.getHtml().addEventListener('input', (event) => {
       const toCountFromZerro = 1;
       if (event.target.className.includes('puzzle__level')) {
@@ -169,7 +165,7 @@ class View {
     });
     this.controlPanel.getHtml().addEventListener('click', (event) => {
       if (event.target.className.includes('puzzle__close-button')) {
-        this.closeGameEvent();
+        this.closeGameEvent(event);
       } else if (event.target.className.includes('puzzle__change-button')) {
         this.newGameEvent();
       } else if (event.target.className.includes('puzzle__auto-wrapper') || event.target.className.includes('puzzle__translation-wrapper')
@@ -225,7 +221,7 @@ class View {
     });
   }
 
-  closeGameEvent() {
+  closeGameEvent(event) {
     if (event.target.className.includes('puzzle__close-button')) {
       window.removeEventListener('resize', this.resize);
       this.page.removeElement();

@@ -12,7 +12,7 @@ class Words {
   }
 
   async getWordsSet(group, page) {
-    let gameWords = [];
+    const gameWords = [];
     for (let pageNum = 0; pageNum < this.numOfPages; pageNum += 1) {
       if (gameWords.length < 10) {
         const wordSet = await this.words.getWords(group, pageNum);
@@ -34,16 +34,17 @@ class Words {
     const maxNumOfWords = 10;
     const userWords = await this.words.getUserWords();
     const sortedWords = Utils.sortArrayOfObjects(userWords);
-    const setOfWords = [];
+    const setOfWords = []
+    const cloneSet = [];
     sortedWords.forEach((element, index) => {
-      if (setOfWords.length < maxNumOfWords || index < sortedWords.length) {
+      if (setOfWords.length < maxNumOfWords && index < sortedWords.length) {
         if (element.optional.interval > 0) {
           setOfWords.push(element);
+          cloneSet.push(JSON.parse(JSON.stringify(element)));
         }
       }
     });
-    console.log(setOfWords);
-    return setOfWords;
+    return { setOfWords, cloneSet };
   }
 }
 

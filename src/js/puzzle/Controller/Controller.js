@@ -3,6 +3,7 @@ import Api from '../../models/Api';
 import AuthRequest from '../../models/AuthRequest';
 import UserWord from '../../utils/UserWord';
 import Utils from '../Model/Utils';
+import { showErrorMessage, showSuccessMessage } from '../../utils/message';
 
 class Controller {
   constructor(model, view) {
@@ -63,30 +64,28 @@ class Controller {
           this.currentSettings.levelSettings.page);
       this.view.phrasePanel.showPaintingInfo(currentPuzzleInfo);
       return true;
-    } else {
-      this.view.showStatisticEvent(this.bindGetStatistic.bind(this), this.bindContinueGameEvent.bind(this),
-        this.updateDbStatus.bind(this));
-      return false;
     }
+    this.view.showStatisticEvent(this.bindGetStatistic.bind(this), this.bindContinueGameEvent.bind(this),
+      this.updateDbStatus.bind(this));
+    return false;
   }
 
   async updateDbStatus() {
     if (this.updateDB) {
       const toUpdateData = this.model.statistic.getStatistic().incorrect;
       const dataArray = [];
-      this.wordsDB.forEach((element, index) => {
+      this.wordsDB.forEach((element) => {
         if (toUpdateData.includes(element.optional.word)) {
           dataArray.push(element);
-          delete dataArray[index].answerPhrase;
         }
       });
-      // const send = new Words(this.api, this.request);
-      // dataArray.forEach((element) => {
-      //   const addNewWord = new UserWord(element, false);
-      //   addNewWord.setImportant();
-      //   const usrWord = addNewWord.getUserWord();
-      //   send.upsertUserWord(addNewWord.id, usrWord);
-      // });
+      dataArray.forEach((element) => {
+        const send = new Words(this.api, this.request);
+        const addNewWord = new UserWord(element, false);
+        addNewWord.setImportant();
+        const usrWord = addNewWord.getUserWord();
+        send.upsertUserWord(addNewWord.id, usrWord);
+      });
     }
   }
 
@@ -116,16 +115,16 @@ class Controller {
   bindContinueGameEvent() {
     const maxLevel = 5;
     const maxRound = 10;
-    this.currentSettings.levelSettings.page += 1;
-    if (this.currentSettings.levelSettings.level === maxLevel && this.currentSettings.levelSettings.page === maxRound) {
-      this.changeUserSettings('level', 0);
-      this.changeUserSettings('page', 0);
-    } else {
-      if (this.currentSettings.levelSettings.page === maxRound) {
-        this.changeUserSettings('level', this.currentSettings.levelSettings.level += 1);
+    if (!this.updateDB) {
+      this.currentSettings.levelSettings.page += 1;
+      if (this.currentSettings.levelSettings.level === maxLevel && this.currentSettings.levelSettings.page === maxRound) {
+        this.changeUserSettings('level', 0);
         this.changeUserSettings('page', 0);
+      } else if (this.currentSettings.levelSettings.page === maxRound) {
+          this.changeUserSettings('level', this.currentSettings.levelSettings.level += 1);
+          this.changeUserSettings('page', 0);
       } else {
-        this.changeUserSettings('page', this.currentSettings.levelSettings.page);
+          this.changeUserSettings('page', this.currentSettings.levelSettings.page);
       }
     }
   }
@@ -177,16 +176,22 @@ class Controller {
 
   async getWordsSet(group, page) {
     const minNumOfWords = 10;
-    this.wordsDB = await this.model.words.getUserWordSet();
+    const wordSet = await this.model.words.getUserWordSet();
+    this.wordsDB = wordSet.setOfWords;
+    const clone = wordSet.cloneSet;
     this.updateDB = true;
     const setOfWords = [];
-    this.wordsDB.forEach((element) => {
+    clone.forEach((element) => {
       setOfWords.push(element.optional);
     });
-    let words = Utils.prepareDataForGame(setOfWords);
+    const newWordArray = Array.from(setOfWords);
+    let words = Utils.prepareDataForGame(newWordArray);
     if (Object.keys(words).length < minNumOfWords) {
       words = await this.model.words.getWordsSet(group, page);
       this.updateDB = false;
+      showErrorMessage(`It's not enough learned words. Game is loading in play mode`);
+    } else {
+      showSuccessMessage(`Enough learned words. Game is loading in train mode`);
     }
     return words;
   }

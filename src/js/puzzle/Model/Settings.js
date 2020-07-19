@@ -22,6 +22,7 @@ class Settings {
       this.backendSettings.optional.puzzle = {
         level: 0,
         page: 0,
+        train: false,
       }
       const updatedSettings = {
         optional: this.backendSettings.optional

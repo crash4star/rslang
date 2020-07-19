@@ -1,12 +1,4 @@
-// import UIComposite from './components/UIComposite';
-// import Link from './components/Link';
 import Container from './components/Container';
-// import Button from './components/Button';
-// import Image from './components/Image';
-// import Svg from './components/Svg';
-// import InputField from './components/InputField';
-import Paragraph from './components/Paragraph';
-// import Select from './components/Select';
 
 class PuzzlePanel extends Container {
   constructor(id = 'puzzle-panel', styles = 'puzzle__puzzle-panel') {
@@ -90,7 +82,7 @@ class PuzzlePanel extends Container {
   }
 
   removeAllLines() {
-    Object.values(this.getChild('puzzle-box').children).forEach((element, index) => {
+    Object.values(this.getChild('puzzle-box').children).forEach((element) => {
       element.removeChildren();
       this.getChild('puzzle-box').removeChild(element.getHtml().id);
     });

@@ -13,11 +13,13 @@ class Utils {
 
   static sortArrayOfObjects(array) {
     array.sort((first, second) => {
+      let result = 0;
       const firstRating = first.optional.interval;
       const secondRating = second.optional.interval;
-      if (firstRating < secondRating) return -1;
-      if (firstRating === secondRating) return 0;
-      if (firstRating > secondRating) return 1;
+      if (firstRating < secondRating) result = -1;
+      if (firstRating === secondRating) result = 0;
+      if (firstRating > secondRating) result = 1;
+      return result;
     });
     return array;
   }

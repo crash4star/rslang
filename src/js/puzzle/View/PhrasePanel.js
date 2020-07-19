@@ -21,7 +21,7 @@ class PhrasePanel extends Container {
 
   sortItems() {
     const items = [];
-    this.getChild('phrase-wrapper').children.forEach((el, index) => {
+    this.getChild('phrase-wrapper').children.forEach((element, index) => {
       items.push(this.getChild('phrase-wrapper').children.find((el) => {
         return el.index === index;
       }));
@@ -123,7 +123,7 @@ class PhrasePanel extends Container {
   }
 
   addPuzzleBackGround(items, image, imageData, isBgImage) {
-    items.forEach((element, index) => {
+    items.forEach((element) => {
       const position = this.getBackgroundPosition(element, imageData);
       const elementHtml = element.getHtml();
       if (isBgImage) {
