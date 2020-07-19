@@ -78,7 +78,7 @@ class SprintControllerApp {
     this.model
       .getUserWords()
       .then((data) => {
-        const indexForRightTranslate = getRandomInt(data.length);
+        let indexForRightTranslate = getRandomInt(data.length);
         if (this.previousIndex.includes(indexForRightTranslate)) {
           indexForRightTranslate = getRandomInt(data.length);
         }
