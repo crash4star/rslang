@@ -5,4 +5,4 @@ RS Lang is an application for learning foreign words with interval repetition te
 Mentor: mill9r 
 
 Team (GitHub): 
-jimmba, kateprotasevich, crash4star, ptatarsk, edhar13, redcliphaloe
+jimmba, kateprotasevich, crash4star, ptatarsk, edhar13
